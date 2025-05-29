@@ -24,7 +24,7 @@ const getAllBlogs = async (
   paginationOptions: IPaginationOptions
 ) => {
   const { searchTerm, author, ...filterData } = filters;
-  const { page, limit, skip, sortBy, sortOrder } =
+  const { limit, page, skip, sortBy, sortOrder } =
     calculatePagination(paginationOptions);
   const andCondition: Prisma.BlogWhereInput[] = [];
 
@@ -85,6 +85,7 @@ const getAllBlogs = async (
       ...blog,
       up_votes: upVotes,
       down_votes: downVotes,
+      total_votes: upVotes + downVotes,
     };
   });
   return {
