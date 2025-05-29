@@ -53,7 +53,6 @@ const CreateBlog = () => {
       images,
       status,
     };
-    console.log(blogData);
     try {
       const res = await createBlog(blogData);
       if (res.success) {

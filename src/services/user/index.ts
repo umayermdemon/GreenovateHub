@@ -17,9 +17,7 @@ export const getMe = async () => {
         }),
       }
     );
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
+
     const result = await res.json();
     return result;
   } catch (error) {
@@ -39,9 +37,7 @@ export const getAllUser = async () => {
         Authorization: (await cookies()).get("accessToken")?.value || "",
       }),
     });
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
+
     const result = await res.json();
     return result;
   } catch (error) {
@@ -58,9 +54,7 @@ export const getSingleUser = async (id: string) => {
         Authorization: (await cookies()).get("accessToken")?.value || "",
       }),
     });
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
+
     const result = await res.json();
     return result;
   } catch (error) {

@@ -10,7 +10,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Edit, Eye, MessageSquareMore, Trash2 } from "lucide-react";
+import { Edit, Eye, MessageSquareMore, Trash2, Lightbulb } from "lucide-react";
 import Swal from "sweetalert2";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
@@ -22,10 +22,10 @@ import { useEffect, useState } from "react";
 interface IIdeaCard {
   data: TIdea;
   userId: string | undefined;
-  refresh: () => void;
 }
 
-const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
+const IdeaCard = ({ data, userId }: IIdeaCard) => {
+  console.log(data?.images[0]);
   const [vote, setVote] = useState<TIsVoted>({} as TIsVoted);
   const { user } = useUser();
 
@@ -48,7 +48,14 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
   const addVote = async (value: string) => {
     try {
       const res = await createVote({ ideaId: data.id, value });
-      if (res.success) refresh();
+      if (res.success) {
+        setVote({ isVoted: true });
+        if (value === "up") {
+          data.up_votes = (data.up_votes || 0) + 1;
+        } else {
+          data.down_votes = (data.down_votes || 0) + 1;
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -57,7 +64,11 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
   const removeVote = async () => {
     try {
       const res = await undoVote({ ideaId: data.id });
-      if (res.success) refresh();
+      if (res.success) {
+        setVote({ isVoted: false });
+        data.up_votes = (data.up_votes || 0) - (vote.isVoted ? 1 : 0);
+        data.down_votes = (data.down_votes || 0) - (vote.isVoted ? 1 : 0);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -76,8 +87,8 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
       if (result.isConfirmed) {
         try {
           const res = await deleteMyIdea(id);
-          if (res.success) refresh();
-          Swal.fire("Deleted!", "Your Idea has been deleted.", "success");
+          if (res.success)
+            Swal.fire("Deleted!", "Your Idea has been deleted.", "success");
         } catch (error) {
           console.log(error);
         }
@@ -86,121 +97,113 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
   };
 
   return (
-    <div className="w-full sm:w-[95%] mx-auto mb-6">
-      <div className="flex flex-col bg-sky-50 relative border-sky-500 border rounded-md">
-        <Link
-          href={
-            user?.role === "member"
-              ? `/member/dashboard/my-ideas/details/${data.id}`
-              : `/admin/dashboard/all-ideas/details/${data.id}`
-          }>
-          <div className="relative">
-            <Image
-              className="w-full h-[200px] sm:h-[250px] object-cover rounded-t-md"
-              src={
-                data?.images[0] ||
-                "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
-              }
-              alt="image"
-              height={200}
-              width={410}
-            />
-          </div>
-        </Link>
+    <div className="w-full sm:w-[95%] mx-auto mb-8 shadow-lg hover:shadow-green-400/60  duration-300 rounded-xl border-2 border-green-600 bg-green-50 overflow-hidden relative hover:-translate-y-1 transition-all">
+      {/* Idea badge */}
+      <div className="absolute top-3 left-3 flex items-center gap-1 bg-green-600 text-white px-3 py-1 rounded-full shadow text-xs font-bold z-10">
+        <Lightbulb size={16} /> IDEA
+      </div>
 
-        <div className="flex justify-between px-4 mt-3">
-          <p className="bg-sky-500 text-white text-sm px-2 py-0.5 rounded-full">
-            {data.category}
-          </p>
-          <Popover>
-            <PopoverTrigger className="hover:bg-sky-500 rounded-sm hover:text-white">
-              <SlOptions className="cursor-pointer w-[30px] h-[25px] px-0.5 py-1" />
-            </PopoverTrigger>
-            <PopoverContent className="w-[130px] border border-sky-500 bg-sky-50 px-1 py-1">
-              <ul className="divide-y divide-gray-200">
-                <Link
-                  href={
-                    user?.role === "member"
-                      ? `/member/dashboard/my-ideas/details/${data.id}`
-                      : `/admin/dashboard/all-ideas/details/${data.id}`
-                  }
-                  passHref>
-                  <li className="cursor-pointer hover:bg-sky-500 hover:text-white flex gap-1 px-1 text-sky-600 pb-0.5">
-                    <Eye size={17} className="relative top-1" />
-                    View
-                  </li>
-                </Link>
-
-                {userId === data.authorId && (
-                  <>
-                    <Link href={`/member/dashboard/my-ideas/update/${data.id}`}>
-                      <li className="cursor-pointer hover:bg-sky-500 hover:text-white flex gap-1 px-1 text-sky-600 pt-0.5 border-t border-sky-500">
-                        <Edit size={17} className="relative top-1" />
-                        Update
-                      </li>
-                    </Link>
-                    <li
-                      onClick={() => deleteIdea(data.id)}
-                      className="cursor-pointer hover:bg-red-500 hover:text-white flex gap-1 px-1 text-red-500 pt-0.5 border-t border-sky-500">
-                      <Trash2 size={17} className="relative top-1" />
-                      Delete
-                    </li>
-                  </>
-                )}
-              </ul>
-            </PopoverContent>
-          </Popover>
+      <Link
+        href={
+          user?.role === "member"
+            ? `/member/dashboard/my-ideas/details/${data.id}`
+            : `/admin/dashboard/all-ideas/details/${data.id}`
+        }>
+        <div className="relative w-full h-[220px] border-b-2 border-green-200">
+          <Image
+            className="object-cover"
+            src={
+              data?.images[0] ||
+              "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
+            }
+            alt="image"
+            fill
+          />
         </div>
+      </Link>
 
-        <div className="px-4 py-3">
-          <h1 className="text-lg font-semibold mb-1 truncate">
-            {data.title.split(" ").slice(0, 4).join(" ")}
-          </h1>
-          <p className="text-sm text-gray-700 border-b border-sky-500 pb-2 mb-2 truncate">
-            {data.description.split(" ").slice(0, 10).join(" ")}
-          </p>
-
-          <div className="flex justify-between items-center text-sm">
-            <p className="text-sky-600 italic">
-              {timeAgo.split(" ").slice(1, 3).join(" ")} ago
-            </p>
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 bg-sky-500 px-2 py-1 rounded-full">
-                <div className="flex items-center gap-1 border-r pr-2 text-white text-[18px]">
-                  {vote?.isVoted && vote?.value === "up" ? (
-                    <BiSolidLike
-                      onClick={removeVote}
-                      className="cursor-pointer"
-                    />
-                  ) : (
-                    <AiOutlineLike
-                      onClick={() => addVote("up")}
-                      className="cursor-pointer"
-                    />
-                  )}
-                  <span className="text-sm">{data.up_votes || 0}</span>
-                </div>
-                {vote?.isVoted && vote?.value === "down" ? (
-                  <AiFillDislike
-                    onClick={removeVote}
-                    className="text-white text-[18px] cursor-pointer"
-                  />
-                ) : (
-                  <AiOutlineDislike
-                    onClick={() => addVote("down")}
-                    className="text-white text-[18px] cursor-pointer"
-                  />
-                )}
-              </div>
+      <div className="flex justify-between items-center px-4 pt-3">
+        <p className="bg-green-600 text-white text-xs px-3 py-1 rounded-full font-semibold tracking-wide shadow">
+          {data.category}
+        </p>
+        <Popover>
+          <PopoverTrigger className="hover:bg-green-600 rounded-sm hover:text-white">
+            <SlOptions className="cursor-pointer w-[30px] h-[25px] px-0.5 py-1" />
+          </PopoverTrigger>
+          <PopoverContent className="w-[130px] border border-green-600 bg-white px-1 py-1">
+            <ul className="divide-y divide-gray-200">
               <Link
                 href={
                   user?.role === "member"
                     ? `/member/dashboard/my-ideas/details/${data.id}`
                     : `/admin/dashboard/all-ideas/details/${data.id}`
-                }>
-                <MessageSquareMore size={22} className="text-sky-500 " />
+                }
+                passHref>
+                <li className="cursor-pointer hover:bg-green-600 flex gap-1 hover:text-white px-1 text-green-600 pb-0.5">
+                  <Eye size={17} className="relative top-1" />
+                  View
+                </li>
               </Link>
+
+              {userId === data.authorId && (
+                <>
+                  <Link href={`/member/dashboard/my-ideas/update/${data.id}`}>
+                    <li className="cursor-pointer hover:bg-green-600 hover:text-white flex gap-1 px-1 text-green-600 pt-0.5 border-t border-green-600">
+                      <Edit size={17} className="relative top-1" />
+                      Update
+                    </li>
+                  </Link>
+                  <li
+                    onClick={() => deleteIdea(data.id)}
+                    className="cursor-pointer hover:bg-red-500 hover:text-white flex gap-1 px-1 text-red-500 pt-0.5 border-t border-green-600">
+                    <Trash2 size={17} className="relative top-1" />
+                    Delete
+                  </li>
+                </>
+              )}
+            </ul>
+          </PopoverContent>
+        </Popover>
+      </div>
+
+      <div className="px-4 pb-4 pt-2">
+        <h1 className="text-lg font-bold text-green-700 mb-1 truncate">
+          {data.title.split(" ").slice(0, 4).join(" ")}
+        </h1>
+        <p className="border-b border-green-200 pb-2 text-gray-700 italic truncate">
+          {data.description.split(" ").slice(0, 12).join(" ")}...
+        </p>
+
+        <div className="flex flex-row justify-between items-center gap-2 pt-2">
+          <p className="text-xs text-green-600 italic">
+            {timeAgo.split(" ").slice(1, 3).join(" ")} ago
+          </p>
+          <div className="flex gap-4">
+            <div className="flex gap-2 bg-green-600 px-3 py-1 rounded-full">
+              <div className="flex items-center gap-1 border-r border-white pr-2 text-white text-lg cursor-pointer">
+                {vote?.isVoted && vote?.value === "up" ? (
+                  <BiSolidLike onClick={removeVote} />
+                ) : (
+                  <AiOutlineLike onClick={() => addVote("up")} />
+                )}
+                <span className="text-sm">{data.up_votes || 0}</span>
+              </div>
+              <div className="flex items-center text-white text-lg cursor-pointer">
+                {vote?.isVoted && vote?.value === "down" ? (
+                  <AiFillDislike onClick={removeVote} />
+                ) : (
+                  <AiOutlineDislike onClick={() => addVote("down")} />
+                )}
+              </div>
             </div>
+            <Link
+              href={
+                user?.role === "member"
+                  ? `/member/dashboard/my-ideas/details/${data.id}`
+                  : `/admin/dashboard/all-ideas/details/${data.id}`
+              }>
+              <MessageSquareMore size={22} className="text-green-600" />
+            </Link>
           </div>
         </div>
       </div>

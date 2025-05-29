@@ -44,7 +44,7 @@ const AboutPage = () => {
           <div className="flex justify-center">
             <Image
               src={aboutImage}
-              alt="Green Circle Graphic"
+              alt="GreenovateHub Graphic"
               width={600}
               height={400}
               className="rounded-xl shadow-md"
@@ -52,14 +52,14 @@ const AboutPage = () => {
           </div>
           <div>
             <h1 className="text-4xl font-bold text-slate-800 mb-4">
-              Welcome to Green Circle
+              Welcome to GreenovateHub
             </h1>
             <p className="text-lg text-slate-600 mb-6 font-medium">
               We Are Here To Grow Communities, Connect Green-Minded People And
               Empower Sustainable Living.
             </p>
             <p className="text-slate-600 mb-6">
-              Green Circle is a vibrant social platform for eco-conscious
+              GreenovateHub is a vibrant social platform for eco-conscious
               individuals and organizations. Built on the power of community, we
               help you connect, collaborate, and contribute toward a healthier
               planet. Our tools make it easy to find events, share resources,
@@ -76,10 +76,10 @@ const AboutPage = () => {
       <div className="py-16 px-4 bg-gradient-to-br from-green-50 via-white to-green-100 text-center">
         <div className="max-w-4xl mx-auto mb-12">
           <h2 className="text-4xl font-bold text-green-900 mb-4">
-            Why Choose Green Circle
+            Why Choose GreenovateHub
           </h2>
           <p className="text-gray-700 text-base md:text-lg">
-            Green Circle connects people with sustainability-focused solutions.
+            GreenovateHub connects people with sustainability-focused solutions.
             With our clean UI, smart features, and thriving eco-community, we
             make going green simple and accessible.
           </p>
@@ -106,14 +106,14 @@ const AboutPage = () => {
 
       <div className="bg-[#f3f9ff] flex flex-col items-center justify-center text-center py-16 px-6">
         <p className="text-green-600 font-semibold text-lg mb-2">
-          Download the Green Circle App
+          Download the GreenovateHub App
         </p>
         <h1 className="text-4xl font-bold text-slate-800 mb-4">
           Connecting Sustainable Lives, Easily
         </h1>
         <p className="text-slate-600 text-lg max-w-2xl mb-8">
           Discover and connect with over 5 million eco-conscious individuals
-          worldwide. Green Circle makes it easy to find like-minded people,
+          worldwide. GreenovateHub makes it easy to find like-minded people,
           sustainable events, and local initiatives. Join us in making a real
           difference—right from your phone.
         </p>

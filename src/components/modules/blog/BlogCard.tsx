@@ -8,7 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Edit, Eye, Trash } from "lucide-react";
+import { Edit, Eye, Trash, BookOpen } from "lucide-react";
 import { deleteMyBlog } from "@/services/blog";
 import Swal from "sweetalert2";
 import Link from "next/link";
@@ -17,18 +17,18 @@ import { createVote, isUserVoted, undoVote } from "@/services/vote";
 import { AiFillDislike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { BiSolidLike } from "react-icons/bi";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface IBlogCard {
   data: TBlog;
   userId: string | undefined;
-  refresh: () => void;
 }
 export interface TIsVoted {
   value?: "up" | "down";
   isVoted: boolean;
 }
 
-const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
+const BlogCard = ({ data, userId }: IBlogCard) => {
   const [vote, setVote] = useState<TIsVoted>({} as TIsVoted);
 
   useEffect(() => {
@@ -55,14 +55,15 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
   const { user } = useUser();
 
   const addVote = async (value: string) => {
-    const voteData = {
-      blogId: data.id,
-      value,
-    };
     try {
-      const res = await createVote(voteData);
+      const res = await createVote({ ideaId: data.id, value });
       if (res.success) {
-        refresh();
+        setVote({ isVoted: true });
+        if (value === "up") {
+          data.up_votes = (data.up_votes || 0) + 1;
+        } else {
+          data.down_votes = (data.down_votes || 0) + 1;
+        }
       }
     } catch (error) {
       console.log(error);
@@ -70,13 +71,12 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
   };
 
   const removeVote = async () => {
-    const voteData = {
-      blogId: data.id,
-    };
     try {
-      const res = await undoVote(voteData);
+      const res = await undoVote({ ideaId: data.id });
       if (res.success) {
-        refresh();
+        setVote({ isVoted: false });
+        data.up_votes = (data.up_votes || 0) - (vote.isVoted ? 1 : 0);
+        data.down_votes = (data.down_votes || 0) - (vote.isVoted ? 1 : 0);
       }
     } catch (error) {
       console.log(error);
@@ -96,8 +96,8 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
       if (result.isConfirmed) {
         try {
           const res = await deleteMyBlog(id);
-          if (res.success) {
-            refresh();
+          if (res?.success) {
+            toast.success(res?.message);
           }
         } catch (error) {
           console.log(error);
@@ -108,36 +108,48 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
   };
 
   return (
-    <div className="w-full sm:max-w-[500px] md:max-w-[600px] mx-auto shadow-md hover:shadow-lg transition-shadow duration-300 rounded-md border border-green-500 bg-green-50 overflow-hidden">
-      <div className="relative w-full h-[200px]">
-        <Image
-          src={
-            data?.images[0] ||
-            "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
-          }
-          alt="image"
-          fill
-          className="object-cover"
-        />
+    <div className="w-full sm:w-[95%] mx-auto mb-8 rounded-2xl border border-amber-300 bg-amber-50 shadow-[0_4px_24px_0_rgba(255,191,71,0.10)] overflow-hidden relative transition-all duration-300 hover:shadow-amber-400/50 hover:-translate-y-1">
+      {/* Blog badge */}
+      <div className="absolute top-4 left-4 flex items-center gap-1 px-3 py-1 rounded-full shadow text-xs font-bold z-10 backdrop-blur bg-amber-500/90 text-white border border-amber-300">
+        <BookOpen size={16} /> BLOG
       </div>
 
-      <div className="flex justify-between items-center px-4 pt-3">
-        <p className="bg-green-500 text-white text-sm px-2 py-0.5 rounded-full">
+      <Link
+        href={
+          user?.role === "member"
+            ? `/member/dashboard/my-blogs/details/${data.id}`
+            : `/admin/dashboard/all-blogs/details/${data.id}`
+        }>
+        <div className="relative w-full h-[200px]">
+          <Image
+            src={
+              data?.images[0] ||
+              "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
+            }
+            alt="image"
+            fill
+            className="object-cover"
+          />
+        </div>
+      </Link>
+
+      <div className="flex justify-between items-center px-5 pt-4">
+        <p className="bg-amber-500 text-white text-xs px-3 py-1 rounded-full font-semibold tracking-wide shadow">
           {data.category}
         </p>
         <Popover>
-          <PopoverTrigger className="hover:bg-green-500 rounded-sm hover:text-white">
+          <PopoverTrigger className="hover:bg-amber-100 rounded-md hover:text-amber-700 transition-colors">
             <SlOptions className="cursor-pointer w-[30px] h-[25px] px-0.5 py-1" />
           </PopoverTrigger>
-          <PopoverContent className="w-[130px] border border-green-500 bg-amber-50 px-1 py-1">
-            <ul className="divide-y divide-gray-200">
+          <PopoverContent className="w-[140px] border border-amber-300 bg-white px-1 py-1 rounded-lg shadow">
+            <ul className="divide-y divide-amber-100">
               <Link
                 href={
                   user?.role === "member"
                     ? `/member/dashboard/my-blogs/details/${data.id}`
                     : `/admin/dashboard/all-blogs/details/${data.id}`
                 }>
-                <li className="cursor-pointer hover:bg-green-500 flex gap-1 hover:text-white px-1 text-green-500 pb-0.5">
+                <li className="cursor-pointer hover:bg-amber-100 flex gap-1 hover:text-amber-700 px-1 text-amber-600 pb-0.5 rounded transition-colors">
                   <Eye className="relative top-1" size={17} />
                   View
                 </li>
@@ -145,14 +157,14 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
               {userId === data.authorId && (
                 <>
                   <Link href={`/member/dashboard/my-blogs/update/${data.id}`}>
-                    <li className="cursor-pointer flex gap-1 hover:bg-green-500 hover:text-white px-1 pt-0.5 border-t border-green-500 text-green-500">
+                    <li className="cursor-pointer flex gap-1 hover:bg-amber-100 hover:text-amber-700 px-1 pt-0.5 border-t border-amber-100 text-amber-600 rounded transition-colors">
                       <Edit className="relative top-1" size={17} />
                       Update
                     </li>
                   </Link>
                   <li
                     onClick={() => deleteBlog(data.id)}
-                    className="cursor-pointer flex gap-1 hover:bg-red-500 hover:text-white px-1 border-t border-green-500 text-red-500 pt-0.5">
+                    className="cursor-pointer flex gap-1 hover:bg-red-100 hover:text-red-600 px-1 border-t border-amber-100 text-red-500 pt-0.5 rounded transition-colors">
                     <Trash className="relative top-1" size={17} />
                     Delete
                   </li>
@@ -163,21 +175,20 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
         </Popover>
       </div>
 
-      <div className="px-4 pb-4 pt-2">
-        <h1 className="text-xl font-semibold">
+      <div className="px-5 pb-5 pt-3">
+        <h1 className="text-xl font-bold text-amber-700 mb-1 truncate">
           {data.title.split(" ").slice(0, 4).join(" ")}
         </h1>
-        <p className="border-b border-green-900 pb-2 text-gray-700">
-          {data.description.split(" ").slice(0, 10).join(" ")}...
+        <p className="border-b border-amber-200 pb-2 text-gray-700 italic line-clamp-2">
+          {data.description.split(" ").slice(0, 12).join(" ")}...
         </p>
 
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-2 pt-2">
-          <p className="text-sm text-green-500 italic">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-2 pt-3">
+          <p className="text-xs text-amber-600 italic">
             {timeAgo.split(" ").slice(1, 3).join(" ")} ago
           </p>
-
           <div className="flex gap-4">
-            <div className="flex gap-2 bg-green-500 px-3 py-1 rounded-full">
+            <div className="flex gap-2 bg-amber-500 px-3 py-1 rounded-full shadow border border-amber-200">
               <div className="flex items-center gap-1 border-r border-white pr-2 text-white text-lg cursor-pointer">
                 {vote?.isVoted && vote?.value === "up" ? (
                   <BiSolidLike onClick={removeVote} />

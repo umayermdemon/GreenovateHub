@@ -93,68 +93,66 @@ const AppSidebar = () => {
 
     ...(role === "member"
       ? [
-        {
-          title: "Create Blog",
-          url: "/member/dashboard/create-blog",
-          icon: PenLine,
-        },
-        {
-          title: "Create Idea",
-          url: "/member/dashboard/create-idea",
-          icon: Sparkles,
-        },
-        {
-          title: "My Blogs",
-          url: "/member/dashboard/my-blogs",
-          icon: BookOpenText,
-        },
-        {
-          title: "My Ideas",
-          url: "/member/dashboard/my-ideas",
-          icon: Palette,
-        },
-        {
-          title: "My Orders",
-          url: "/member/dashboard/my-orders",
-          icon: Package,
-        },
-        {
-          title: "Draft Ideas",
-          url: "/member/dashboard/draft-ideas",
-          icon: FilePen,
-        },
-        {
-          title: "Draft Blogs",
-          url: "/member/dashboard/draft-blogs",
-          icon: FileText,
-        },
-
-      ]
+          {
+            title: "Create Blog",
+            url: "/member/dashboard/create-blog",
+            icon: PenLine,
+          },
+          {
+            title: "Create Idea",
+            url: "/member/dashboard/create-idea",
+            icon: Sparkles,
+          },
+          {
+            title: "My Blogs",
+            url: "/member/dashboard/my-blogs",
+            icon: BookOpenText,
+          },
+          {
+            title: "My Ideas",
+            url: "/member/dashboard/my-ideas",
+            icon: Palette,
+          },
+          {
+            title: "My Orders",
+            url: "/member/dashboard/my-orders",
+            icon: Package,
+          },
+          {
+            title: "Draft Ideas",
+            url: "/member/dashboard/draft-ideas",
+            icon: FilePen,
+          },
+          {
+            title: "Draft Blogs",
+            url: "/member/dashboard/draft-blogs",
+            icon: FileText,
+          },
+        ]
       : []),
     ...(role === "admin"
       ? [
-        {
-          title: "All Blogs",
-          url: "/admin/dashboard/all-blogs",
-          icon: BookOpenText,
-        },
-        {
-          title: "All Ideas",
-          url: "/admin/dashboard/all-ideas",
-          icon: Palette,
-        },
-        {
-          title: "All Orders",
-          url: "/admin/dashboard/all-orders",
-          icon: Package,
-        },
-        {
-          title: "User Management",
-          url: "/admin/dashboard/manage-users",
-          icon: UserCog,
-        },
-      ]
-
+          {
+            title: "All Blogs",
+            url: "/admin/dashboard/all-blogs",
+            icon: BookOpenText,
+          },
+          {
+            title: "All Ideas",
+            url: "/admin/dashboard/all-ideas",
+            icon: Palette,
+          },
+          {
+            title: "All Orders",
+            url: "/admin/dashboard/all-orders",
+            icon: Package,
+          },
+          {
+            title: "User Management",
+            url: "/admin/dashboard/manage-users",
+            icon: UserCog,
+          },
+        ]
       : []),
     {
       title: "Settings",
@@ -167,8 +165,8 @@ const AppSidebar = () => {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <h1 className="text-2xl font-semibold border-b-2 border-green-500 pb-3 text-center">
-            <span className="text-2xl text-green-500 ">Green</span> Circle
+          <h1 className="text-2xl font-semibold border-b-2 text-[#1b2a5e] pb-3 text-center">
+            <span className="text-2xl text-green-500 ">Greenovate</span> Hub
           </h1>
           <SidebarGroupContent>
             <SidebarMenu className="mt-10">
@@ -176,12 +174,14 @@ const AppSidebar = () => {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link
-                      className={` ${pathname === item.url ? "bg-green-500 text-white" : ""
-                        } text-[16px] rounded-none `}
+                      className={` ${
+                        pathname === item.url ? "bg-green-500 text-white" : ""
+                      } text-[16px] rounded-none `}
                       href={item.url}>
                       <item.icon
-                        className={`mr-2 ${pathname === item.url ? "text-white" : ""
-                          } text-green-500 h-5 w-5`}
+                        className={`mr-2 ${
+                          pathname === item.url ? "text-white" : ""
+                        } text-green-500 h-5 w-5`}
                       />
                       <span>{item.title}</span>
                     </Link>

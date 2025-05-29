@@ -80,7 +80,7 @@ export default function Footer() {
       <Separator />
 
       <div className="text-center text-sm text-gray-500 py-4">
-        © {new Date().getFullYear()} Green Circle. All rights reserved.
+        © {new Date().getFullYear()} GreenovateHub. All rights reserved.
       </div>
     </div>
   );

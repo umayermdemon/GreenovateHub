@@ -18,7 +18,7 @@ const testimonials = [
     rating: 4,
     image: user1,
     quote:
-      "Green Circle helped us engage more volunteers for our eco projects. It's a game-changer for environmental collaboration.",
+      "GreenovateHub helped us engage more volunteers for our eco projects. It's a game-changer for environmental collaboration.",
   },
   {
     name: "Sara Garcia",
@@ -36,7 +36,7 @@ const testimonials = [
     rating: 5,
     image: user3,
     quote:
-      "A fantastic space to share and grow sustainable ideas. Green Circle is exactly what the world needs right now.",
+      "A fantastic space to share and grow sustainable ideas. GreenovateHub is exactly what the world needs right now.",
   },
   {
     name: "Leila Ahmed",
@@ -45,7 +45,7 @@ const testimonials = [
     rating: 5,
     image: user4,
     quote:
-      "We launched a zero-waste campaign through Green Circle. The support and feedback from the community was invaluable.",
+      "We launched a zero-waste campaign through GreenovateHub. The support and feedback from the community was invaluable.",
   },
   {
     name: "Ravi Patel",
@@ -54,7 +54,7 @@ const testimonials = [
     rating: 4,
     image: user5,
     quote:
-      "I use Green Circle to stay updated on grassroots innovations. It's a hub of fresh, practical climate solutions.",
+      "I use GreenovateHub to stay updated on grassroots innovations. It's a hub of fresh, practical climate solutions.",
   },
 ];
 
@@ -67,7 +67,8 @@ const TestimonialSection = () => {
 
   const handlePrev = () => {
     setIndex(
-      (prevIndex) => (prevIndex - 1 + testimonials?.length) % testimonials?.length
+      (prevIndex) =>
+        (prevIndex - 1 + testimonials?.length) % testimonials?.length
     );
   };
 

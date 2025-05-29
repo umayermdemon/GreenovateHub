@@ -50,7 +50,7 @@ const AllIdeaPage = () => {
     });
     setData(data);
     setMeta(meta);
-  }, [currentPage, limit, searchTerm, status])
+  }, [currentPage, limit, searchTerm, status]);
   useEffect(() => {
     fetchIdeas();
   }, [fetchIdeas]);
@@ -69,7 +69,7 @@ const AllIdeaPage = () => {
         try {
           const res = await deleteMyIdea(id);
           if (res.success) {
-            fetchIdeas()
+            fetchIdeas();
           }
         } catch (error) {
           console.log(error);
@@ -88,17 +88,22 @@ const AllIdeaPage = () => {
             </SelectTrigger>
             <SelectContent>
               {[2, 10, 20, 50]?.map((val) => (
-                <SelectItem key={val} value={val.toString()}>{val}</SelectItem>
+                <SelectItem key={val} value={val.toString()}>
+                  {val}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
-          <Select onValueChange={(val) => setStatus(val === 'all' ? "" : val)}>
+          <Select onValueChange={(val) => setStatus(val === "all" ? "" : val)}>
             <SelectTrigger className="border-green-500 text-green-500 flex-1">
               <SelectValue placeholder="Set Status" />
             </SelectTrigger>
             <SelectContent>
               {["all", "underReview", "approved", "rejected"]?.map((val) => (
-                <SelectItem key={val} value={val}> {val.charAt(0).toUpperCase() + val.slice(1)}</SelectItem>
+                <SelectItem key={val} value={val}>
+                  {" "}
+                  {val.charAt(0).toUpperCase() + val.slice(1)}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -127,11 +132,19 @@ const AllIdeaPage = () => {
                   <AvatarFallback />
                 </Avatar>
                 <div>
-                  <p className="font-medium">{idea.title.split(" ").slice(0, 6).join(" ")}</p>
+                  <p className="font-medium">
+                    {idea.title.split(" ").slice(0, 6).join(" ")}
+                  </p>
                   <p className="text-sm text-muted-foreground">
-                    by <span className="italic text-amber-800">{idea.author.name}</span> |{" "}
-                    <span className="italic text-sky-800">
-                      {formatDistanceToNow(new Date(idea.createdAt), { addSuffix: true })}
+                    by{" "}
+                    <span className="italic text-amber-800">
+                      {idea.author.name}
+                    </span>{" "}
+                    |{" "}
+                    <span className="italic text-green-800">
+                      {formatDistanceToNow(new Date(idea.createdAt), {
+                        addSuffix: true,
+                      })}
                     </span>
                   </p>
                 </div>
@@ -139,12 +152,25 @@ const AllIdeaPage = () => {
 
               <div className="flex flex-col lg:gap-8 lg:flex-row lg:items-center lg:justify-end lg:w-[60%]">
                 <div className="flex gap-5 justify-between lg:mt-0 mt-2.5">
-                  <p className={`
+                  <p
+                    className={`
                      px-2 py-1 rounded-full w-[130px] text-center truncate 
                      flex items-center justify-center gap-2
-                     ${idea.status === "approved" ? "bg-green-100 text-green-500" : ""}
-                     ${idea.status === "rejected" ? "bg-red-100 text-red-500" : ""}
-                     ${idea.status === "underReview" ? "bg-yellow-300 text-amber-600" : ""}`}>
+                     ${
+                       idea.status === "approved"
+                         ? "bg-green-100 text-green-500"
+                         : ""
+                     }
+                     ${
+                       idea.status === "rejected"
+                         ? "bg-red-100 text-red-500"
+                         : ""
+                     }
+                     ${
+                       idea.status === "underReview"
+                         ? "bg-yellow-300 text-amber-600"
+                         : ""
+                     }`}>
                     <span
                       className={` w-[7px] h-[7px] rounded-full relative left-1 truncate
                         ${idea.status === "approved" ? "bg-green-500" : ""}
@@ -154,18 +180,28 @@ const AllIdeaPage = () => {
                     {idea.status.charAt(0).toUpperCase() + idea.status.slice(1)}
                   </p>
 
-                  <p className="bg-amber-500 text-white px-2 py-1 rounded-full w-[120px] text-center truncate">{idea.category}</p>
+                  <p className="bg-amber-500 text-white px-2 py-1 rounded-full w-[120px] text-center truncate">
+                    {idea.category}
+                  </p>
                 </div>
                 <div className="flex lg:gap-8 justify-evenly lg:mt-0 mt-2">
                   <Link href={`/admin/dashboard/all-ideas/details/${idea.id}`}>
-                    <Button size="sm" variant="outline" className="bg-sky-500 text-white h-8 w-8 p-0">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="bg-green-500 text-white h-8 w-8 p-0">
                       <Eye className="h-4 w-4" />
                     </Button>
                   </Link>
-                  <Button size="sm" className="bg-green-500 hover:bg-amber-500 h-8 w-8 p-0">
+                  <Button
+                    size="sm"
+                    className="bg-green-500 hover:bg-amber-500 h-8 w-8 p-0">
                     <Edit className="h-4 w-4" />
                   </Button>
-                  <Button onClick={() => deleteIdea(idea.id)} size="sm" className="bg-red-500 text-white h-8 w-8 p-0">
+                  <Button
+                    onClick={() => deleteIdea(idea.id)}
+                    size="sm"
+                    className="bg-red-500 text-white h-8 w-8 p-0">
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
@@ -182,26 +218,29 @@ const AllIdeaPage = () => {
               <Button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((prev) => prev - 1)}
-                className="text-amber-500 border border-amber-500 bg-white"
-              >
+                className="text-amber-500 border border-amber-500 bg-white">
                 <BiLeftArrow /> Previous
               </Button>
             </PaginationItem>
 
             <PaginationItem>
               <div className="flex gap-2">
-                {[...Array(Math.max(1, meta?.totalPage || 1))].map((_, index) => (
-                  <PaginationItem key={index}>
-                    <PaginationLink
-                      onClick={() => setCurrentPage(index + 1)}
-                      href="#"
-                      className={`border text-green-500 border-green-500 hover:bg-amber-500 hover:border-amber-500 hover:text-white ${index === currentPage - 1 ? "bg-green-500 text-white" : ""
-                        }`}
-                    >
-                      {index + 1}
-                    </PaginationLink>
-                  </PaginationItem>
-                ))}
+                {[...Array(Math.max(1, meta?.totalPage || 1))].map(
+                  (_, index) => (
+                    <PaginationItem key={index}>
+                      <PaginationLink
+                        onClick={() => setCurrentPage(index + 1)}
+                        href="#"
+                        className={`border text-green-500 border-green-500 hover:bg-amber-500 hover:border-amber-500 hover:text-white ${
+                          index === currentPage - 1
+                            ? "bg-green-500 text-white"
+                            : ""
+                        }`}>
+                        {index + 1}
+                      </PaginationLink>
+                    </PaginationItem>
+                  )
+                )}
               </div>
             </PaginationItem>
 
@@ -209,8 +248,7 @@ const AllIdeaPage = () => {
               <Button
                 disabled={currentPage === meta?.totalPage}
                 onClick={() => setCurrentPage((prev) => prev + 1)}
-                className="bg-amber-500 text-white"
-              >
+                className="bg-amber-500 text-white">
                 Next <BiRightArrow />
               </Button>
             </PaginationItem>

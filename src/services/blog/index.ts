@@ -18,7 +18,7 @@ export const createBlog = async (blogData: FieldValues) => {
         body: JSON.stringify(blogData),
       }
     );
-    revalidateTag("Blogs");
+    revalidateTag("blogs");
     const result = await res.json();
     return result;
   } catch (error) {
@@ -26,11 +26,11 @@ export const createBlog = async (blogData: FieldValues) => {
   }
 };
 interface BlogFilterType {
-  category?: string,
-  searchTerm?: string,
-  status?: string,
-  page?: string,
-  limit?: string
+  category?: string;
+  searchTerm?: string;
+  status?: string;
+  page?: string;
+  limit?: string;
 }
 export const getAllBlogs = async (options?: BlogFilterType) => {
   try {
@@ -38,20 +38,29 @@ export const getAllBlogs = async (options?: BlogFilterType) => {
     if (options?.searchTerm) {
       params.append("searchTerm", options.searchTerm);
     }
-    console.log(options?.searchTerm);
     if (options?.category) {
       params.append("category", options.category);
     }
     if (options?.status) {
       params.append("status", options.status);
     }
+    if (options?.page) {
+      params.append("page", options.page);
+    }
     if (options?.limit) {
-      params.append("limit", options.limit.toString());
+      params.append("limit", options.limit);
     }
 
     const query = params.toString() ? `?${params.toString()}` : "";
+    console.log(query);
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/blogs/get-all-blogs${query}`,
+      {
+        method: "GET",
+        next: {
+          tags: ["blogs"],
+        },
+      }
     );
     const result = await res.json();
     return result;
@@ -108,7 +117,7 @@ export const removeBlogImage = async (data: { id: string; image: string }) => {
         body: JSON.stringify({ image: data.image }),
       }
     );
-    revalidateTag("Blogs");
+    revalidateTag("blogs");
     const result = await res.json();
     return result;
   } catch (error) {
@@ -131,7 +140,7 @@ export const updateBlog = async (blogData: {
         body: JSON.stringify(blogData.data),
       }
     );
-    revalidateTag("Blogs");
+    revalidateTag("blogs");
     const result = await res.json();
     return result;
   } catch (error) {
@@ -139,7 +148,6 @@ export const updateBlog = async (blogData: {
   }
 };
 export const deleteMyBlog = async (blogId: string) => {
-  console.log(blogId, "blogId");
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/blogs/delete-blog/${blogId}`,
@@ -151,7 +159,7 @@ export const deleteMyBlog = async (blogId: string) => {
         },
       }
     );
-    revalidateTag("Blogs");
+    revalidateTag("blogs");
     const result = await res.json();
     return result;
   } catch (error) {

@@ -59,7 +59,6 @@ export default function OrderVerification() {
   useEffect(() => {
     const verifyData = async () => {
       const res = await verifyPayment(order_id!);
-      console.log(res);
       if (res?.success) {
         setData(res?.data[0]);
         setLoading(false);

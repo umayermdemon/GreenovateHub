@@ -47,27 +47,26 @@ const DashboardSidebar = () => {
   } catch (error) {
     console.error("Invalid token:", error);
   }
-  // console.log(role);
   const routes = [
     {
       label: "Home",
       icon: Home,
       href: "/",
-      color: "text-sky-600",
+      color: "text-green-600",
       title: "Home",
     },
     {
       label: "Dashboard",
       icon: LayoutDashboard,
       href: "/member/dashboard",
-      color: "text-sky-500",
+      color: "text-green-500",
     },
 
     {
       label: "Create Blog",
       icon: PenLine,
       href: "/member/dashboard/create-blog",
-      color: "text-sky-500",
+      color: "text-green-500",
       title: "d",
     },
     {

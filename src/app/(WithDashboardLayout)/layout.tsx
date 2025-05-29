@@ -9,7 +9,7 @@ export default function DashboardLayout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className=" w-full mx-4">
+      <main className=" w-full mx-4 bg-white">
         <SidebarTrigger className="lg:hidden" />
         {children}
       </main>

@@ -64,8 +64,7 @@ const UpdateBlog = () => {
         image,
         id: blogData.id,
       };
-      const res = await removeBlogImage(opData);
-      console.log(res);
+      await removeBlogImage(opData);
     } catch (error) {
       console.log(error);
     }

@@ -1,8 +1,8 @@
-# 🌿 Green Circle — Frontend
+# 🌿 GreenovateHub — Frontend
 
-## Welcome to Green Circle 🌍
+## Welcome to GreenovateHub 🌍
 
-At Green Circle, we're building a community-driven platform where sustainability meets innovation. Here, individuals like you can share your creative and impactful ideas aimed at making the world a better, greener place. Whether it’s reducing waste, embracing renewable energy, or promoting sustainable transport, Green Circle is the hub for eco-conscious thinkers to collaborate and drive real-world change.
+At GreenovateHub, we're building a community-driven platform where sustainability meets innovation. Here, individuals like you can share your creative and impactful ideas aimed at making the world a better, greener place. Whether it’s reducing waste, embracing renewable energy, or promoting sustainable transport, GreenovateHub is the hub for eco-conscious thinkers to collaborate and drive real-world change.
 
 ## ⚙️ Tech Stack
 
@@ -33,8 +33,8 @@ At Green Circle, we're building a community-driven platform where sustainability
 ## 🛠️ Setup Instructions
 
 ```bash
-git clone https://github.com/rafioul-hasan-58/Green-Circle-Client.git
-cd green-circle-frontend
+git clone https://github.com/rafioul-hasan-58/greenovate-hub-Client.git
+cd greenovate-hub-frontend
 npm install
 npm run dev
 ```

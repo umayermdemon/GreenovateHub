@@ -22,7 +22,7 @@ const banners = [
     highlight: "20,000",
     subtitle: "Join Members",
     description:
-      "Share eco-friendly ideas and help build a sustainable future with Green Circle.",
+      "Share eco-friendly ideas and help build a sustainable future with GreenovateHub.",
     image: banner1,
   },
   {
@@ -31,7 +31,7 @@ const banners = [
     highlight: "Verified Members",
     subtitle: "Across the Globe",
     description:
-      "Join a community of genuine people looking for meaningful relationships. Your journey starts here at Green Circle.",
+      "Join a community of genuine people looking for meaningful relationships. Your journey starts here at GreenovateHub.",
     image: banner2,
   },
   {
@@ -40,7 +40,7 @@ const banners = [
     highlight: "Local Area",
     subtitle: "Or Worldwide",
     description:
-      "Discover singles nearby or expand your horizons globally. Green Circle helps you connect with people who matter.",
+      "Discover singles nearby or expand your horizons globally. GreenovateHub helps you connect with people who matter.",
     image: banner3,
   },
 ];

@@ -5,7 +5,6 @@ import GFormInput from "@/components/shared/Form/GFormInput";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Loader } from "lucide-react";
-import { FcGoogle } from "react-icons/fc";
 import { toast } from "sonner";
 import { loginUser } from "@/services/auth";
 import { useSearchParams } from "next/navigation";
@@ -100,13 +99,13 @@ const LoginForm = () => {
                 SignUp
               </Link>
             </h1>
-            <p className="text-center">or</p>
+            {/* <p className="text-center">or</p>
             <div className="flex justify-center">
               <Button className="bg-amber-300 text-amber-700 cursor-pointer">
                 <FcGoogle className="text-xl" />
                 Google
               </Button>
-            </div>
+            </div> */}
           </div>
         </form>
       </Form>

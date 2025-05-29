@@ -2,7 +2,6 @@
 
 import { TAuthor } from "@/types/blog.types";
 import { TIdea } from "@/types/idea.types";
-import { Badge } from "@/components/ui/badge";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -75,7 +74,7 @@ const IdeaDetailsCard = ({
     setComments((prev) => [newComment, ...prev]);
     setCommentText("");
   };
-  console.log({ user });
+
   const router = useRouter();
   const isUpvoted = idea.up_votes > 0;
   const isDownvoted = idea.down_votes > 0;
@@ -136,7 +135,7 @@ const IdeaDetailsCard = ({
     };
     getPayment();
   }, [idea?.id]);
-  console.log(user);
+
   if (!idea) {
     return (
       <div className="text-center py-10 text-muted-foreground">Loading...</div>
@@ -144,65 +143,70 @@ const IdeaDetailsCard = ({
   }
 
   return (
-    <div className="max-w-5xl mx-auto min-h-[calc(100vh-100px)] p-4 my-4 shadow-lg bg-amber-50  border rounded-md">
+    <div className="max-w-5xl lg:container mx-auto  min-h-[calc(100vh-100px)] p-3 sm:p-4 md:p-6 my-6 rounded-2xl border border-green-300 bg-gradient-to-br from-amber-50 via-white to-green-50 shadow-[0_4px_24px_0_rgba(34,197,94,0.10)] overflow-hidden relative transition-all duration-300 hover:shadow-green-400/40">
+      {/* Glassy Category Badge */}
+      <div className="absolute top-4 left-4 flex items-center gap-2 px-4 py-1 rounded-full shadow text-xs sm:text-sm font-bold z-10 backdrop-blur bg-green-500/90 text-white border border-green-300">
+        {idea.category}
+      </div>
+
       {/* Images */}
-      {idea?.images?.length > 0 ? (
-        <Swiper
-          modules={[Pagination, Autoplay]}
-          pagination={{ clickable: true }}
-          autoplay={{ delay: 4000 }}
-          loop
-          className="rounded-xl mb-6">
-          {idea.images.map((img, idx) => (
-            <SwiperSlide key={idx}>
-              <Image
-                src={
-                  img || "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
-                }
-                alt={`Idea Image ${idx + 1}`}
-                width={800}
-                height={800}
-                className="rounded-xl w-full h-[500px] object-fill border-2"
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      ) : (
-        <Image
-          src="https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
-          alt="Idea Image"
-          width={800}
-          height={800}
-          className="rounded-xl w-full h-[500px] object-fill border-2"
-        />
-      )}
+      <div className="rounded-xl mb-8 overflow-hidden border-2 border-green-200">
+        {idea?.images?.length > 0 ? (
+          <Swiper
+            modules={[Pagination, Autoplay]}
+            pagination={{ clickable: true }}
+            autoplay={{ delay: 4000 }}
+            loop
+            className="rounded-xl">
+            {idea.images.map((img, idx) => (
+              <SwiperSlide key={idx}>
+                <Image
+                  src={
+                    img ||
+                    "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
+                  }
+                  alt={
+                    idea.title
+                      ? `${idea.title} Image ${idx + 1}`
+                      : `Idea Image ${idx + 1}`
+                  }
+                  width={800}
+                  height={400}
+                  className="rounded-xl w-full h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] object-cover"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 800px"
+                  priority={idx === 0}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        ) : (
+          <Image
+            src="https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
+            alt={
+              idea.title ? `${idea.title} Default Image` : "Idea Default Image"
+            }
+            width={800}
+            height={400}
+            className="rounded-xl w-full h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] object-cover"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 800px"
+            priority
+          />
+        )}
+      </div>
 
-      {/* Top Row: Category & Actions */}
-      <div className="flex justify-between items-center">
-        <Badge
-          variant="outline"
-          className={`mb-4 capitalize text-white p-2 ${
-            idea.category === "waste"
-              ? "bg-yellow-700"
-              : idea.category === "energy"
-              ? "bg-red-700"
-              : "bg-green-700"
+      {/* Top Row: Premium & Actions */}
+      <div className="flex flex-row justify-between items-center mb-2 gap-3">
+        <div
+          className={`px-4 py-1 rounded-full text-xs sm:text-sm font-medium shadow ${
+            idea.isPremium
+              ? "bg-purple-700 text-white"
+              : "bg-gray-200 text-gray-800"
           }`}>
-          {idea.category}
-        </Badge>
-
-        <div className="flex items-center flex-row-reverse gap-2">
-          <div
-            className={`px-3 py-1 rounded-full text-sm font-medium ${
-              idea.isPremium
-                ? "bg-purple-700 text-white"
-                : "bg-gray-300 text-gray-800"
-            }`}>
-            {idea.isPremium ? `Premium - $${idea.price}` : "Free"}
-          </div>
-
+          {idea.isPremium ? `Premium - $${idea.price}` : "Free"}
+        </div>
+        <div className="flex items-center gap-4 flex-wrap">
           {currentOrder?.status === "paid" ? (
-            <button className="bg-gray-600 text-sm text-white font-medium px-2 py-2 rounded-lg transition">
+            <button className="bg-gray-600 text-xs sm:text-sm text-white font-medium px-3 py-2 rounded-lg transition">
               Paid ৳{idea.price}
             </button>
           ) : (
@@ -210,105 +214,104 @@ const IdeaDetailsCard = ({
             idea?.authorId !== user?.id &&
             user?.role === "member" && <PaymentModal idea={idea} user={user} />
           )}
+          {user && (
+            <>
+              <Link
+                href={`/member/dashboard/my-blogs/update/${idea.id}`}
+                className="cursor-pointer">
+                <Edit className="text-green-600" />
+              </Link>
+              <button
+                onClick={() => deleteBlog(idea.id)}
+                className="cursor-pointer">
+                <Trash className="text-red-600" />
+              </button>
+            </>
+          )}
         </div>
       </div>
 
-      {/* Title, Author, Price */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-4xl font-bold text-green-800 mb-1">
-            {idea.title}
-          </h1>
-          <p className="text-muted-foreground mb-2 text-xs">
-            Posted on{" "}
-            {idea.createdAt ? format(new Date(idea.createdAt), "PPP") : "N/A"}{" "}
-            by <span className="text-green-700 font-medium">{user?.name}</span>
-          </p>
-        </div>
-        {user && (
-          <div className="flex items-center gap-4">
-            <Link
-              href={`/member/dashboard/my-blogs/update/${idea.id}`}
-              className="cursor-pointer">
-              <Edit className="text-green-600" />
-            </Link>
-            <button
-              onClick={() => deleteBlog(idea.id)}
-              className="cursor-pointer">
-              <Trash className="text-red-600" />
-            </button>
-          </div>
-        )}
+      {/* Title, Author, Date */}
+      <div className="mb-2">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-green-800 mb-1 break-words">
+          {idea.title}
+        </h1>
+        <p className="text-muted-foreground mb-2 text-xs">
+          Posted on{" "}
+          {idea.createdAt ? format(new Date(idea.createdAt), "PPP") : "N/A"} by{" "}
+          <span className="text-green-700 font-medium">{user?.name}</span>
+        </p>
       </div>
 
       {/* Description */}
-      <p className="text-base text-gray-700 mt-4 text-justify">
+      <p className="text-base sm:text-lg text-gray-700 mt-2 text-justify break-words">
         {idea.description}
       </p>
 
       {/* Problem & Solution */}
-      <div className="mt-2 space-y-2">
+      <div className="mt-4 space-y-4">
         <div>
-          <h2 className="text-xl font-semibold text-green-700 mb-1">
+          <h2 className="text-lg sm:text-xl font-semibold text-green-700 mb-1">
             Problem Statement
           </h2>
-          <p className="text-gray-800 text-justify">{idea.problem_statement}</p>
+          <p className="text-gray-800 text-justify break-words">
+            {idea.problem_statement}
+          </p>
         </div>
         <div>
-          <h2 className="text-xl font-semibold text-green-700 mb-1">
+          <h2 className="text-lg sm:text-xl font-semibold text-green-700 mb-1">
             Proposed Solution
           </h2>
-          <p className="text-gray-800 text-justify">{idea.proposed_solution}</p>
+          <p className="text-gray-800 text-justify break-words">
+            {idea.proposed_solution}
+          </p>
         </div>
+      </div>
 
-        {/* Status and Voting */}
-        <div className="flex items-center justify-between gap-4 flex-wrap">
-          <div
-            className={`px-3 py-1 rounded-full text-white text-sm font-medium ${getStatusColor(
-              idea.status
-            )}`}>
-            Status: {idea.status}
-          </div>
-
-          <div className="flex gap-4 mt-1">
-            <div className="flex gap-2 bg-green-500 px-2 py-1 rounded-full">
-              {/* Upvote */}
-              <div className="flex gap-0.5 border-r cursor-pointer pr-1 text-white text-[19px]">
-                {isUpvoted ? (
-                  <BiSolidLike onClick={removeVote} />
-                ) : (
-                  <AiOutlineLike onClick={() => addVote("up")} />
-                )}
-                <p className="text-sm">{idea.up_votes}</p>
-              </div>
-              {/* Downvote */}
-              <div className="flex gap-0.5 cursor-pointer pr-1 text-white text-[19px]">
-                {isDownvoted ? (
-                  <AiFillDislike onClick={removeVote} />
-                ) : (
-                  <AiOutlineDislike onClick={() => addVote("down")} />
-                )}
-                <p className="text-sm">{idea.down_votes}</p>
-              </div>
+      {/* Status and Voting */}
+      <div className="flex flex-row items-center justify-between gap-4 flex-wrap mt-6">
+        <div
+          className={`px-4 py-1 rounded-full text-white text-xs sm:text-sm font-medium shadow ${getStatusColor(
+            idea.status
+          )}`}>
+          Status: {idea.status}
+        </div>
+        <div className="flex gap-4">
+          <div className="flex gap-2 bg-green-500 px-4 py-1 rounded-full shadow border border-green-200">
+            {/* Upvote */}
+            <div className="flex items-center gap-1 border-r border-white pr-2 text-white text-lg cursor-pointer">
+              {isUpvoted ? (
+                <BiSolidLike onClick={removeVote} />
+              ) : (
+                <AiOutlineLike onClick={() => addVote("up")} />
+              )}
+              <span className="text-sm">{idea.up_votes}</span>
+            </div>
+            {/* Downvote */}
+            <div className="flex items-center text-white text-lg cursor-pointer">
+              {isDownvoted ? (
+                <AiFillDislike onClick={removeVote} />
+              ) : (
+                <AiOutlineDislike onClick={() => addVote("down")} />
+              )}
+              <span className="text-sm">{idea.down_votes}</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Comments Section */}
-      <div className="mt-8 border-t pt-6">
-        <h2 className="text-2xl font-semibold text-green-700 mb-4">Comments</h2>
-
-        <div className="flex flex-col md:flex-row gap-6">
-          {/*  Comment Field - Left Side */}
+      <div className="mt-10 border-t pt-8">
+        <h2 className="text-xl sm:text-2xl font-semibold text-green-700 mb-4">
+          Comments
+        </h2>
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* Comment Field */}
           <div className="w-full md:w-1/2">
-            <h3 className="text-lg font-medium text-gray-700 mb-3">
+            <h3 className="text-base sm:text-lg font-medium text-gray-700 mb-3">
               Write a Comment
             </h3>
-
             <div className="flex items-start gap-3">
-              {/* Optional: User Avatar */}
-
               <Avatar className="w-[40px] h-[40px] border-green-500 border">
                 <AvatarImage
                   src={user?.image || "https://i.pravatar.cc/40"}
@@ -316,8 +319,6 @@ const IdeaDetailsCard = ({
                 />
                 <AvatarFallback></AvatarFallback>
               </Avatar>
-
-              {/* Comment Input Box */}
               <div className="flex-1 bg-gray-100 rounded-xl px-4 py-2 border border-gray-300">
                 <textarea
                   className="w-full resize-none bg-transparent outline-none text-sm placeholder-gray-500"
@@ -325,8 +326,6 @@ const IdeaDetailsCard = ({
                   rows={3}
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}></textarea>
-
-                {/* Action Button */}
                 <div className="flex justify-end mt-1">
                   <button
                     onClick={handleAddComment}
@@ -337,10 +336,9 @@ const IdeaDetailsCard = ({
               </div>
             </div>
           </div>
-
-          {/* Comment List -Right Side*/}
+          {/* Comment List */}
           <div className="w-full md:w-1/2">
-            <h3 className="text-lg font-medium text-gray-700 mb-2">
+            <h3 className="text-base sm:text-lg font-medium text-gray-700 mb-2">
               All Comments
             </h3>
             <div className="h-[200px] overflow-y-auto pr-2 space-y-4">
