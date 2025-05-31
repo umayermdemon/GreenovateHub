@@ -36,7 +36,7 @@ import UpdateProfile from "../UpdateProfile";
 const Drafts = () => {
   return (
     <div className="relative cursor-pointer">
-      <RiDraftLine className="text-lg md:text-xl text-gray-600" />
+      <RiDraftLine className="text-lg md:text-xl text-white" />
       <span className="absolute -top-2 -right-2 text-xs bg-green-500 text-white rounded-full px-1">
         0
       </span>
@@ -98,18 +98,18 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
     </Avatar>
   );
   return (
-    <div className="bg-gradient-to-r from-green-100 to-green-50 w-full z-50 transition-transform duration-300 pt-2 md:pt-4 relative">
+    <div className="bg-green-700  w-full z-50 transition-transform duration-300 pt-2 md:pt-4 relative">
       {/* Top nav */}
       <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between px-2 md:px-4 py-2 container mx-auto">
         {/* Logo */}
-        <div className="flex items-center justify-between text-xl md:text-2xl font-bold text-orange-500">
+        <div className="flex items-center justify-between text-xl md:text-2xl font-bold">
           <div>
             <Logo />
           </div>
           <div className="flex items-center gap-6 md:hidden">
             <Drafts />
             <button
-              className=" text-green-600 mr-4"
+              className=" text-white mr-4"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
               {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
@@ -119,10 +119,10 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
         {/* Search bar */}
 
         {!hideSearchBar && (
-          <div className="flex w-full md:w-[40%] mt-2 md:mt-0 border border-green-600 overflow-hidden rounded-full rounded-l-none">
+          <div className="flex w-full md:w-[40%] mt-2 md:mt-0 rounded-full relative">
             <Input
               placeholder="Search Idea..."
-              className="rounded-l-none rounded-r-none"
+              className="rounded-r-3xl text-white placeholder:text-white"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => {
@@ -130,7 +130,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
               }}
             />
             <Button
-              className="rounded-l-none rounded-r-full cursor-pointer bg-green-500 hover:bg-green-400"
+              className="rounded-r-full cursor-pointer bg-green-600 hover:bg-green-500 absolute right-0"
               size="icon"
               onClick={handleSearch}>
               <Search size={18} />
@@ -159,18 +159,18 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
         {/* Mobile menu */}
         {mobileMenuOpen && (
           <div className="md:hidden px-4 pb-2">
-            <ul className="flex flex-col gap-2 font-medium text-[#1b2a5e] text-base">
+            <ul className="flex flex-col gap-2 font-medium text-white text-base">
               {menuItems.map((item, i) => (
                 <li key={i}>
                   <Link
                     href={item.path}
                     className={`block py-1 ${
                       pathname === item.path
-                        ? "text-green-500 font-semibold"
+                        ? "text-amber-500 font-semibold"
                         : ""
                     } ${
                       pathname === "ideas" && item.path === "/ideas"
-                        ? "text-green-500"
+                        ? "text-amber-500"
                         : ""
                     }`}
                     onClick={() => setMobileMenuOpen(false)}>
@@ -263,7 +263,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
           ) : (
             <Link
               href={"/login"}
-              className="flex items-center gap-2 text-gray-600 hover:text-green-500">
+              className="flex items-center gap-2 text-white hover:text-green-500">
               <FaUser />
               <span className="text-xs md:text-sm">Account</span>
             </Link>
@@ -275,13 +275,13 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
       </div>
 
       {/* Popular Searches */}
-      <div className="px-2 md:px-4 py-1 hidden lg:flex items-center justify-center text-xs md:text-sm text-gray-500 container mx-auto text-center">
+      <div className="px-2 md:px-4 py-1 hidden lg:flex items-center justify-center text-xs md:text-sm text-white container mx-auto text-center">
         <span className="font-semibold ml-2 md:ml-6 mr-2">
           Popular Searches:
         </span>
         <span className="space-x-2 md:space-x-3">
           {searchHistory.length === 0 && (
-            <span className="italic text-gray-400">No recent searches</span>
+            <span className="italic text-white">No recent searches</span>
           )}
           {searchHistory.slice(0, 3).map((item) => (
             <span
@@ -300,7 +300,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
       <div className="flex flex-row items-center justify-between px-2 md:px-4 py-2 text-xs md:text-sm text-gray-700 container mx-auto">
         <div className="flex items-center gap-3 md:gap-6 justify-between md:w-auto mb-2 md:mb-0">
           <DropdownMenu>
-            <DropdownMenuTrigger className="px-2  border-r-2 border-green-500 text-[#1b2a5e] relative cursor-pointer text-xs md:text-sm">
+            <DropdownMenuTrigger className="px-2  border-r-2 border-green-500 text-white relative cursor-pointer text-xs md:text-sm">
               <div className="flex items-center gap-2">
                 <FaList />
                 <span>Browse Categories</span>
@@ -331,13 +331,13 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
           </DropdownMenu>
         </div>
         <div className="w-full hidden md:flex items-center justify-center lg:pl-36">
-          <ul className="flex items-center space-x-4 md:space-x-6 font-medium text-[#1b2a5e] text-base md:text-lg">
+          <ul className="flex items-center space-x-4 md:space-x-6 font-medium text-white text-base md:text-lg">
             {menuItems.map((item, i) => (
               <li key={i}>
                 <Link
                   href={item.path}
                   className={`${
-                    pathname === item.path ? "text-green-500 font-semibold" : ""
+                    pathname === item.path ? "text-amber-500 font-semibold" : ""
                   } ${
                     pathname === "ideas" && item.path === "/ideas"
                       ? "text-green-500"
@@ -349,7 +349,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
             ))}
           </ul>
         </div>
-        <div className="flex items-center md:justify-end md:w-1/4">
+        <div className="flex items-center md:justify-end md:w-1/4 text-white">
           <FaPhoneAlt />
           <span className="text-xs lg:text-base">+880 1636 279878</span>
         </div>
