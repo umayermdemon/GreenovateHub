@@ -34,7 +34,7 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
   useEffect(() => {
     const fetchIsVoted = async () => {
       const blogData = {
-        blogId: data.id,
+        blogId: data?.id,
       };
       try {
         const res = await isUserVoted(blogData);
@@ -46,7 +46,7 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
       }
     };
     fetchIsVoted();
-  }, [data.id, userId]);
+  }, [data?.id, userId]);
 
   const timeAgo = formatDistanceToNow(new Date(data.createdAt), {
     addSuffix: true,
@@ -56,7 +56,7 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
 
   const addVote = async (value: string) => {
     try {
-      const res = await createVote({ ideaId: data.id, value });
+      const res = await createVote({ ideaId: data?.id, value });
       if (res.success) {
         setVote({ isVoted: true });
         if (value === "up") {
@@ -72,7 +72,7 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
 
   const removeVote = async () => {
     try {
-      const res = await undoVote({ ideaId: data.id });
+      const res = await undoVote({ ideaId: data?.id });
       if (res.success) {
         setVote({ isVoted: false });
         data.up_votes = (data.up_votes || 0) - (vote.isVoted ? 1 : 0);
@@ -117,8 +117,10 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
       <Link
         href={
           user?.role === "member"
-            ? `/member/dashboard/my-blogs/details/${data.id}`
-            : `/admin/dashboard/all-blogs/details/${data.id}`
+            ? `/member/dashboard/my-blogs/details/${data?.id}`
+            : user?.role === "admin"
+            ? `/admin/dashboard/all-blogs/details/${data?.id}`
+            : `/blogs/${data?.id}`
         }>
         <div className="relative w-full h-[200px]">
           <Image
@@ -146,8 +148,10 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
               <Link
                 href={
                   user?.role === "member"
-                    ? `/member/dashboard/my-blogs/details/${data.id}`
-                    : `/admin/dashboard/all-blogs/details/${data.id}`
+                    ? `/member/dashboard/my-blogs/details/${data?.id}`
+                    : user?.role === "admin"
+                    ? `/admin/dashboard/all-blogs/details/${data?.id}`
+                    : `/blogs/${data?.id}`
                 }>
                 <li className="cursor-pointer hover:bg-amber-100 flex gap-1 hover:text-amber-700 px-1 text-amber-600 pb-0.5 rounded transition-colors">
                   <Eye className="relative top-1" size={17} />
@@ -156,14 +160,14 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
               </Link>
               {userId === data.authorId && (
                 <>
-                  <Link href={`/member/dashboard/my-blogs/update/${data.id}`}>
+                  <Link href={`/member/dashboard/my-blogs/update/${data?.id}`}>
                     <li className="cursor-pointer flex gap-1 hover:bg-amber-100 hover:text-amber-700 px-1 pt-0.5 border-t border-amber-100 text-amber-600 rounded transition-colors">
                       <Edit className="relative top-1" size={17} />
                       Update
                     </li>
                   </Link>
                   <li
-                    onClick={() => deleteBlog(data.id)}
+                    onClick={() => deleteBlog(data?.id)}
                     className="cursor-pointer flex gap-1 hover:bg-red-100 hover:text-red-600 px-1 border-t border-amber-100 text-red-500 pt-0.5 rounded transition-colors">
                     <Trash className="relative top-1" size={17} />
                     Delete

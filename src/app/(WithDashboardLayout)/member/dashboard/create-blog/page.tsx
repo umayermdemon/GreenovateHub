@@ -67,7 +67,7 @@ const CreateBlog = () => {
     }
   }; // Closing the onSubmit function
   return (
-    <div className=" lg:max-w-5xl lg:mx-auto  my-5 ">
+    <div className="max-w-5xl lg:container mx-auto  my-5 ">
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className=" flex items-center justify-between">

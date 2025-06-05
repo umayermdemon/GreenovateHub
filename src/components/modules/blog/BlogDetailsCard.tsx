@@ -15,7 +15,7 @@ import Link from "next/link";
 import Swal from "sweetalert2";
 import { deleteMyBlog } from "@/services/blog";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { createVote, undoVote } from "@/services/vote";
 import { useUser } from "@/context/UserContext";
 import { useState } from "react";
@@ -49,11 +49,18 @@ const getBadgeColor = (category: string) => {
   }
 };
 
-const BlogDetailsCard = ({ blog, user }: { blog: TBlog; user: TAuthor }) => {
+const BlogDetailsCard = ({
+  blog,
+  user,
+}: {
+  blog: TBlog;
+  user: TAuthor | null;
+}) => {
   const [comments, setComments] = useState<TComment[]>([]);
   const [commentText, setCommentText] = useState("");
   const router = useRouter();
   const { user: currentUser } = useUser();
+  const pathname = usePathname();
   const addVote = async (value: string) => {
     const voteData = {
       blogId: blog.id,
@@ -71,6 +78,11 @@ const BlogDetailsCard = ({ blog, user }: { blog: TBlog; user: TAuthor }) => {
   // / Dummy: Add comment
   const handleAddComment = () => {
     if (!commentText.trim()) return;
+
+    if (!user) {
+      router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
+      return;
+    }
 
     const newComment: TComment = {
       id: user?.id,
@@ -264,7 +276,7 @@ const BlogDetailsCard = ({ blog, user }: { blog: TBlog; user: TAuthor }) => {
                 <div className="flex justify-end mt-1">
                   <button
                     onClick={handleAddComment}
-                    className="bg-amber-600 text-white text-sm px-4 py-1.5 rounded-md hover:bg-amber-700 transition">
+                    className="bg-amber-600 text-white text-sm px-4 py-1.5 rounded-md hover:bg-amber-700 transition cursor-pointer">
                     Post
                   </button>
                 </div>

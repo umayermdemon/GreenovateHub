@@ -1,7 +1,6 @@
 "use client";
 
 import IdeaDetailsCard from "@/components/modules/Idea/IdeaDetailsCard";
-import { useUser } from "@/context/UserContext";
 import { getSingleIdea } from "@/services/idea";
 import IdeaDetailsSkeleton from "@/skeletons/IdeaDetailsSkeleton";
 import { TIdea } from "@/types/idea.types";
@@ -12,8 +11,6 @@ const IdeaDetails = () => {
   const { id } = useParams();
   const [idea, setIdea] = useState<TIdea | null>(null);
   const [loading, setLoading] = useState(true);
-  const { user: currentUser } = useUser();
-  console.log(currentUser);
   const user = null;
 
   useEffect(() => {

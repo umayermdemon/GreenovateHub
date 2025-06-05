@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { FaUser, FaList, FaPhoneAlt } from "react-icons/fa";
 import { RiDraftLine } from "react-icons/ri";
 import Logo from "./Logo";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ChevronDown,
   Info,
@@ -89,6 +89,24 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
     { label: "About Us", path: "/about" },
     { label: "Contact", path: "/contact" },
   ];
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setCategory("");
+      }
+    }
+    if (category === "open") {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [category]);
 
   const AvatarComponent = (
     <Avatar className="w-[40px] h-[40px] md:w-[50px] md:h-[50px] cursor-pointer">
@@ -302,7 +320,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
 
       {/* Bottom nav */}
       <div className="flex flex-row items-center justify-between px-2 md:px-4 py-2 text-xs md:text-sm container mx-auto">
-        <div className="relative">
+        <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setCategory((c) => (c === "open" ? "" : "open"))}
             className="px-2 border-r-2 border-green-500 text-white relative cursor-pointer text-xs md:text-sm flex items-center gap-2 w-48">
@@ -311,7 +329,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
             <ChevronDown />
           </button>
           {category === "open" && (
-            <div className="absolute left-0 mt-2 bg-[#eafcfb] shadow-lg rounded">
+            <div className="absolute left-0 mt-2 bg-[#eafcfb] shadow-lg rounded w-48">
               {["All", "Energy", "Waste", "Transportation"].map((item) => (
                 <div
                   key={item}
