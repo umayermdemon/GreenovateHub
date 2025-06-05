@@ -95,10 +95,7 @@ export const getSingleIdea = async (id: ParamValue) => {
       `${process.env.NEXT_PUBLIC_BASE_URL}/ideas/get-idea/${id}`,
       {
         method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Authorization: (await cookies()).get("accessToken")!.value,
-        },
+        next: { tags: ["ideas"] },
       }
     );
     const result = await res.json();
@@ -161,7 +158,7 @@ export const deleteMyIdea = async (id: string) => {
         },
       }
     );
-    await revalidateTag("ideas");
+    revalidateTag("ideas");
     const result = await res.json();
     return result;
   } catch (error) {

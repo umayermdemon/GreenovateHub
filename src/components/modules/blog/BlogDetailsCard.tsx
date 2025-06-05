@@ -49,15 +49,7 @@ const getBadgeColor = (category: string) => {
   }
 };
 
-const BlogDetailsCard = ({
-  blog,
-  user,
-  refresh,
-}: {
-  blog: TBlog;
-  user: TAuthor;
-  refresh: () => void;
-}) => {
+const BlogDetailsCard = ({ blog, user }: { blog: TBlog; user: TAuthor }) => {
   const [comments, setComments] = useState<TComment[]>([]);
   const [commentText, setCommentText] = useState("");
   const router = useRouter();
@@ -70,7 +62,7 @@ const BlogDetailsCard = ({
     try {
       const res = await createVote(voteData);
       if (res.success) {
-        refresh();
+        console.log(res?.success);
       }
     } catch (error) {
       console.log(error);
@@ -98,7 +90,7 @@ const BlogDetailsCard = ({
     try {
       const res = await undoVote(voteData);
       if (res.success) {
-        refresh();
+        console.log(res.success);
       }
     } catch (error) {
       console.log(error);

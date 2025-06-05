@@ -2,12 +2,6 @@
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { FaUser, FaList, FaPhoneAlt } from "react-icons/fa";
 import { RiDraftLine } from "react-icons/ri";
@@ -47,6 +41,7 @@ const Drafts = () => {
 const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
   const { user } = useUser();
   const pathname = usePathname();
+  const [isLoading, setIsLoading] = useState(true);
   const [category, setCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -58,6 +53,13 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
     const stored = localStorage.getItem("searchHistory");
     if (stored) setSearchHistory(JSON.parse(stored));
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      setIsLoading(false);
+    }
+  }, [user]);
+  console.log({ isLoading });
 
   const handleSearch = () => {
     if (!searchTerm.trim()) return;
@@ -98,7 +100,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
     </Avatar>
   );
   return (
-    <div className="bg-green-700  w-full z-50 transition-transform duration-300 pt-2 md:pt-4 relative">
+    <div className="bg-green-700  w-full z-50 transition-transform duration-300 pt-2 md:pt-4 fixed">
       {/* Top nav */}
       <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between px-2 md:px-4 py-2 container mx-auto">
         {/* Logo */}
@@ -141,7 +143,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
           <div className="hidden lg:flex w-full md:w-[40%] mt-2 md:mt-0 border border-green-600 overflow-hidden rounded-full rounded-l-none">
             <Input
               placeholder="Search Idea..."
-              className="rounded-l-none rounded-r-none"
+              className="rounded-l-none rounded-r-none text-white placeholder:text-white"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => {
@@ -214,56 +216,58 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
         {/* Icons */}
         <div className="hidden md:flex items-center gap-3 md:gap-6 mt-2 md:mt-0">
           {user ? (
-            <Popover>
-              <PopoverTrigger asChild>{AvatarComponent}</PopoverTrigger>
-              <PopoverContent className="w-64 md:w-80 border mt-2">
-                <div className="text-center">
-                  <div className="flex items-center justify-center">
-                    {AvatarComponent}
+            <div className="h-14 w-24 flex items-center justify-center">
+              <Popover>
+                <PopoverTrigger asChild>{AvatarComponent}</PopoverTrigger>
+                <PopoverContent className="w-64 md:w-80 border mt-2">
+                  <div className="text-center">
+                    <div className="flex items-center justify-center">
+                      {AvatarComponent}
+                    </div>
+                    <h1 className="text-lg md:text-xl font-semibold py-2">
+                      {myProfile?.name}
+                    </h1>
+                    <p className="text-xs md:text-sm text-green-500 relative bottom-3">
+                      {myProfile?.role}
+                    </p>
+                    {myProfile && <UpdateProfile {...myProfile} />}
                   </div>
-                  <h1 className="text-lg md:text-xl font-semibold py-2">
-                    {myProfile?.name}
-                  </h1>
-                  <p className="text-xs md:text-sm text-green-500 relative bottom-3">
-                    {myProfile?.role}
-                  </p>
-                  {myProfile && <UpdateProfile {...myProfile} />}
-                </div>
-                <ul className="mt-4 divide-y divide-gray-200">
-                  <li className="hover:bg-green-500 hover:text-white py-1 px-2">
-                    <Link href="/ideas" className="flex gap-2 items-center">
-                      <Palette size={18} /> All Ideas
-                    </Link>
-                  </li>
-                  <li className="hover:bg-green-500 hover:text-white py-1 px-2">
-                    <Link
-                      href={`/${user?.role}/dashboard`}
-                      className="flex gap-2 items-center">
-                      <LayoutDashboard size={18} /> Dashboard
-                    </Link>
-                  </li>
-                  <li className="hover:bg-green-500 hover:text-white py-1 px-2">
-                    <Link href="/about" className="flex gap-2 items-center">
-                      <Info size={18} /> About
-                    </Link>
-                  </li>
-                  <li className="hover:bg-green-500 hover:text-white py-1 px-2">
-                    <Link href="/blogs" className="flex gap-2 items-center">
-                      <PencilLine size={18} /> Blogs
-                    </Link>
-                  </li>
-                  <li
-                    onClick={handleLogout}
-                    className="hover:bg-green-500 hover:text-white py-1 px-2 flex gap-2 cursor-pointer items-center">
-                    <LogOut size={18} /> Logout
-                  </li>
-                </ul>
-              </PopoverContent>
-            </Popover>
+                  <ul className="mt-4 divide-y divide-gray-200">
+                    <li className="hover:bg-green-500 hover:text-white py-1 px-2">
+                      <Link href="/ideas" className="flex gap-2 items-center">
+                        <Palette size={18} /> All Ideas
+                      </Link>
+                    </li>
+                    <li className="hover:bg-green-500 hover:text-white py-1 px-2">
+                      <Link
+                        href={`/${user?.role}/dashboard`}
+                        className="flex gap-2 items-center">
+                        <LayoutDashboard size={18} /> Dashboard
+                      </Link>
+                    </li>
+                    <li className="hover:bg-green-500 hover:text-white py-1 px-2">
+                      <Link href="/about" className="flex gap-2 items-center">
+                        <Info size={18} /> About
+                      </Link>
+                    </li>
+                    <li className="hover:bg-green-500 hover:text-white py-1 px-2">
+                      <Link href="/blogs" className="flex gap-2 items-center">
+                        <PencilLine size={18} /> Blogs
+                      </Link>
+                    </li>
+                    <li
+                      onClick={handleLogout}
+                      className="hover:bg-green-500 hover:text-white py-1 px-2 flex gap-2 cursor-pointer items-center">
+                      <LogOut size={18} /> Logout
+                    </li>
+                  </ul>
+                </PopoverContent>
+              </Popover>
+            </div>
           ) : (
             <Link
               href={"/login"}
-              className="flex items-center gap-2 text-white hover:text-green-500">
+              className="flex items-center justify-center h-14 w-24 gap-2 text-white hover:text-green-500">
               <FaUser />
               <span className="text-xs md:text-sm">Account</span>
             </Link>
@@ -297,21 +301,19 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
       <Separator />
 
       {/* Bottom nav */}
-      <div className="flex flex-row items-center justify-between px-2 md:px-4 py-2 text-xs md:text-sm text-gray-700 container mx-auto">
-        <div className="flex items-center gap-3 md:gap-6 justify-between md:w-auto mb-2 md:mb-0">
-          <DropdownMenu>
-            <DropdownMenuTrigger className="px-2  border-r-2 border-green-500 text-white relative cursor-pointer text-xs md:text-sm">
-              <div className="flex items-center gap-2">
-                <FaList />
-                <span>Browse Categories</span>
-                <span>
-                  <ChevronDown />
-                </span>
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-[#eafcfb]">
+      <div className="flex flex-row items-center justify-between px-2 md:px-4 py-2 text-xs md:text-sm container mx-auto">
+        <div className="relative">
+          <button
+            onClick={() => setCategory((c) => (c === "open" ? "" : "open"))}
+            className="px-2 border-r-2 border-green-500 text-white relative cursor-pointer text-xs md:text-sm flex items-center gap-2 w-48">
+            <FaList />
+            <span>Browse Categories</span>
+            <ChevronDown />
+          </button>
+          {category === "open" && (
+            <div className="absolute left-0 mt-2 bg-[#eafcfb] shadow-lg rounded">
               {["All", "Energy", "Waste", "Transportation"].map((item) => (
-                <DropdownMenuItem
+                <div
                   key={item}
                   onClick={() => {
                     setCategory(item);
@@ -323,12 +325,12 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
                           )}`
                     );
                   }}
-                  className="cursor-pointer">
+                  className="cursor-pointer px-4 py-2 hover:bg-amber-100 m-2 rounded-md">
                   {item}
-                </DropdownMenuItem>
+                </div>
               ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+            </div>
+          )}
         </div>
         <div className="w-full hidden md:flex items-center justify-center lg:pl-36">
           <ul className="flex items-center space-x-4 md:space-x-6 font-medium text-white text-base md:text-lg">

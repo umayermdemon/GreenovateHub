@@ -107,7 +107,9 @@ const IdeaCard = ({ data, userId }: IIdeaCard) => {
         href={
           user?.role === "member"
             ? `/member/dashboard/my-ideas/details/${data.id}`
-            : `/admin/dashboard/all-ideas/details/${data.id}`
+            : user?.role === "admin"
+            ? `/admin/dashboard/all-ideas/details/${data.id}`
+            : `/ideas/${data.id}`
         }>
         <div className="relative w-full h-[220px] border-b-2 border-green-200">
           <Image
@@ -136,7 +138,9 @@ const IdeaCard = ({ data, userId }: IIdeaCard) => {
                 href={
                   user?.role === "member"
                     ? `/member/dashboard/my-ideas/details/${data.id}`
-                    : `/admin/dashboard/all-ideas/details/${data.id}`
+                    : user?.role === "admin"
+                    ? `/admin/dashboard/all-ideas/details/${data.id}`
+                    : `/ideas/${data.id}`
                 }
                 passHref>
                 <li className="cursor-pointer hover:bg-green-600 flex gap-1 hover:text-white px-1 text-green-600 pb-0.5">

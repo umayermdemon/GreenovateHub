@@ -15,7 +15,7 @@ import Link from "next/link";
 import Swal from "sweetalert2";
 import { deleteMyBlog } from "@/services/blog";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { createVote, undoVote } from "@/services/vote";
 import { PaymentModal } from "./PaymentModal";
 import { useEffect, useState } from "react";
@@ -49,40 +49,45 @@ const getStatusColor = (status: string) => {
 const IdeaDetailsCard = ({
   idea,
   user,
-  refresh,
 }: {
   idea: TIdea;
-  user: TAuthor;
-  refresh: () => void;
+  user: TAuthor | null;
 }) => {
   const [currentOrder, setCurrentOrder] = useState<TOrder | null>(null);
   const [comments, setComments] = useState<TComment[]>([]);
   const [commentText, setCommentText] = useState("");
+  const router = useRouter();
+  const pathname = usePathname();
 
   // Dummy: Add comment
   const handleAddComment = () => {
     if (!commentText.trim()) return;
 
+    if (!user) {
+      router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
+      return;
+    }
+
     const newComment: TComment = {
-      id: user?.id,
+      id: user.id,
       blogId: idea.id,
-      author: user?.name || "Anonymous",
+      author: user.name || "Anonymous",
       content: commentText,
       createdAt: new Date().toISOString(),
     };
-
     setComments((prev) => [newComment, ...prev]);
     setCommentText("");
   };
 
-  const router = useRouter();
   const isUpvoted = idea.up_votes > 0;
   const isDownvoted = idea.down_votes > 0;
 
   const addVote = async (value: string) => {
     try {
       const res = await createVote({ blogId: idea.id, value });
-      if (res.success) refresh();
+      if (res.success) {
+        console.log(res);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -91,7 +96,9 @@ const IdeaDetailsCard = ({
   const removeVote = async () => {
     try {
       const res = await undoVote({ blogId: idea.id });
-      if (res.success) refresh();
+      if (res.success) {
+        console.log(res);
+      }
     } catch (error) {
       console.error(error);
     }

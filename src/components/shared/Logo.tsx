@@ -8,7 +8,8 @@ const Logo = () => (
       <Image src={logo} alt="logo" height={20} width={20} />
       <div>
         <span className="text-green-500">Greenovate</span>
-        <span className="text-[#1b2a5e]">Hub</span>
+        <span className="text-amber-400">Hub</span>
+        {/* <span className="text-[#1b2a5e]">Hub</span> */}
       </div>
     </div>
   </Link>

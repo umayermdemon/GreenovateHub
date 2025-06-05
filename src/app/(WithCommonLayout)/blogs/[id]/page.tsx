@@ -34,7 +34,7 @@ const BlogDetails = () => {
     return <BlogDetailsSkeleton />;
   }
 
-  return <BlogDetailsCard blog={blog} user={user} refresh={fetchData} />;
+  return <BlogDetailsCard blog={blog} user={user} />;
 };
 
 export default BlogDetails;

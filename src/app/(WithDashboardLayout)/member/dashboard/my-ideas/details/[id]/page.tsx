@@ -8,7 +8,7 @@ import IdeaDetailsSkeleton from "@/skeletons/IdeaDetailsSkeleton";
 import { TAuthor } from "@/types/blog.types";
 import { TIdea } from "@/types/idea.types";
 import { useParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const IdeaDetails = () => {
   const { id } = useParams();
@@ -17,32 +17,30 @@ const IdeaDetails = () => {
   const [loading, setLoading] = useState(true);
   const { user: currentUser } = useUser();
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const res = await getSingleIdea(id);
-      if (res?.data) {
-        setIdea(res.data);
-        const userRes = await getSingleUser(currentUser?.userId as string);
-        if (userRes?.data) {
-          setUser(userRes.data);
-          setLoading(false);
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }, [id, currentUser?.userId]);
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getSingleIdea(id);
+        if (res?.data) {
+          setIdea(res?.data);
+          const userRes = await getSingleUser(currentUser?.userId as string);
+          if (userRes?.data) {
+            setUser(userRes.data);
+            setLoading(false);
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
     fetchData();
-  }, [fetchData]);
+  }, [id, currentUser?.userId]);
 
   if (loading || !idea || !user) {
     return <IdeaDetailsSkeleton />;
   }
 
-  return <IdeaDetailsCard idea={idea} user={user} refresh={fetchData} />;
+  return <IdeaDetailsCard idea={idea} user={user} />;
 };
 
 export default IdeaDetails;

@@ -41,7 +41,7 @@ const IdeaDetails = () => {
     return <IdeaDetailsSkeleton />;
   }
 
-  return <IdeaDetailsCard idea={idea} user={user} refresh={fetchData} />;
+  return <IdeaDetailsCard idea={idea} user={user} />;
 };
 
 export default IdeaDetails;
