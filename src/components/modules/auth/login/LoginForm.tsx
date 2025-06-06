@@ -92,7 +92,7 @@ const LoginForm = () => {
             <h1 className="text-center text-green-500">
               New here?{" "}
               <Link
-                className="text-black hover:underline"
+                className="text-black hover:underline cursor-pointer"
                 href={`/register${
                   redirectPath ? `?redirectPath=${redirectPath}` : ""
                 }`}>

@@ -83,9 +83,7 @@ const RegisterForm = () => {
   return (
     <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 lg:px-8">
       <div className="mb-2">
-        <Link
-          href="/"
-          className="text-green-500 underline font-semibold hover:text-green-700 transition">
+        <Link href="/" className="text-green-500 underline ">
           Back To Home
         </Link>
       </div>
@@ -94,14 +92,14 @@ const RegisterForm = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-4 w-[480px] bg-white shadow-xl rounded-2xl border border-green-100 p-3">
           <div className="space-y-1 pt-6">
-            <h1 className="text-center text-3xl font-bold text-green-600 mb-2">
+            <h1 className="text-center text-3xl text-green-600 mb-2 font-medium">
               Register to Greenovate Hub
             </h1>
             <div className="flex justify-center gap-3 mb-4">
               <Button
                 type="button"
                 variant="outline"
-                className="border-green-500 text-green-600 hover:bg-green-50 transition font-semibold"
+                className="border-green-500 text-green-600 hover:bg-green-50 transition font-semibold cursor-pointer"
                 onClick={() => fillDemo("member")}>
                 Demo member
               </Button>
@@ -147,7 +145,7 @@ const RegisterForm = () => {
             <div className="flex justify-center">
               <Button
                 type="submit"
-                className={`${commonWidth} rounded-md mt-3 text-white bg-green-500 hover:bg-green-600 transition font-semibold shadow`}>
+                className={`${commonWidth} rounded-md mt-3 text-white bg-green-500 hover:bg-green-600 transition font-semibold shadow cursor-pointer`}>
                 {isSubmitting ? <Loader className="animate-spin" /> : "Sign Up"}
               </Button>
             </div>

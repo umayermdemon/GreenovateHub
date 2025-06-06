@@ -22,6 +22,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import Cookies from "js-cookie";
 import { jwtDecode, JwtPayload } from "jwt-decode";
+import { logoutUser } from "@/services/auth";
 
 // Extend the JwtPayload to include custom properties
 interface CustomJwtPayload extends JwtPayload {
@@ -110,9 +111,13 @@ const DashboardSidebar = () => {
       href: "/dashboard/settings",
     },
   ];
-  const handleLogout = () => {
-    Cookies.remove("accessToken");
-    window.location.href = "/login";
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (

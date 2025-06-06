@@ -1,10 +1,16 @@
 import LoginForm from "@/components/modules/auth/login/LoginForm";
 import Image from "next/image";
 import { Suspense } from "react";
-import loginImg from "../assets/sinnn.jpg";
+import loginImg from "../assets/sign.jpg";
+import Spinner from "@/components/utils/Spinner";
 const LoginPage = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="h-screen">
+          <Spinner />
+        </div>
+      }>
       <div className="h-screen flex flex-col md:flex-row-reverse bg-white">
         {/* Left - Login Form */}
         <div className="lg:w-[50%] lg:mt-0 mt-20  flex items-center justify-center  lg:px-6 py-8">
