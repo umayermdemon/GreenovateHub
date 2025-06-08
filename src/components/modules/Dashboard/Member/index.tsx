@@ -21,6 +21,7 @@ import {
   CartesianGrid,
   Legend,
 } from "recharts";
+import { TUserProfile } from "@/types";
 
 const blogsPerDay = [
   { day: "Mon", blogs: 2 },
@@ -49,7 +50,13 @@ const viewsTrend = [
   { day: "Sun", views: 100 },
 ];
 
-const ManageMemberDashboard = ({ blogs }: { blogs: TBlog[] }) => {
+const ManageMemberDashboard = ({
+  blogs,
+  user,
+}: {
+  blogs: TBlog[];
+  user: TUserProfile;
+}) => {
   const filteredBlogs = blogs
     ?.filter((blog) => {
       const createdAtDate = new Date(blog?.createdAt);
@@ -154,7 +161,7 @@ const ManageMemberDashboard = ({ blogs }: { blogs: TBlog[] }) => {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-6 text-green-700">
-        Welcome, Emon 👋
+        Welcome, <span className="text-amber-500">{user?.name} </span>👋
       </h1>
 
       {/* Stats Cards */}

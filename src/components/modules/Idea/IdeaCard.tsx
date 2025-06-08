@@ -25,7 +25,6 @@ interface IIdeaCard {
 }
 
 const IdeaCard = ({ data, userId }: IIdeaCard) => {
-  console.log(data?.images[0]);
   const [vote, setVote] = useState<TIsVoted>({} as TIsVoted);
   const { user } = useUser();
 
@@ -179,9 +178,7 @@ const IdeaCard = ({ data, userId }: IIdeaCard) => {
         </p>
 
         <div className="flex flex-row justify-between items-center gap-2 pt-2">
-          <p className="text-xs text-green-600 italic">
-            {timeAgo.split(" ").slice(1, 3).join(" ")} ago
-          </p>
+          <p className="text-xs text-green-600 italic">{timeAgo}</p>
           <div className="flex gap-4">
             <div className="flex gap-2 bg-green-600 px-3 py-1 rounded-full">
               <div className="flex items-center gap-1 border-r border-white pr-2 text-white text-lg cursor-pointer">

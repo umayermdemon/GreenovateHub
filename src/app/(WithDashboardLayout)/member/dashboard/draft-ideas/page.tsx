@@ -10,7 +10,6 @@ const DraftIdeas = () => {
   const [ideas, setIdeas] = useState<TIdea[]>([]);
   const fetchIdeas = async () => {
     const res = await getAllIdeas({ status: "draft" });
-    console.log(res);
     if (res?.data) {
       setIdeas(res.data);
     }

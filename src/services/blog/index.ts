@@ -52,7 +52,6 @@ export const getAllBlogs = async (options?: BlogFilterType) => {
     }
 
     const query = params.toString() ? `?${params.toString()}` : "";
-    console.log(query);
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/blogs/get-all-blogs${query}`,
       {

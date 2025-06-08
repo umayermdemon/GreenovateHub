@@ -1,28 +1,31 @@
 "use client";
-import { TBlog } from "@/types/blog.types";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { SlOptions } from "react-icons/sl";
+import Link from "next/link";
+import Swal from "sweetalert2";
 import { formatDistanceToNow } from "date-fns";
+import { toast } from "sonner";
+import { SlOptions } from "react-icons/sl";
+import { AiFillDislike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
+import { BiSolidLike } from "react-icons/bi";
+import { Edit, Eye, Trash, BookOpen, MessageSquareMore } from "lucide-react";
+
+import { TBlog } from "@/types/blog.types";
+import { useUser } from "@/context/UserContext";
+import { createVote, isUserVoted, undoVote } from "@/services/vote";
+import { deleteMyBlog } from "@/services/blog";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Edit, Eye, Trash, BookOpen } from "lucide-react";
-import { deleteMyBlog } from "@/services/blog";
-import Swal from "sweetalert2";
-import Link from "next/link";
-import { useUser } from "@/context/UserContext";
-import { createVote, isUserVoted, undoVote } from "@/services/vote";
-import { AiFillDislike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
-import { BiSolidLike } from "react-icons/bi";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
 
 interface IBlogCard {
   data: TBlog;
   userId: string | undefined;
 }
+
 export interface TIsVoted {
   value?: "up" | "down";
   isVoted: boolean;
@@ -30,17 +33,13 @@ export interface TIsVoted {
 
 const BlogCard = ({ data, userId }: IBlogCard) => {
   const [vote, setVote] = useState<TIsVoted>({} as TIsVoted);
+  const { user } = useUser();
 
   useEffect(() => {
     const fetchIsVoted = async () => {
-      const blogData = {
-        blogId: data?.id,
-      };
       try {
-        const res = await isUserVoted(blogData);
-        if (res) {
-          setVote(res.data);
-        }
+        const res = await isUserVoted({ blogId: data?.id });
+        if (res) setVote(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -48,17 +47,15 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
     fetchIsVoted();
   }, [data?.id, userId]);
 
-  const timeAgo = formatDistanceToNow(new Date(data.createdAt), {
+  const timeAgo = formatDistanceToNow(new Date(data?.createdAt), {
     addSuffix: true,
   });
-
-  const { user } = useUser();
 
   const addVote = async (value: string) => {
     try {
       const res = await createVote({ ideaId: data?.id, value });
       if (res.success) {
-        setVote({ isVoted: true });
+        setVote({ isVoted: true, value: value as "up" | "down" });
         if (value === "up") {
           data.up_votes = (data.up_votes || 0) + 1;
         } else {
@@ -75,8 +72,11 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
       const res = await undoVote({ ideaId: data?.id });
       if (res.success) {
         setVote({ isVoted: false });
-        data.up_votes = (data.up_votes || 0) - (vote.isVoted ? 1 : 0);
-        data.down_votes = (data.down_votes || 0) - (vote.isVoted ? 1 : 0);
+        if (vote.value === "up") {
+          data.up_votes = (data.up_votes || 0) - 1;
+        } else if (vote.value === "down") {
+          data.down_votes = (data.down_votes || 0) - 1;
+        }
       }
     } catch (error) {
       console.log(error);
@@ -107,21 +107,21 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
     });
   };
 
+  const blogDetailsLink =
+    user?.role === "member"
+      ? `/member/dashboard/my-blogs/details/${data?.id}`
+      : user?.role === "admin"
+      ? `/admin/dashboard/all-blogs/details/${data?.id}`
+      : `/blogs/${data?.id}`;
+
   return (
-    <div className="w-full sm:w-[95%] mx-auto mb-8 rounded-2xl border border-amber-300 bg-amber-50 shadow-[0_4px_24px_0_rgba(255,191,71,0.10)] overflow-hidden relative transition-all duration-300 hover:shadow-amber-400/50 hover:-translate-y-1">
+    <div className="w-full sm:w-[95%] mx-auto mb-8 rounded-2xl border border-amber-300 bg-amber-50 shadow-[0_4px_24px_0_rgba(255,191,71,0.10)] overflow-hidden relative transition-all duration-300 hover:shadow-amber-400/50 hover:-translate-y-1 flex flex-col">
       {/* Blog badge */}
       <div className="absolute top-4 left-4 flex items-center gap-1 px-3 py-1 rounded-full shadow text-xs font-bold z-10 backdrop-blur bg-amber-500/90 text-white border border-amber-300">
         <BookOpen size={16} /> BLOG
       </div>
 
-      <Link
-        href={
-          user?.role === "member"
-            ? `/member/dashboard/my-blogs/details/${data?.id}`
-            : user?.role === "admin"
-            ? `/admin/dashboard/all-blogs/details/${data?.id}`
-            : `/blogs/${data?.id}`
-        }>
+      <Link href={blogDetailsLink}>
         <div className="relative w-full h-[200px]">
           <Image
             src={
@@ -145,14 +145,7 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
           </PopoverTrigger>
           <PopoverContent className="w-[140px] border border-amber-300 bg-white px-1 py-1 rounded-lg shadow">
             <ul className="divide-y divide-amber-100">
-              <Link
-                href={
-                  user?.role === "member"
-                    ? `/member/dashboard/my-blogs/details/${data?.id}`
-                    : user?.role === "admin"
-                    ? `/admin/dashboard/all-blogs/details/${data?.id}`
-                    : `/blogs/${data?.id}`
-                }>
+              <Link href={blogDetailsLink}>
                 <li className="cursor-pointer hover:bg-amber-100 flex gap-1 hover:text-amber-700 px-1 text-amber-600 pb-0.5 rounded transition-colors">
                   <Eye className="relative top-1" size={17} />
                   View
@@ -179,7 +172,7 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
         </Popover>
       </div>
 
-      <div className="px-5 pb-5 pt-3">
+      <div className="px-5 pb-5 pt-3 flex flex-col flex-grow">
         <h1 className="text-xl font-bold text-amber-700 mb-1 truncate">
           {data.title.split(" ").slice(0, 4).join(" ")}
         </h1>
@@ -187,12 +180,10 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
           {data.description.split(" ").slice(0, 12).join(" ")}...
         </p>
 
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-2 pt-3">
-          <p className="text-xs text-amber-600 italic">
-            {timeAgo.split(" ").slice(1, 3).join(" ")} ago
-          </p>
+        <div className="flex flex-row justify-between items-center gap-2 pt-2 mt-auto">
+          <p className="text-xs text-amber-600 italic">{timeAgo}</p>
           <div className="flex gap-4">
-            <div className="flex gap-2 bg-amber-500 px-3 py-1 rounded-full shadow border border-amber-200">
+            <div className="flex gap-2 bg-amber-600 px-3 py-1 rounded-full">
               <div className="flex items-center gap-1 border-r border-white pr-2 text-white text-lg cursor-pointer">
                 {vote?.isVoted && vote?.value === "up" ? (
                   <BiSolidLike onClick={removeVote} />
@@ -209,6 +200,9 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
                 )}
               </div>
             </div>
+            <Link href={blogDetailsLink}>
+              <MessageSquareMore size={22} className="text-amber-600" />
+            </Link>
           </div>
         </div>
       </div>

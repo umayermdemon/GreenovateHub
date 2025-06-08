@@ -41,7 +41,6 @@ const Drafts = () => {
 const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
   const { user } = useUser();
   const pathname = usePathname();
-  const [isLoading, setIsLoading] = useState(true);
   const [category, setCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -54,13 +53,6 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
     if (stored) setSearchHistory(JSON.parse(stored));
   }, []);
 
-  useEffect(() => {
-    if (user) {
-      setIsLoading(false);
-    }
-  }, [user]);
-  console.log({ isLoading });
-
   const handleSearch = () => {
     if (!searchTerm.trim()) return;
     let updatedHistory = [
@@ -71,7 +63,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
     setSearchHistory(updatedHistory);
     localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
     router.push(`/ideas?search=${encodeURIComponent(searchTerm)}`);
-    console.log("Searching for:", searchTerm, "in category:", category);
+    // console.log("Searching for:", searchTerm, "in category:", category);
   };
 
   const handleLogout = async () => {
