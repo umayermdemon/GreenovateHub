@@ -5,10 +5,18 @@ import { TBlogFilterRequest } from "./blog.interface";
 import { IPaginationOptions } from "../../interface/pagination";
 import { blogSearchableFields } from "./blog.constant";
 import calculatePagination from "../../utils/calculatePagination";
+import AppError from "../../errors/AppError";
+import status from "http-status";
 
 const writeBlog = async (payload: Blog, user: IAuthUser) => {
   if (!user.userId) {
-    throw new Error("This user not found in the DB");
+    throw new AppError(status.NOT_FOUND, "User not found!");
+  }
+  if (user?.email === "member@demo.com") {
+    throw new AppError(
+      status.FORBIDDEN,
+      "Demo user cannot create blog. Please register first"
+    );
   }
   const result = await prisma.blog.create({
     data: {

@@ -1,6 +1,6 @@
-# 🌿 Green Circle — Backend
+# 🌿 Greenovate Hub — Backend
 
-This is the **backend** of the Green Circle sustainability platform. Built using **Node.js**, **Express.js**, and **Prisma**, it provides secure APIs for idea submission, voting, commenting, authentication, and payment integration.
+This is the **backend** of the Greenovate Hub sustainability platform. Built using **Node.js**, **Express.js**, and **Prisma**, it provides secure APIs for idea submission, voting, commenting, authentication, and payment integration.
 
 ## ⚙️ Tech Stack
 
