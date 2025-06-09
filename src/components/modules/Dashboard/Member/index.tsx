@@ -21,7 +21,7 @@ import {
   CartesianGrid,
   Legend,
 } from "recharts";
-import { TUserProfile } from "@/types";
+import { TIdea, TUserProfile } from "@/types";
 
 const getBlogsPerMonth = (blogs: TBlog[]) => {
   const months: { month: string; date: Date }[] = [];
@@ -51,12 +51,32 @@ const getBlogsPerMonth = (blogs: TBlog[]) => {
   }));
 };
 
-const commentsPerBlog = [
-  { name: "Blog A", value: 10 },
-  { name: "Blog B", value: 14 },
-  { name: "Blog C", value: 10 },
-  { name: "Blog D", value: 10 },
-];
+const getIdeasPerMonth = (ideas: TIdea[]) => {
+  const months: { month: string; date: Date }[] = [];
+  const now = new Date();
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    months.push({
+      month: d.toLocaleString("default", { month: "short", year: "numeric" }),
+      date: d,
+    });
+  }
+  // Count ideas per month
+  const counts: Record<string, number> = {};
+  ideas.forEach((idea) => {
+    const dateObj = new Date(idea.createdAt);
+    const month = dateObj.toLocaleString("default", {
+      month: "short",
+      year: "numeric",
+    });
+    counts[month] = (counts[month] || 0) + 1;
+  });
+  // Merge counts with months, fill missing with 0
+  return months.map(({ month }) => ({
+    name: month,
+    value: counts[month] || 0,
+  }));
+};
 
 const viewsTrend = [
   { day: "Mon", views: 80 },
@@ -71,13 +91,14 @@ const viewsTrend = [
 const ManageMemberDashboard = ({
   blogs,
   user,
-  myBlogs,
+  ideas,
 }: {
   blogs: TBlog[];
   user: TUserProfile;
-  myBlogs: TBlog[];
+  ideas: TIdea[];
 }) => {
-  const blogsPerMonth = getBlogsPerMonth(myBlogs);
+  const blogsPerMonth = getBlogsPerMonth(blogs);
+  const ideasPerMonth = getIdeasPerMonth(ideas);
   const filteredBlogs = blogs
     ?.filter((blog) => {
       const createdAtDate = new Date(blog?.createdAt);
@@ -189,48 +210,66 @@ const ManageMemberDashboard = ({
       <div className="grid gap-4 md:grid-cols-4 mb-6">
         <StatCard
           title="Total Blogs"
-          value={myBlogs?.length}
+          value={blogs?.length || 0}
           icon={<FaBlog />}
         />
-        <StatCard title="Total Ideas" value={5} icon={<FaLightbulb />} />
+        <StatCard
+          title="Total Ideas"
+          value={ideas?.length || 0}
+          icon={<FaLightbulb />}
+        />
         <StatCard title="Comments" value={34} icon={<FaComment />} />
         <StatCard title="Views" value={560} icon={<FaEye />} />
       </div>
 
       <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-        {/* Blogs per Day Bar Chart */}
+        {/* Blogs per Month Bar Chart */}
         <div className="aspect-video rounded-xl bg-gray-100 flex items-center justify-center p-2">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={blogsPerMonth}>
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="blogs" fill="#34d399" />
-            </BarChart>
+            {blogsPerMonth.every((item) => item.blogs === 0) ? (
+              <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
+                <FaBlog className="text-4xl mb-2" />
+                <span>No blogs found for the last 6 months</span>
+              </div>
+            ) : (
+              <BarChart data={blogsPerMonth}>
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="blogs" fill="#34d399" />
+              </BarChart>
+            )}
           </ResponsiveContainer>
         </div>
-        {/* Comments per Blog Pie Chart */}
+        {/* Ideas per Month Pie Chart */}
         <div className="aspect-video rounded-xl bg-gray-100 flex items-center justify-center p-2">
           <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={commentsPerBlog}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                outerRadius={50}
-                fill="#10b981"
-                label>
-                {commentsPerBlog.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={["#10b981", "#34d399", "#6ee7b7"][index % 3]}
-                  />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
+            {ideasPerMonth.every((item) => item.value === 0) ? (
+              <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
+                <FaLightbulb className="text-4xl mb-2" />
+                <span>No ideas found for the last 6 months</span>
+              </div>
+            ) : (
+              <PieChart>
+                <Pie
+                  data={ideasPerMonth}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={90} // Increased width
+                  fill="#10b981"
+                  label>
+                  {ideasPerMonth.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={["#10b981", "#34d399", "#6ee7b7"][index % 3]}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            )}
           </ResponsiveContainer>
         </div>
         {/* Views Trend Line Chart */}
