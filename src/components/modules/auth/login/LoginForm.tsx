@@ -9,6 +9,13 @@ import { toast } from "sonner";
 import { loginUser } from "@/services/auth";
 import { useSearchParams } from "next/navigation";
 
+const demoCredentials = {
+  member: {
+    email: "member@demo.com",
+    password: "member1234",
+  },
+};
+
 const LoginForm = () => {
   const form = useForm({
     defaultValues: {
@@ -43,6 +50,10 @@ const LoginForm = () => {
       console.log(error);
     }
   };
+  const fillDemo = (type: "member") => {
+    form.setValue("email", demoCredentials[type].email);
+    form.setValue("password", demoCredentials[type].password);
+  };
   const commonWidth = "lg:w-[400px] w-[340px]";
   return (
     <div className="lg:max-w-3xl lg:w-full lg:mx-auto lg:px-8 px-3">
@@ -61,6 +72,15 @@ const LoginForm = () => {
             <h1 className="text-center text-2xl text-green-500">
               Enter You Credentials
             </h1>
+            <div className="flex justify-center gap-3 mb-4">
+              <Button
+                type="button"
+                variant="outline"
+                className="border-green-500 text-green-600 hover:bg-green-50 transition font-semibold cursor-pointer"
+                onClick={() => fillDemo("member")}>
+                Demo member
+              </Button>
+            </div>
             <div className="w-full flex justify-center p-4">
               <GFormInput
                 name="email"

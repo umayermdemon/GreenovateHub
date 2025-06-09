@@ -63,7 +63,6 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
     setSearchHistory(updatedHistory);
     localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
     router.push(`/ideas?search=${encodeURIComponent(searchTerm)}`);
-    // console.log("Searching for:", searchTerm, "in category:", category);
   };
 
   const handleLogout = async () => {
@@ -277,7 +276,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
           ) : (
             <Link
               href={"/login"}
-              className="flex items-center justify-center h-14 w-24 gap-2 text-white hover:text-green-500">
+              className="flex items-center justify-center h-14 w-24 gap-2 text-white hover:text-amber-500">
               <FaUser />
               <span className="text-xs md:text-sm">Account</span>
             </Link>
@@ -349,7 +348,9 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
                 <Link
                   href={item.path}
                   className={`${
-                    pathname === item.path ? "text-amber-500 font-semibold" : ""
+                    pathname === item.path
+                      ? "text-amber-500 font-semibold"
+                      : "hover:text-amber-500"
                   } ${
                     pathname === "ideas" && item.path === "/ideas"
                       ? "text-green-500"

@@ -15,18 +15,6 @@ import { FcGoogle } from "react-icons/fc";
 import { toast } from "sonner";
 import { registerUser } from "@/services/auth";
 
-const randomString = (length = 6) =>
-  Math.random()
-    .toString(36)
-    .substring(2, 2 + length);
-const demoCredentials = {
-  member: {
-    name: `Demo Member ${randomString(4)}`,
-    email: `member${randomString(4)}@demo.com`,
-    password: "member1234",
-  },
-};
-
 const RegisterForm = () => {
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -73,12 +61,6 @@ const RegisterForm = () => {
     }
   };
 
-  const fillDemo = (type: "member") => {
-    form.setValue("name", demoCredentials[type].name);
-    form.setValue("email", demoCredentials[type].email);
-    form.setValue("password", demoCredentials[type].password);
-  };
-
   const commonWidth = "w-[400px]";
   return (
     <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 lg:px-8">
@@ -95,15 +77,6 @@ const RegisterForm = () => {
             <h1 className="text-center text-3xl text-green-600 mb-2 font-medium">
               Register to Greenovate Hub
             </h1>
-            <div className="flex justify-center gap-3 mb-4">
-              <Button
-                type="button"
-                variant="outline"
-                className="border-green-500 text-green-600 hover:bg-green-50 transition font-semibold cursor-pointer"
-                onClick={() => fillDemo("member")}>
-                Demo member
-              </Button>
-            </div>
             <div className="w-full flex justify-center">
               <GFormInput
                 name="name"

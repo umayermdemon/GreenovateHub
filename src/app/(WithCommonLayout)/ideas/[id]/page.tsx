@@ -32,7 +32,11 @@ const IdeaDetails = () => {
     return <IdeaDetailsSkeleton />;
   }
 
-  return <IdeaDetailsCard idea={idea} user={user} />;
+  return (
+    <div className="mt-12 md:mt-0">
+      <IdeaDetailsCard idea={idea} user={user} />
+    </div>
+  );
 };
 
 export default IdeaDetails;

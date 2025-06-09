@@ -34,7 +34,7 @@ const features = [
 
 const AboutPage = () => {
   return (
-    <div className="">
+    <div>
       <div className="h-60 bg-gradient-to-b from-[#eafcfb] to-[#ccf3f8] text-center flex items-center justify-center">
         <h1 className="text-3xl font-bold text-[#06002C]">About Page</h1>
       </div>

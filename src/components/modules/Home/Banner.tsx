@@ -55,7 +55,7 @@ const Banner = () => {
           {banners.map((banner) => (
             <CarouselItem key={banner.id}>
               <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 px-6 md:px-16">
-                <div className="text-center md:text-left">
+                <div className="text-center md:text-left mt-6 md:mt-0">
                   <h1 className="text-4xl md:text-5xl font-bold text-green-900">
                     {banner.title}{" "}
                     <span className="text-green-600">{banner.highlight}</span>{" "}

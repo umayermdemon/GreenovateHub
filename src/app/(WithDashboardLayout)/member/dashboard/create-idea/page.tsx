@@ -100,9 +100,11 @@ const CreateIdea = () => {
     };
     try {
       const res = await createIdea(ideaData);
-      if (res.success) {
+      if (res?.success) {
         form.reset();
-        toast.success(res.message);
+        toast.success(res?.message);
+      } else {
+        toast.error(res?.message);
       }
     } catch (error) {
       console.log(error);

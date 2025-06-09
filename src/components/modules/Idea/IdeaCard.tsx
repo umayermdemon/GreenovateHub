@@ -95,6 +95,13 @@ const IdeaCard = ({ data, userId }: IIdeaCard) => {
     });
   };
 
+  const ideaDetailsLink =
+    user?.role === "member"
+      ? `/member/dashboard/my-ideas/details/${data.id}`
+      : user?.role === "admin"
+      ? `/admin/dashboard/all-ideas/details/${data.id}`
+      : `/ideas/${data.id}`;
+
   return (
     <div className="w-full sm:w-[95%] mx-auto mb-8 shadow-lg hover:shadow-green-400/60  duration-300 rounded-xl border-2 border-green-600 bg-green-50 overflow-hidden relative hover:-translate-y-1 transition-all">
       {/* Idea badge */}
@@ -102,14 +109,7 @@ const IdeaCard = ({ data, userId }: IIdeaCard) => {
         <Lightbulb size={16} /> IDEA
       </div>
 
-      <Link
-        href={
-          user?.role === "member"
-            ? `/member/dashboard/my-ideas/details/${data.id}`
-            : user?.role === "admin"
-            ? `/admin/dashboard/all-ideas/details/${data.id}`
-            : `/ideas/${data.id}`
-        }>
+      <Link href={ideaDetailsLink}>
         <div className="relative w-full h-[220px] border-b-2 border-green-200">
           <Image
             className="object-cover"
@@ -133,15 +133,7 @@ const IdeaCard = ({ data, userId }: IIdeaCard) => {
           </PopoverTrigger>
           <PopoverContent className="w-[130px] border border-green-600 bg-white px-1 py-1">
             <ul className="divide-y divide-gray-200">
-              <Link
-                href={
-                  user?.role === "member"
-                    ? `/member/dashboard/my-ideas/details/${data.id}`
-                    : user?.role === "admin"
-                    ? `/admin/dashboard/all-ideas/details/${data.id}`
-                    : `/ideas/${data.id}`
-                }
-                passHref>
+              <Link href={ideaDetailsLink} passHref>
                 <li className="cursor-pointer hover:bg-green-600 flex gap-1 hover:text-white px-1 text-green-600 pb-0.5">
                   <Eye size={17} className="relative top-1" />
                   View
@@ -197,12 +189,7 @@ const IdeaCard = ({ data, userId }: IIdeaCard) => {
                 )}
               </div>
             </div>
-            <Link
-              href={
-                user?.role === "member"
-                  ? `/member/dashboard/my-ideas/details/${data.id}`
-                  : `/admin/dashboard/all-ideas/details/${data.id}`
-              }>
+            <Link href={ideaDetailsLink}>
               <MessageSquareMore size={22} className="text-green-600" />
             </Link>
           </div>

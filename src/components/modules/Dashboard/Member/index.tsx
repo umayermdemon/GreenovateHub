@@ -1,6 +1,6 @@
 "use client";
 
-import { FaBlog, FaComment, FaEye, FaUserCircle } from "react-icons/fa";
+import { FaBlog, FaComment, FaEye, FaLightbulb } from "react-icons/fa";
 import StatCard from "@/components/modules/Dashboard/Member/StatCard";
 import { GTable } from "@/components/shared/Form/GTable";
 import { TBlog } from "@/types/blog.types";
@@ -23,15 +23,33 @@ import {
 } from "recharts";
 import { TUserProfile } from "@/types";
 
-const blogsPerDay = [
-  { day: "Mon", blogs: 2 },
-  { day: "Tue", blogs: 1 },
-  { day: "Wed", blogs: 3 },
-  { day: "Thu", blogs: 2 },
-  { day: "Fri", blogs: 1 },
-  { day: "Sat", blogs: 2 },
-  { day: "Sun", blogs: 1 },
-];
+const getBlogsPerMonth = (blogs: TBlog[]) => {
+  const months: { month: string; date: Date }[] = [];
+  const now = new Date();
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    months.push({
+      month: d.toLocaleString("default", { month: "short", year: "numeric" }),
+      date: d,
+    });
+  }
+  // Count blogs per month
+  const counts: Record<string, number> = {};
+  blogs.forEach((blog) => {
+    const dateObj = new Date(blog.createdAt);
+    const month = dateObj.toLocaleString("default", {
+      month: "short",
+      year: "numeric",
+    });
+    counts[month] = (counts[month] || 0) + 1;
+  });
+
+  // Merge counts with months, fill missing with 0
+  return months.map(({ month }) => ({
+    month,
+    blogs: counts[month] || 0,
+  }));
+};
 
 const commentsPerBlog = [
   { name: "Blog A", value: 10 },
@@ -53,10 +71,13 @@ const viewsTrend = [
 const ManageMemberDashboard = ({
   blogs,
   user,
+  myBlogs,
 }: {
   blogs: TBlog[];
   user: TUserProfile;
+  myBlogs: TBlog[];
 }) => {
+  const blogsPerMonth = getBlogsPerMonth(myBlogs);
   const filteredBlogs = blogs
     ?.filter((blog) => {
       const createdAtDate = new Date(blog?.createdAt);
@@ -166,18 +187,22 @@ const ManageMemberDashboard = ({
 
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-4 mb-6">
-        <StatCard title="Total Blogs" value={12} icon={<FaBlog />} />
+        <StatCard
+          title="Total Blogs"
+          value={myBlogs?.length}
+          icon={<FaBlog />}
+        />
+        <StatCard title="Total Ideas" value={5} icon={<FaLightbulb />} />
         <StatCard title="Comments" value={34} icon={<FaComment />} />
         <StatCard title="Views" value={560} icon={<FaEye />} />
-        <StatCard title="Profile" value="80%" icon={<FaUserCircle />} />
       </div>
 
       <div className="grid auto-rows-min gap-4 md:grid-cols-3">
         {/* Blogs per Day Bar Chart */}
         <div className="aspect-video rounded-xl bg-gray-100 flex items-center justify-center p-2">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={blogsPerDay}>
-              <XAxis dataKey="day" />
+            <BarChart data={blogsPerMonth}>
+              <XAxis dataKey="month" />
               <YAxis />
               <Tooltip />
               <Bar dataKey="blogs" fill="#34d399" />
