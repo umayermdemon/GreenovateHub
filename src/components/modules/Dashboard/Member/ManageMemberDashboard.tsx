@@ -29,22 +29,20 @@ const getBlogsPerMonth = (blogs: TBlog[]) => {
   for (let i = 5; i >= 0; i--) {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
     months.push({
-      month: d.toLocaleString("default", { month: "short", year: "numeric" }),
+      month: `${d.toLocaleString("default", { month: "short" })}-${String(
+        d.getFullYear()
+      ).slice(-2)}`,
       date: d,
     });
   }
-  // Count blogs per month
   const counts: Record<string, number> = {};
   blogs.forEach((blog) => {
     const dateObj = new Date(blog.createdAt);
-    const month = dateObj.toLocaleString("default", {
+    const month = `${dateObj.toLocaleString("default", {
       month: "short",
-      year: "numeric",
-    });
+    })}-${String(dateObj.getFullYear()).slice(-2)}`;
     counts[month] = (counts[month] || 0) + 1;
   });
-
-  // Merge counts with months, fill missing with 0
   return months.map(({ month }) => ({
     month,
     blogs: counts[month] || 0,
@@ -57,21 +55,20 @@ const getIdeasPerMonth = (ideas: TIdea[]) => {
   for (let i = 5; i >= 0; i--) {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
     months.push({
-      month: d.toLocaleString("default", { month: "short", year: "numeric" }),
+      month: `${d.toLocaleString("default", { month: "short" })}-${String(
+        d.getFullYear()
+      ).slice(-2)}`,
       date: d,
     });
   }
-  // Count ideas per month
   const counts: Record<string, number> = {};
   ideas.forEach((idea) => {
     const dateObj = new Date(idea.createdAt);
-    const month = dateObj.toLocaleString("default", {
+    const month = `${dateObj.toLocaleString("default", {
       month: "short",
-      year: "numeric",
-    });
+    })}-${String(dateObj.getFullYear()).slice(-2)}`;
     counts[month] = (counts[month] || 0) + 1;
   });
-  // Merge counts with months, fill missing with 0
   return months.map(({ month }) => ({
     name: month,
     value: counts[month] || 0,
@@ -129,7 +126,7 @@ const ManageMemberDashboard = ({
             alt={row?.original?.title}
             width={50}
             height={50}
-            className=" rounded-full w-24 h-24 object-cover"
+            className="rounded-full w-24 h-24 object-cover"
           />
           <span className="truncate">{row?.original?.title}</span>
         </div>
@@ -200,14 +197,15 @@ const ManageMemberDashboard = ({
         ]
       : []),
   ];
+
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-6 text-green-700">
+    <div className="container mx-auto px-2 sm:px-4 py-4">
+      <h1 className="text-2xl font-bold mb-6 text-green-700 text-center">
         Welcome, <span className="text-amber-500">{user?.name} </span>👋
       </h1>
 
       {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-4 mb-6">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
         <StatCard
           title="Total Blogs"
           value={blogs?.length || 0}
@@ -222,28 +220,39 @@ const ManageMemberDashboard = ({
         <StatCard title="Views" value={560} icon={<FaEye />} />
       </div>
 
-      <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+      {/* Charts Section */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-6">
         {/* Blogs per Month Bar Chart */}
-        <div className="aspect-video rounded-xl bg-gray-100 flex items-center justify-center p-2">
-          <ResponsiveContainer width="100%" height="100%">
-            {blogsPerMonth.every((item) => item.blogs === 0) ? (
-              <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
-                <FaBlog className="text-4xl mb-2" />
-                <span>No blogs found for the last 6 months</span>
-              </div>
-            ) : (
-              <BarChart data={blogsPerMonth}>
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="blogs" fill="#34d399" />
-              </BarChart>
-            )}
-          </ResponsiveContainer>
+        <div className="w-full min-h-[250px] rounded-xl bg-gray-100 flex flex-col items-center justify-center p-2 overflow-x-auto">
+          <div className="min-w-[360px] md:min-w-[400px] lg:min-w-[460px]">
+            <ResponsiveContainer width="100%" height={220}>
+              {blogsPerMonth.every((item) => item.blogs === 0) ? (
+                <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
+                  <FaBlog className="text-4xl mb-2" />
+                  <span>No blogs found for the last 6 months</span>
+                </div>
+              ) : (
+                <BarChart data={blogsPerMonth}>
+                  <XAxis
+                    dataKey="month"
+                    angle={-20}
+                    textAnchor="end"
+                    interval={0}
+                  />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="blogs" fill="#34d399" />
+                </BarChart>
+              )}
+            </ResponsiveContainer>
+          </div>
+          <h1 className="font-semibold text-green-500 text-center mt-2 text-base">
+            Total Approved Blogs By Month
+          </h1>
         </div>
         {/* Ideas per Month Pie Chart */}
-        <div className="aspect-video rounded-xl bg-gray-100 flex items-center justify-center p-2">
-          <ResponsiveContainer width="100%" height="100%">
+        <div className="w-full min-h-[250px] rounded-xl bg-gray-100 flex flex-col items-center justify-center p-2 overflow-x-auto">
+          <ResponsiveContainer width="100%" height={220}>
             {ideasPerMonth.every((item) => item.value === 0) ? (
               <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
                 <FaLightbulb className="text-4xl mb-2" />
@@ -257,7 +266,7 @@ const ManageMemberDashboard = ({
                   nameKey="name"
                   cx="50%"
                   cy="50%"
-                  outerRadius={90} // Increased width
+                  outerRadius={90}
                   fill="#10b981"
                   label>
                   {ideasPerMonth.map((entry, index) => (
@@ -271,10 +280,13 @@ const ManageMemberDashboard = ({
               </PieChart>
             )}
           </ResponsiveContainer>
+          <h1 className="font-semibold text-green-500 text-center mt-2 text-base">
+            Total Approved Ideas By Month
+          </h1>
         </div>
         {/* Views Trend Line Chart */}
-        <div className="aspect-video rounded-xl bg-gray-100 flex items-center justify-center p-2">
-          <ResponsiveContainer width="100%" height="100%">
+        <div className="w-full min-h-[250px] rounded-xl bg-gray-100 flex flex-col items-center justify-center p-2 overflow-x-auto">
+          <ResponsiveContainer width="100%" height={220}>
             <LineChart data={viewsTrend}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="day" />
@@ -284,11 +296,14 @@ const ManageMemberDashboard = ({
               <Line type="monotone" dataKey="views" stroke="#059669" />
             </LineChart>
           </ResponsiveContainer>
+          <h1 className="font-semibold text-green-500 text-center mt-2 text-base">
+            View State
+          </h1>
         </div>
       </div>
 
       {/* Recent Blogs Table */}
-      <div className="mt-6 rounded-xl bg-white p-4 shadow">
+      <div className="mt-6 rounded-xl bg-white p-2 sm:p-4 shadow overflow-x-auto">
         <h2 className="text-lg font-semibold mb-4">Recent Blogs</h2>
         <GTable data={filteredBlogs} columns={columns} />
       </div>
