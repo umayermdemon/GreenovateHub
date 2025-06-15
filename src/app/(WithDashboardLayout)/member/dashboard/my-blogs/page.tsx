@@ -12,7 +12,7 @@ const MyBlogs = () => {
   const fetchBlogs = async () => {
     const res = await getMyBlogs();
     if (res?.data) {
-      setBlogs(res.data);
+      setBlogs(res?.data);
     }
   };
   useEffect(() => {

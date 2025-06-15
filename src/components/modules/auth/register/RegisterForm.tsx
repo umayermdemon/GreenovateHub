@@ -35,9 +35,10 @@ const RegisterForm = () => {
 
   const searchParams = useSearchParams();
   const redirectPath = searchParams.get("redirectPath") || "/";
-
+  console.log(imageFiles[0], "imageFiles");
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const image = await uploadImagesToCloudinary(imageFiles);
+    const image = await uploadImagesToCloudinary(imageFiles[0]);
+    console.log(image, "image");
     const { name, email, password } = data;
     const userData = {
       name,
@@ -48,7 +49,7 @@ const RegisterForm = () => {
     };
     try {
       const res = await registerUser(userData);
-      if (res.success) {
+      if (res?.success) {
         if (redirectPath) {
           window.location.href = redirectPath;
           toast.success(res.message);

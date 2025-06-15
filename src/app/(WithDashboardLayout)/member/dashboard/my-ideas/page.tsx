@@ -12,7 +12,7 @@ const MyIdeas = () => {
   const fetchIdeas = async () => {
     const res = await getMyIdeas();
     if (res?.data) {
-      setIdeas(res.data.data);
+      setIdeas(res?.data);
     }
   };
   useEffect(() => {
