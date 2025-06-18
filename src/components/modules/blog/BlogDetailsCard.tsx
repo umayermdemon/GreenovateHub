@@ -146,10 +146,7 @@ const BlogDetailsCard = ({
   }
 
   return (
-    <div
-      className={`max-w-5xl lg:container mx-auto min-h-[calc(100vh-100px)] p-4 my-4 shadow-lg rounded-2xl border ${getCategoryColor(
-        blog?.category
-      )} bg-gradient-to-br from-amber-50 via-white to-amber-50`}>
+    <div className={`max-w-5xl lg:container mx-auto min-h-[calc(100vh-100px)] p-4 my-4 shadow-lg rounded-2xl border ${getCategoryColor(blog?.category)} bg-gradient-to-br from-amber-50 via-white to-amber-50`}>
       {/* Images */}
       {blog?.images && blog?.images?.length > 0 && (
         <Swiper
@@ -157,7 +154,7 @@ const BlogDetailsCard = ({
           pagination={{ clickable: true }}
           autoplay={{ delay: 4000 }}
           loop
-          className="rounded-xl mb-6">
+          className="rounded-xl mb-6 shadow-lg">
           {blog.images.map((img, idx) => (
             <SwiperSlide key={idx}>
               <Image
@@ -165,7 +162,7 @@ const BlogDetailsCard = ({
                 alt={`Blog Image ${idx + 1}`}
                 width={800}
                 height={800}
-                className="rounded-xl w-full h-[500px] object-fill border-2"
+                className="rounded-xl w-full h-[500px] object-cover border-2 border-amber-200"
               />
             </SwiperSlide>
           ))}
@@ -173,12 +170,10 @@ const BlogDetailsCard = ({
       )}
 
       {/* Top Row: Badge & Actions */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mb-6">
         <Badge
           variant="outline"
-          className={`mb-4 capitalize text-white p-2 ${getBadgeColor(
-            blog?.category
-          )}`}>
+          className={`capitalize text-white p-2 ${getBadgeColor(blog?.category)}`}>
           {blog?.category}
         </Badge>
         <div>
@@ -190,66 +185,63 @@ const BlogDetailsCard = ({
                     ? `/member/dashboard/my-blogs/update/${blog?.id}`
                     : `/admin/dashboard/all-blogs/update/${blog?.id}`
                 }
-                className="cursor-pointer">
-                <Edit className="text-amber-600" />{" "}
+                className="cursor-pointer hover:text-amber-700 transition-colors">
+                <Edit className="text-amber-600" />
               </Link>
-              <h2
+              <button
                 onClick={() => deleteBlog(blog.id)}
-                className="cursor-pointer">
+                className="cursor-pointer hover:text-red-700 transition-colors">
                 <Trash className="text-red-600" />
-              </h2>
+              </button>
             </div>
           )}
         </div>
       </div>
 
-      {/* Title, Author, Date */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-4xl font-bold text-amber-800 mb-1">
-            {blog?.title}
-          </h1>
-          <p className="text-muted-foreground mb-2 text-xs ">
-            Posted on{" "}
-            {blog?.createdAt ? format(new Date(blog?.createdAt), "PPP") : "N/A"}{" "}
-            by <span className="text-amber-700 font-medium">{user?.name}</span>
-          </p>
-        </div>
-        {/* Voting */}
-        <div className="flex gap-4 mt-1">
-          <div className="flex gap-2 bg-amber-500 px-2 py-1 rounded-full">
-            <div className="flex gap-0.5 border-r cursor-pointer pr-1 text-white text-[19px]">
-              <p>
-                {isUpvoted ? (
-                  <BiSolidLike onClick={removeVote} />
-                ) : (
-                  <AiOutlineLike onClick={() => addVote("up")} />
-                )}
-              </p>
-              <p className="text-sm">{blog.up_votes}</p>
-            </div>
-            <div className="flex gap-0.5 cursor-pointer pr-1 text-white text-[19px]">
-              <p>
-                {isDownvoted ? (
-                  <AiFillDislike onClick={removeVote} />
-                ) : (
-                  <AiOutlineDislike onClick={() => addVote("down")} />
-                )}
-              </p>
-              <p className="text-sm">{blog.down_votes}</p>
-            </div>
-          </div>
+      {/* Title and Meta */}
+      <div className="mb-6">
+        <h1 className="text-3xl md:text-4xl font-bold text-amber-800 mb-2">
+          {blog?.title}
+        </h1>
+        <div className="flex items-center gap-2 text-muted-foreground text-sm">
+          <span>Posted on {blog?.createdAt ? format(new Date(blog?.createdAt), "PPP") : "N/A"}</span>
+          <span>•</span>
+          <span className="text-amber-700 font-medium">by {user?.name}</span>
         </div>
       </div>
 
       {/* Description */}
-      <p className="text-base text-gray-700 mt-4 text-justify">
-        {blog?.description}
-      </p>
+      <div className="bg-white/50 p-6 rounded-xl border border-amber-100 mb-6">
+        <p className="text-base text-gray-700 text-justify">
+          {blog?.description}
+        </p>
+      </div>
 
-      {/* --- Comment Section (like IdeaDetailsCard) --- */}
-      <div className="mt-10 border-t pt-8">
-        <h2 className="text-xl sm:text-2xl font-semibold text-amber-700 mb-4">
+      {/* Voting */}
+      <div className="flex justify-end mb-8">
+        <div className="flex gap-2 bg-gradient-to-r from-amber-500 to-amber-600 px-4 py-1 rounded-full shadow-lg border border-amber-200">
+          <div className="flex items-center gap-1 border-r border-white/30 pr-2 text-white text-lg cursor-pointer hover:text-amber-100 transition-colors">
+            {isUpvoted ? (
+              <BiSolidLike onClick={removeVote} />
+            ) : (
+              <AiOutlineLike onClick={() => addVote("up")} />
+            )}
+            <span className="text-sm">{blog.up_votes}</span>
+          </div>
+          <div className="flex items-center text-white text-lg cursor-pointer hover:text-amber-100 transition-colors">
+            {isDownvoted ? (
+              <AiFillDislike onClick={removeVote} />
+            ) : (
+              <AiOutlineDislike onClick={() => addVote("down")} />
+            )}
+            <span className="text-sm">{blog.down_votes}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Comments Section */}
+      <div className="bg-white/50 p-6 rounded-xl border border-amber-100">
+        <h2 className="text-xl sm:text-2xl font-semibold text-amber-700 mb-6">
           Comments
         </h2>
         <div className="flex flex-col md:flex-row gap-8">
@@ -266,7 +258,7 @@ const BlogDetailsCard = ({
                 />
                 <AvatarFallback></AvatarFallback>
               </Avatar>
-              <div className="flex-1 bg-gray-100 rounded-xl px-4 py-2 border border-gray-300">
+              <div className="flex-1 bg-white rounded-xl px-4 py-2 border border-amber-200 shadow-sm">
                 <textarea
                   className="w-full resize-none bg-transparent outline-none text-sm placeholder-gray-500"
                   placeholder="Write a comment..."
@@ -276,7 +268,7 @@ const BlogDetailsCard = ({
                 <div className="flex justify-end mt-1">
                   <button
                     onClick={handleAddComment}
-                    className="bg-amber-600 text-white text-sm px-4 py-1.5 rounded-md hover:bg-amber-700 transition cursor-pointer">
+                    className="bg-gradient-to-r from-amber-500 to-amber-600 text-white text-sm px-4 py-1.5 rounded-md hover:from-amber-600 hover:to-amber-700 transition-all duration-300">
                     Post
                   </button>
                 </div>
@@ -285,24 +277,35 @@ const BlogDetailsCard = ({
           </div>
           {/* Comment List */}
           <div className="w-full md:w-1/2">
-            <h3 className="text-base sm:text-lg font-medium text-gray-700 mb-2">
+            <h3 className="text-base sm:text-lg font-medium text-gray-700 mb-3">
               All Comments
             </h3>
-            <div className="h-[200px] overflow-y-auto pr-2 space-y-4">
+            <div className="h-[300px] overflow-y-auto pr-2 space-y-4">
               {comments.length === 0 ? (
                 <p className="text-gray-500 text-sm">No comments yet.</p>
               ) : (
                 comments.map((comment) => (
                   <div
                     key={comment.id}
-                    className="bg-white rounded-md shadow-sm p-3 border border-gray-200">
-                    <p className="text-sm text-gray-600 mb-1">
-                      <span className="font-semibold text-amber-700">
-                        {comment.author}
-                      </span>{" "}
-                      • {format(new Date(comment.createdAt), "PPPp")}
-                    </p>
-                    <p className="text-gray-800">{comment.content}</p>
+                    className="bg-white rounded-xl shadow-sm p-4 border border-amber-100">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Avatar className="w-8 h-8 border-amber-500 border">
+                        <AvatarImage
+                          src={`https://i.pravatar.cc/40?u=${comment.author}`}
+                          alt={comment.author}
+                        />
+                        <AvatarFallback></AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="text-sm font-semibold text-amber-700">
+                          {comment.author}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {format(new Date(comment.createdAt), "PPPp")}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-gray-800 text-sm">{comment.content}</p>
                   </div>
                 ))
               )}
