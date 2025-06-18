@@ -137,6 +137,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
         </div>
 
         {/* Search bar */}
+
         {!hideSearchBar && (
           <div className="flex w-full md:w-[40%] mt-2 md:mt-0 rounded-full relative">
             <Input
