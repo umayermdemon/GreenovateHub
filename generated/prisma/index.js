@@ -237,7 +237,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Level-2\\Assignment\\Sql-Path\\B4A9-Idea-Hub\\Green-Circle-Server\\generated\\prisma",
+      "value": "C:\\Level-2\\Job Placement Assignment\\Pollished Greennovate Hub\\Greenovate-Hub-Server\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -251,7 +251,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Level-2\\Assignment\\Sql-Path\\B4A9-Idea-Hub\\Green-Circle-Server\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Level-2\\Job Placement Assignment\\Pollished Greennovate Hub\\Greenovate-Hub-Server\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
