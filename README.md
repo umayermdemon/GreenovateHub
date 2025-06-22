@@ -23,8 +23,8 @@ This is the **backend** of the Greenovate Hub sustainability platform. Built usi
 ## 🛠️ Setup Instructions
 
 ```bash
-git https://github.com/rafioul-hasan-58/Green-Circle-Server.git
-cd green-circle-backend
+git https://github.com/umayermdemon/greenovate-hub-server
+cd greenovateHub-backend
 npm install
 npx prisma migrate dev
 npm run dev
