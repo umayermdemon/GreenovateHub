@@ -1,13 +1,11 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useUser } from "@/context/UserContext";
 import { TIdea } from "@/types/idea.types";
 import IdeaCard from "../Idea/IdeaCard";
 import IdeaCardSkeleton from "@/skeletons/IdeaCardSkeleton";
 
 const FeaturedIdea = ({ ideas }: { ideas: TIdea[] }) => {
-  const { user } = useUser();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -21,16 +19,14 @@ const FeaturedIdea = ({ ideas }: { ideas: TIdea[] }) => {
           <span className="text-green-700">Featured</span>{" "}
           <span className="text-green-500">Ideas</span>
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
           {isLoading
             ? Array.from({ length: 4 }).map((_, i) => (
                 <IdeaCardSkeleton key={i} />
               ))
             : ideas
                 ?.slice(0, 4)
-                .map((idea: TIdea) => (
-                  <IdeaCard key={idea.id} data={idea} userId={user?.userId} />
-                ))}
+                .map((idea: TIdea) => <IdeaCard key={idea.id} data={idea} />)}
         </div>
         <div className="text-center mt-8">
           <Link

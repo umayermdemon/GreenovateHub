@@ -53,8 +53,8 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -118,11 +118,22 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
     </Avatar>
   );
   return (
-    <div className={`bg-green-700 w-full z-50 transition-all duration-300 fixed ${isScrolled ? 'md:py-0' : 'py-2'}`}>
+    <div
+      className={`bg-secondary w-full z-50 transition-all duration-300 fixed ${
+        isScrolled ? "md:py-0" : "py-2"
+      }`}>
       {/* Top nav */}
-      <div className={`flex flex-col gap-2 md:flex-row md:items-center md:justify-between px-2 md:px-4 container mx-auto transition-all duration-300 ${isScrolled ? 'md:h-0 md:overflow-hidden md:opacity-0' : 'py-2 opacity-100'}`}>
+      <div
+        className={`flex flex-col gap-2 md:flex-row md:items-center md:justify-between px-2 md:px-4 container mx-auto transition-all duration-300 ${
+          isScrolled
+            ? "md:h-0 md:overflow-hidden md:opacity-0"
+            : "py-2 opacity-100"
+        }`}>
         {/* Logo */}
-        <div className={`flex items-center justify-between ${isScrolled ? 'text-lg md:text-xl' : 'text-xl md:text-2xl'} font-bold`}>
+        <div
+          className={`flex items-center justify-between ${
+            isScrolled ? "text-lg md:text-xl" : "text-xl md:text-2xl"
+          } font-bold`}>
           <div>
             <Logo />
           </div>
@@ -298,7 +309,10 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
       </div>
 
       {/* Popular Searches */}
-      <div className={`px-2 md:px-4 py-1 hidden lg:flex items-center justify-center text-xs md:text-sm text-white container mx-auto text-center transition-all duration-300 ${isScrolled ? 'md:h-0 md:overflow-hidden md:opacity-0' : 'opacity-100'}`}>
+      <div
+        className={`px-2 md:px-4 py-1 hidden lg:flex items-center justify-center text-xs md:text-sm text-white container mx-auto text-center transition-all duration-300 ${
+          isScrolled ? "md:h-0 md:overflow-hidden md:opacity-0" : "opacity-100"
+        }`}>
         <span className="font-semibold ml-2 md:ml-6 mr-2">
           Popular Searches:
         </span>
@@ -317,10 +331,17 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
         </span>
       </div>
 
-      <Separator className={`transition-all duration-300 ${isScrolled ? 'md:opacity-0' : 'opacity-100'}`} />
+      <Separator
+        className={`transition-all duration-300 ${
+          isScrolled ? "md:opacity-0" : "opacity-100"
+        }`}
+      />
 
       {/* Bottom nav */}
-      <div className={`flex flex-row items-center justify-between px-2 md:px-4 py-2 text-xs md:text-sm container mx-auto transition-all duration-300 ${isScrolled ? 'md:py-2' : ''}`}>
+      <div
+        className={`flex flex-row items-center justify-between px-2 md:px-4 py-2 text-xs md:text-sm container mx-auto transition-all duration-300 ${
+          isScrolled ? "md:py-2" : ""
+        }`}>
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setCategory((c) => (c === "open" ? "" : "open"))}

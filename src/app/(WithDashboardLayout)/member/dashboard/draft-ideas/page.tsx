@@ -1,7 +1,6 @@
 "use client";
 import IdeaCard from "@/components/modules/Idea/IdeaCard";
 import { PageHeader } from "@/components/singles/PageHeader";
-import { useUser } from "@/context/UserContext";
 import { getAllIdeas } from "@/services/idea";
 import { TIdea } from "@/types/idea.types";
 import { useEffect, useState } from "react";
@@ -17,7 +16,6 @@ const DraftIdeas = () => {
   useEffect(() => {
     fetchIdeas();
   }, []);
-  const { user } = useUser();
   return (
     <div className="">
       <div className="flex items-center justify-between mx-8 mt-5">
@@ -29,7 +27,7 @@ const DraftIdeas = () => {
 
       <div className="grid grid-cols-3 gap-4 mx-5 ">
         {ideas?.map((idea: TIdea) => (
-          <IdeaCard key={idea.id} data={idea} userId={user?.userId} />
+          <IdeaCard key={idea.id} data={idea} />
         ))}
       </div>
     </div>

@@ -2,7 +2,6 @@
 import IdeaCard from "@/components/modules/Idea/IdeaCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useUser } from "@/context/UserContext";
 import { TIdea } from "@/types/idea.types";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -31,7 +30,6 @@ const IdeaPage = ({
   initialSearch,
   initialPage,
 }: IIdeaPageProps) => {
-  const { user } = useUser();
   const searchParams = useSearchParams();
   const router = useRouter();
   const [ideas, setIdeas] = useState<TIdea[]>(initialIdeas);
@@ -123,9 +121,7 @@ const IdeaPage = ({
 
       <div className="grid lg:grid-cols-4  mx-5 grid-cols-1">
         {ideas.length ? (
-          ideas?.map((idea: TIdea) => (
-            <IdeaCard key={idea.id} data={idea} userId={user?.userId} />
-          ))
+          ideas?.map((idea: TIdea) => <IdeaCard key={idea.id} data={idea} />)
         ) : (
           <div className="text-center w-full border">
             <p className="text-black text-center">No ideas found</p>

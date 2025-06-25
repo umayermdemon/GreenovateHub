@@ -115,9 +115,9 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
       : `/blogs/${data?.id}`;
 
   return (
-    <div className="w-full sm:w-[95%] mx-auto mb-8 rounded-2xl border border-amber-300 bg-amber-50 shadow-[0_4px_24px_0_rgba(255,191,71,0.10)] overflow-hidden relative transition-all duration-300 hover:shadow-amber-400/50 hover:-translate-y-1 flex flex-col">
+    <div className="w-full sm:w-[95%] mx-auto mb-8 rounded-2xl border border-[var(--primary)] bg-card shadow-[0_4px_24px_0_var(--primary-light)] overflow-hidden relative transition-all duration-300 hover:shadow-[var(--primary-light)]/50 hover:-translate-y-1 flex flex-col">
       {/* Blog badge */}
-      <div className="absolute top-4 left-4 flex items-center gap-1 px-3 py-1 rounded-full shadow text-xs font-bold z-10 backdrop-blur bg-amber-500/90 text-white border border-amber-300">
+      <div className="absolute top-4 left-4 flex items-center gap-1 px-3 py-1 rounded-full shadow text-xs font-bold z-10 backdrop-blur bg-[var(--primary)]/90 text-[var(--on-primary)] border border-[var(--primary-light)]">
         <BookOpen size={16} /> BLOG
       </div>
 
@@ -136,17 +136,17 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
       </Link>
 
       <div className="flex justify-between items-center px-5 pt-4">
-        <p className="bg-amber-500 text-white text-xs px-3 py-1 rounded-full font-semibold tracking-wide shadow">
+        <p className="bg-[var(--primary)] text-[var(--on-primary)] text-xs px-3 py-1 rounded-full font-semibold tracking-wide shadow">
           {data.category}
         </p>
         <Popover>
-          <PopoverTrigger className="hover:bg-amber-100 rounded-md hover:text-amber-700 transition-colors">
+          <PopoverTrigger className="hover:bg-[var(--primary-light)] rounded-md hover:text-[var(--primary-dark)] transition-colors">
             <SlOptions className="cursor-pointer w-[30px] h-[25px] px-0.5 py-1" />
           </PopoverTrigger>
-          <PopoverContent className="w-[140px] border border-amber-300 bg-white px-1 py-1 rounded-lg shadow">
-            <ul className="divide-y divide-amber-100">
+          <PopoverContent className="w-[140px] border border-[var(--primary-light)] bg-white px-1 py-1 rounded-lg shadow">
+            <ul className="divide-y divide-[var(--primary-light)]">
               <Link href={blogDetailsLink}>
-                <li className="cursor-pointer hover:bg-amber-100 flex gap-1 hover:text-amber-700 px-1 text-amber-600 pb-0.5 rounded transition-colors">
+                <li className="cursor-pointer hover:bg-[var(--primary-light)] flex gap-1 hover:text-[var(--primary-dark)] px-1 text-[var(--primary)] pb-0.5 rounded transition-colors">
                   <Eye className="relative top-1" size={17} />
                   View
                 </li>
@@ -154,14 +154,14 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
               {userId === data.authorId && (
                 <>
                   <Link href={`/member/dashboard/my-blogs/update/${data?.id}`}>
-                    <li className="cursor-pointer flex gap-1 hover:bg-amber-100 hover:text-amber-700 px-1 pt-0.5 border-t border-amber-100 text-amber-600 rounded transition-colors">
+                    <li className="cursor-pointer flex gap-1 hover:bg-[var(--primary-light)] hover:text-[var(--primary-dark)] px-1 pt-0.5 border-t border-[var(--primary-light)] text-[var(--primary)] rounded transition-colors">
                       <Edit className="relative top-1" size={17} />
                       Update
                     </li>
                   </Link>
                   <li
                     onClick={() => deleteBlog(data?.id)}
-                    className="cursor-pointer flex gap-1 hover:bg-red-100 hover:text-red-600 px-1 border-t border-amber-100 text-red-500 pt-0.5 rounded transition-colors">
+                    className="cursor-pointer flex gap-1 hover:bg-red-100 hover:text-red-600 px-1 border-t border-[var(--primary-light)] text-red-500 pt-0.5 rounded transition-colors">
                     <Trash className="relative top-1" size={17} />
                     Delete
                   </li>
@@ -173,18 +173,18 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
       </div>
 
       <div className="px-5 pb-5 pt-3 flex flex-col flex-grow">
-        <h1 className="text-xl font-bold text-amber-700 mb-1 truncate">
+        <h1 className="text-xl font-bold text-[var(--primary-dark)] mb-1 truncate">
           {data.title.split(" ").slice(0, 4).join(" ")}
         </h1>
-        <p className="border-b border-amber-200 pb-2 text-gray-700 italic line-clamp-2">
+        <p className="border-b border-[var(--primary-light)] pb-2 text-[var(--text-primary)] italic line-clamp-2">
           {data.description.split(" ").slice(0, 12).join(" ")}...
         </p>
 
         <div className="flex flex-row justify-between items-center gap-2 pt-2 mt-auto">
-          <p className="text-xs text-amber-600 italic">{timeAgo}</p>
+          <p className="text-xs text-[var(--primary)] italic">{timeAgo}</p>
           <div className="flex gap-4">
-            <div className="flex gap-2 bg-amber-600 px-3 py-1 rounded-full">
-              <div className="flex items-center gap-1 border-r border-white pr-2 text-white text-lg cursor-pointer">
+            <div className="flex gap-2 bg-[var(--primary)] px-3 py-1 rounded-full">
+              <div className="flex items-center gap-1 border-r border-[var(--on-primary)] pr-2 text-[var(--on-primary)] text-lg cursor-pointer">
                 {vote?.isVoted && vote?.value === "up" ? (
                   <BiSolidLike onClick={removeVote} />
                 ) : (
@@ -192,7 +192,7 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
                 )}
                 <span className="text-sm">{data.up_votes || 0}</span>
               </div>
-              <div className="flex items-center text-white text-lg cursor-pointer">
+              <div className="flex items-center text-[var(--on-primary)] text-lg cursor-pointer">
                 {vote?.isVoted && vote?.value === "down" ? (
                   <AiFillDislike onClick={removeVote} />
                 ) : (
@@ -201,7 +201,7 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
               </div>
             </div>
             <Link href={blogDetailsLink}>
-              <MessageSquareMore size={22} className="text-amber-600" />
+              <MessageSquareMore size={22} className="text-[var(--primary)]" />
             </Link>
           </div>
         </div>
