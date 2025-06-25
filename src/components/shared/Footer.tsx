@@ -15,12 +15,12 @@ const quickLinks = [
 
 export default function Footer() {
   return (
-    <div className="bg-[#eafcfb] text-gray-800 ">
+    <div className="bg-[var(--primary-light)] text-[var(--text-primary)]">
       <div className="container mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-4 gap-16">
         {/* Logo and About */}
         <div>
           <Logo />
-          <p className="mt-4 text-sm text-gray-600">
+          <p className="mt-4 text-sm text-[var(--text-secondary)]">
             A community for sharing sustainable ideas to protect and preserve
             our planet.
           </p>
@@ -28,15 +28,15 @@ export default function Footer() {
 
         {/* Quick Links */}
         <div>
-          <h4 className="font-semibold text-lg mb-3 underline underline-offset-8 decoration-green-600">
+          <h4 className="font-semibold text-lg mb-3 underline underline-offset-8 decoration-[var(--primary)]">
             Quick Links
           </h4>
-          <ul className="space-y-2 text-md font-semibold text-gray-500">
+          <ul className="space-y-2 text-md font-semibold text-[var(--text-secondary)]">
             {quickLinks.map((link) => (
               <li key={link.label}>
                 <Link
                   href={link.path}
-                  className="hover:text-green-600 hover:underline">
+                  className="hover:text-[var(--primary)] hover:underline">
                   {link.label}
                 </Link>
               </li>
@@ -49,13 +49,19 @@ export default function Footer() {
           <h4 className="font-semibold text-lg mb-3">Community</h4>
           <ul className="space-y-2 text-sm">
             <li>
-              <Link href="#">Discussion Forum</Link>
+              <Link href="#" className="hover:text-[var(--primary)]">
+                Discussion Forum
+              </Link>
             </li>
             <li>
-              <Link href="#">Submission Guidelines</Link>
+              <Link href="#" className="hover:text-[var(--primary)]">
+                Submission Guidelines
+              </Link>
             </li>
             <li>
-              <Link href="#">Contact Admin</Link>
+              <Link href="#" className="hover:text-[var(--primary)]">
+                Contact Admin
+              </Link>
             </li>
           </ul>
         </div>
@@ -65,13 +71,13 @@ export default function Footer() {
           <h4 className="font-semibold text-lg mb-3">Follow Us</h4>
           <div className="flex gap-4">
             <Link href="https://facebook.com" target="_blank">
-              <Facebook className="text-blue-600 hover:scale-110 transition" />
+              <Facebook className="text-[var(--primary)] hover:scale-110 transition" />
             </Link>
             <Link href="https://twitter.com" target="_blank">
-              <Twitter className="text-blue-400 hover:scale-110 transition" />
+              <Twitter className="text-[var(--primary)] hover:scale-110 transition" />
             </Link>
             <Link href="https://instagram.com" target="_blank">
-              <Instagram className="text-pink-500 hover:scale-110 transition" />
+              <Instagram className="text-[var(--primary)] hover:scale-110 transition" />
             </Link>
           </div>
         </div>
@@ -79,7 +85,7 @@ export default function Footer() {
 
       <Separator />
 
-      <div className="text-center text-sm text-gray-500 py-4">
+      <div className="text-center text-sm text-[var(--text-secondary)] py-4">
         © {new Date().getFullYear()} GreenovateHub. All rights reserved.
       </div>
     </div>

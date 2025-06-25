@@ -3,23 +3,14 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Swal from "sweetalert2";
 import { formatDistanceToNow } from "date-fns";
-import { toast } from "sonner";
-import { SlOptions } from "react-icons/sl";
 import { AiFillDislike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { BiSolidLike } from "react-icons/bi";
-import { Edit, Eye, Trash, BookOpen, MessageSquareMore } from "lucide-react";
 
 import { TBlog } from "@/types/blog.types";
 import { useUser } from "@/context/UserContext";
 import { createVote, isUserVoted, undoVote } from "@/services/vote";
-import { deleteMyBlog } from "@/services/blog";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { BookOpen, MessageSquareMore } from "lucide-react";
 
 interface IBlogCard {
   data: TBlog;
@@ -83,30 +74,6 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
     }
   };
 
-  const deleteBlog = async (id: string) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const res = await deleteMyBlog(id);
-          if (res?.success) {
-            toast.success(res?.message);
-          }
-        } catch (error) {
-          console.log(error);
-        }
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
-      }
-    });
-  };
-
   const blogDetailsLink =
     user?.role === "member"
       ? `/member/dashboard/my-blogs/details/${data?.id}`
@@ -115,10 +82,21 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
       : `/blogs/${data?.id}`;
 
   return (
-    <div className="w-full sm:w-[95%] mx-auto mb-8 rounded-2xl border border-[var(--primary)] bg-card shadow-[0_4px_24px_0_var(--primary-light)] overflow-hidden relative transition-all duration-300 hover:shadow-[var(--primary-light)]/50 hover:-translate-y-1 flex flex-col">
+    <div className="w-full sm:w-[95%] mx-auto mb-8 rounded-2xl border border-[var(--primary)] bg-card shadow-[0_4px_24px_0_var(--primary-light)] overflow-hidden relative transition-all duration-300 hover:shadow-[var(--primary-light)]/50 hover:-translate-y-1 flex flex-col h-[450px]">
       {/* Blog badge */}
-      <div className="absolute top-4 left-4 flex items-center gap-1 px-3 py-1 rounded-full shadow text-xs font-bold z-10 backdrop-blur bg-[var(--primary)]/90 text-[var(--on-primary)] border border-[var(--primary-light)]">
-        <BookOpen size={16} /> BLOG
+      <div className="absolute top-3 left-1 z-10 flex justify-between items-center w-full px-2">
+        <div className="flex items-center gap-1 bg-[var(--primary)] text-[var(--on-primary)] px-3 py-1 rounded-full shadow text-xs font-bold">
+          <BookOpen size={16} /> Blog
+        </div>
+        <div>
+          <p className="bg-[var(--primary)] text-[var(--on-primary)] text-xs px-3 py-1 rounded-full font-semibold tracking-wide shadow">
+            {data.category === "waste"
+              ? "Waste"
+              : data.category === "energy"
+              ? "Energy"
+              : "Transportation"}
+          </p>
+        </div>
       </div>
 
       <Link href={blogDetailsLink}>
@@ -135,52 +113,15 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
         </div>
       </Link>
 
-      <div className="flex justify-between items-center px-5 pt-4">
-        <p className="bg-[var(--primary)] text-[var(--on-primary)] text-xs px-3 py-1 rounded-full font-semibold tracking-wide shadow">
-          {data.category}
-        </p>
-        <Popover>
-          <PopoverTrigger className="hover:bg-[var(--primary-light)] rounded-md hover:text-[var(--primary-dark)] transition-colors">
-            <SlOptions className="cursor-pointer w-[30px] h-[25px] px-0.5 py-1" />
-          </PopoverTrigger>
-          <PopoverContent className="w-[140px] border border-[var(--primary-light)] bg-white px-1 py-1 rounded-lg shadow">
-            <ul className="divide-y divide-[var(--primary-light)]">
-              <Link href={blogDetailsLink}>
-                <li className="cursor-pointer hover:bg-[var(--primary-light)] flex gap-1 hover:text-[var(--primary-dark)] px-1 text-[var(--primary)] pb-0.5 rounded transition-colors">
-                  <Eye className="relative top-1" size={17} />
-                  View
-                </li>
-              </Link>
-              {userId === data.authorId && (
-                <>
-                  <Link href={`/member/dashboard/my-blogs/update/${data?.id}`}>
-                    <li className="cursor-pointer flex gap-1 hover:bg-[var(--primary-light)] hover:text-[var(--primary-dark)] px-1 pt-0.5 border-t border-[var(--primary-light)] text-[var(--primary)] rounded transition-colors">
-                      <Edit className="relative top-1" size={17} />
-                      Update
-                    </li>
-                  </Link>
-                  <li
-                    onClick={() => deleteBlog(data?.id)}
-                    className="cursor-pointer flex gap-1 hover:bg-red-100 hover:text-red-600 px-1 border-t border-[var(--primary-light)] text-red-500 pt-0.5 rounded transition-colors">
-                    <Trash className="relative top-1" size={17} />
-                    Delete
-                  </li>
-                </>
-              )}
-            </ul>
-          </PopoverContent>
-        </Popover>
-      </div>
-
       <div className="px-5 pb-5 pt-3 flex flex-col flex-grow">
         <h1 className="text-xl font-bold text-[var(--primary-dark)] mb-1 truncate">
           {data.title.split(" ").slice(0, 4).join(" ")}
         </h1>
-        <p className="border-b border-[var(--primary-light)] pb-2 text-[var(--text-primary)] italic line-clamp-2">
-          {data.description.split(" ").slice(0, 12).join(" ")}...
+        <p className="pb-2 text-[var(--text-primary)] italic text-justify">
+          {data.description.split(" ").slice(0, 24).join(" ")}...
         </p>
 
-        <div className="flex flex-row justify-between items-center gap-2 pt-2 mt-auto">
+        <div className="flex flex-row justify-between items-center gap-2 pt-2 mt-auto border-t border-[var(--primary-light)]">
           <p className="text-xs text-[var(--primary)] italic">{timeAgo}</p>
           <div className="flex gap-4">
             <div className="flex gap-2 bg-[var(--primary)] px-3 py-1 rounded-full">
