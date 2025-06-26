@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useRef } from "react";
 import { motion } from "framer-motion";
+import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
   CarouselContent,
@@ -11,40 +11,32 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-
-import banner1 from "@/app/assets/banner/banner1.png";
-import banner2 from "@/app/assets/banner/banner2.png";
-import banner3 from "@/app/assets/about.png";
 
 const banners = [
   {
     id: 1,
-    title: "We Have More Than",
-    highlight: "20,000",
-    subtitle: "Join Members",
+    title: "Truly inspired vision",
+    subtitle: "of company",
     description:
-      "Share eco-friendly ideas and help build a sustainable future with GreenovateHub.",
-    image: banner1,
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor tues dsuaximus placerat Vitae nisi lorem integer venenatis.",
+    video: "/energy1.mp4",
   },
   {
     id: 2,
-    title: "Find Real Connections With",
-    highlight: "Verified Members",
-    subtitle: "Across the Globe",
+    title: "Professional Team",
+    subtitle: "Delivering Excellence",
     description:
-      "Join a community of genuine people looking for meaningful relationships. Your journey starts here at GreenovateHub.",
-    image: banner2,
+      "We are committed to high performance and sustainable impact in everything we do.",
+    video: "/transportation.mp4",
   },
   {
     id: 3,
-    title: "Meet Singles in Your",
-    highlight: "Local Area",
-    subtitle: "Or Worldwide",
+    title: "Innovation Meets",
+    subtitle: "Simplicity",
     description:
-      "Discover singles nearby or expand your horizons globally. GreenovateHub helps you connect with people who matter.",
-    image: banner3,
+      "From strategy to execution, we deliver cutting-edge solutions that fit your needs.",
+    video: "/waste1.mp4",
   },
 ];
 
@@ -52,71 +44,82 @@ const Banner = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section className="py-12 relative container mx-auto" ref={carouselRef}>
-      <Carousel>
+    <section
+      className="relative w-full h-[100vh] overflow-hidden"
+      ref={carouselRef}>
+      <Carousel
+        opts={{
+          loop: true,
+        }}
+        plugins={[
+          Autoplay({
+            delay: 5000,
+            stopOnInteraction: false,
+          }),
+        ]}>
         <CarouselContent>
           {banners.map((banner) => (
-            <CarouselItem key={banner.id}>
-              <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 px-6 md:px-16">
-                <div className="text-center md:text-left mt-6 md:mt-0">
-                  <motion.h1 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="text-4xl md:text-5xl font-bold text-green-800">
-                    {banner.title}{" "}
-                    <span className="text-green-600 bg-green-50 px-2 rounded-lg">{banner.highlight}</span>{" "}
-                    {banner.subtitle}
-                  </motion.h1>
-                  <motion.p 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                    className="mt-4 text-gray-700 text-lg max-w-lg">
-                    {banner.description}
-                  </motion.p>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                    className="mt-8">
-                    <Link href="/register">
-                      <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
-                        Join Our Community <ArrowRight className="ml-2" />
-                      </Button>
-                    </Link>
-                  </motion.div>
-                </div>
-                <div className="flex justify-center md:justify-end">
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.8 }}
-                    whileHover={{ scale: 1.05, rotate: 1 }}
-                    className="relative">
-                    <div className="absolute inset-0 bg-green-600/10 rounded-xl blur-xl"></div>
-                    <Image
-                      src={banner.image}
-                      alt="Banner Image"
-                      width={500}
-                      height={500}
-                      className="rounded-xl shadow-lg transition-transform duration-300 cursor-pointer relative z-10"
-                    />
-                  </motion.div>
-                </div>
+            <CarouselItem key={banner.id} className="relative w-full h-[95vh]">
+              {/* Background Image */}
+              <video
+                src={banner.video}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="object-cover w-full h-full absolute inset-0"
+                style={{ zIndex: 1 }}
+              />
+
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-black/70 z-10"></div>
+
+              {/* Text Content */}
+              <div className="absolute container mx-auto z-20 inset-0 flex flex-col items-start justify-center text-white">
+                <motion.h1
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="text-4xl md:text-6xl font-bold leading-tight">
+                  {banner.title}
+                  <br />
+                  {banner.subtitle}
+                </motion.h1>
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="mt-4 text-lg md:max-w-xl">
+                  {banner.description}
+                </motion.p>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  className="mt-8">
+                  <Link href="/about">
+                    <Button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 text-md rounded-full cursor-pointer">
+                      View More
+                    </Button>
+                  </Link>
+                </motion.div>
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious
-          className="absolute left-4 lg:-left-5 top-1/2 -translate-y-1/2 z-10 md:w-16 md:h-16 cursor-pointer hover:text-green-500 bg-white/80 hover:bg-white shadow-lg rounded-full"
-          data-carousel-prev
-        />
-        <CarouselNext
-          className="absolute right-5 lg:-right-5 top-1/2 -translate-y-1/2 z-10 md:w-16 md:h-16 cursor-pointer hover:text-green-500 bg-white/80 hover:bg-white shadow-lg rounded-full"
-          data-carousel-next
-        />
+
+        {/* Arrows */}
+        <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-white/70 hover:bg-white text-black rounded-full shadow-md" />
+        <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-white/70 hover:bg-white text-black rounded-full shadow-md" />
       </Carousel>
+
+      {/* Scroll down */}
+      <div className="absolute bottom-36 left-1/2 transform -translate-x-1/2 z-30 text-center w-36">
+        <div className="bg-white px-4 py-2 rounded-xl shadow-lg text-gray-700 text-sm font-medium">
+          scroll and <br /> discover more
+          <div className="animate-bounce text-red-500 mt-1">↓</div>
+        </div>
+      </div>
     </section>
   );
 };

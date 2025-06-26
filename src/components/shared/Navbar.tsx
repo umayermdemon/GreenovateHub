@@ -119,7 +119,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
   );
   return (
     <div
-      className={`bg-secondary w-full z-50 transition-all duration-300 fixed ${
+      className={`w-full z-50 transition-all duration-300 fixed ${
         isScrolled ? "md:py-0" : "py-2"
       }`}>
       {/* Top nav */}
@@ -198,11 +198,11 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
                     href={item.path}
                     className={`block py-1 ${
                       pathname === item.path
-                        ? "text-amber-500 font-semibold"
+                        ? "text-green-500 font-semibold"
                         : ""
                     } ${
                       pathname === "ideas" && item.path === "/ideas"
-                        ? "text-amber-500"
+                        ? "text-green-500"
                         : ""
                     }`}
                     onClick={() => setMobileMenuOpen(false)}>
@@ -380,8 +380,8 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
                   href={item.path}
                   className={`${
                     pathname === item.path
-                      ? "text-amber-500 font-semibold"
-                      : "hover:text-amber-500"
+                      ? "text-green-500 font-semibold"
+                      : "hover:text-green-500"
                   } ${
                     pathname === "ideas" && item.path === "/ideas"
                       ? "text-green-500"

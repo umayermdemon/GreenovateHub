@@ -79,7 +79,7 @@ const TestimonialSection = () => {
   ];
 
   return (
-    <section className="bg-[#f3f8fd] py-16 text-green-700">
+    <section className="py-16 text-green-700 bg-white">
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-center text-3xl font-bold mb-2">TESTIMONIALS</h2>
         <div className="flex justify-center mb-24">
