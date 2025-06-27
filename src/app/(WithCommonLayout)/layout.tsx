@@ -1,5 +1,5 @@
 import Footer from "@/components/shared/Footer";
-import Navbar from "@/components/shared/Navbar";
+import NavbarWrapper from "@/components/shared/NavbarWrapper";
 import { getMyProfile } from "@/services/auth";
 import { ReactNode } from "react";
 
@@ -7,9 +7,7 @@ const CommonLayout = async ({ children }: { children: ReactNode }) => {
   const { data: myProfile } = await getMyProfile();
   return (
     <>
-      <div>
-        <Navbar myProfile={myProfile} />
-      </div>
+      <NavbarWrapper myProfile={myProfile} />
       <div className="min-h-screen">{children}</div>
       <Footer />
     </>

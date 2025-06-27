@@ -119,8 +119,14 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
   );
   return (
     <div
-      className={`w-full z-50 transition-all duration-300 fixed ${
-        isScrolled ? "md:py-0" : "py-2"
+      className={`${
+        pathname === "/"
+          ? `w-full z-50 transition-all duration-300 fixed shadow-xl ${
+              isScrolled ? "md:py-0 bg-secondary" : "py-2"
+            }`
+          : `w-full z-50 transition-all duration-300 fixed bg-secondary ${
+              isScrolled ? "md:py-0" : "py-2"
+            }`
       }`}>
       {/* Top nav */}
       <div
