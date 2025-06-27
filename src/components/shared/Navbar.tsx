@@ -121,7 +121,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
     <div
       className={`${
         pathname === "/"
-          ? `w-full z-50 transition-all duration-300 fixed shadow-xl ${
+          ? `w-full z-50 transition-all duration-300 fixed shadow-2xl ${
               isScrolled ? "md:py-0 bg-secondary" : "py-2"
             }`
           : `w-full z-50 transition-all duration-300 fixed bg-secondary ${

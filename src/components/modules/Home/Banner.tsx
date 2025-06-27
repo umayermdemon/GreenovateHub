@@ -72,7 +72,7 @@ const Banner = () => {
               />
 
               {/* Overlay */}
-              <div className="absolute inset-0 bg-black/70 z-10"></div>
+              <div className="absolute inset-0 bg-black/50 z-10"></div>
 
               {/* Text Content */}
               <div className="absolute inset-0 z-20 flex flex-col items-start justify-center text-white px-6  md:px-16 lg:px-8 md:container mx-auto">
@@ -114,7 +114,14 @@ const Banner = () => {
       </Carousel>
 
       {/* Scroll down */}
-      <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 z-30 text-center w-36">
+      <div
+        className="absolute bottom-2 cursor-pointer left-1/2 transform -translate-x-1/2 z-30 text-center w-36"
+        onClick={() => {
+          const stateSection = document.getElementById("stats");
+          if (stateSection) {
+            stateSection.scrollIntoView({ behavior: "smooth" });
+          }
+        }}>
         <div className="bg-white px-4 py-2 rounded-xl shadow-lg text-gray-700 text-sm font-medium">
           scroll and <br /> discover more
           <div className="animate-bounce text-red-500 mt-1">↓</div>
