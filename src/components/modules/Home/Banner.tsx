@@ -59,7 +59,7 @@ const Banner = () => {
         ]}>
         <CarouselContent>
           {banners.map((banner) => (
-            <CarouselItem key={banner.id} className="relative w-full h-[95vh]">
+            <CarouselItem key={banner.id} className="relative w-full h-[80vh]">
               {/* Background Image */}
               <video
                 src={banner.video}
@@ -72,7 +72,7 @@ const Banner = () => {
               />
 
               {/* Overlay */}
-              <div className="absolute inset-0 bg-black/50 z-10"></div>
+              <div className="absolute inset-0 bg-black/30 z-10"></div>
 
               {/* Text Content */}
               <div className="absolute inset-0 z-20 flex flex-col items-start justify-center text-white px-6  md:px-16 lg:px-8 md:container mx-auto">
@@ -115,16 +115,30 @@ const Banner = () => {
 
       {/* Scroll down */}
       <div
-        className="absolute bottom-2 cursor-pointer left-1/2 transform -translate-x-1/2 z-30 text-center w-36"
+        className="absolute bottom-36 left-1/2 transform -translate-x-1/2 z-30 flex items-center justify-center w-72 h-28 cursor-pointer"
         onClick={() => {
           const stateSection = document.getElementById("stats");
           if (stateSection) {
             stateSection.scrollIntoView({ behavior: "smooth" });
           }
         }}>
-        <div className="bg-white px-4 py-2 rounded-xl shadow-lg text-gray-700 text-sm font-medium">
-          scroll and <br /> discover more
-          <div className="animate-bounce text-red-500 mt-1">↓</div>
+        {/* Faded background text */}
+        <span
+          className="absolute inset-0 flex items-center justify-center
+      text-[64px] md:text-[90px] lg:text-[80px]
+      font-bold italic text-gray-200 opacity-40 select-none pointer-events-none z-20
+      font-[cursive]"
+          aria-hidden="true">
+          scroll
+        </span>
+        {/* Foreground content */}
+        <div className="relative bg-white rounded-2xl shadow-lg w-full h-full flex flex-col items-center justify-center">
+          <span className="text-center text-[var(--text-primary,#3d2c41)] text-base font-semibold z-10">
+            scroll and <br /> discover more
+          </span>
+          <span className="mt-2 text-2xl text-orange-500 animate-bounce z-10">
+            ↓
+          </span>
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDown, ArrowUp } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const ArrowUpScroll = () => {
@@ -44,15 +44,15 @@ const ArrowUpScroll = () => {
     <div>
       {direction === "up" ? (
         <div
-          className="fixed bottom-4 right-4 bg-secondary rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow cursor-pointer z-50"
+          className="fixed bottom-4 right-4 bg-secondary-foreground rounded-full p-3 shadow-2xl hover:shadow-xl transition-shadow cursor-pointer z-50"
           onClick={scrollToTop}>
-          <ArrowUp className="text-2xl text-white" />
+          <ChevronUp className="text-2xl " />
         </div>
       ) : (
         <div
-          className="fixed bottom-4 right-4 bg-secondary rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow cursor-pointer z-50"
+          className="fixed bottom-4 right-4 bg-secondary-foreground rounded-full p-3 shadow-2xl hover:shadow-xl transition-shadow cursor-pointer z-50"
           onClick={scrollToBottom}>
-          <ArrowDown className="text-2xl text-white" />
+          <ChevronDown className="text-2xl" />
         </div>
       )}
     </div>
