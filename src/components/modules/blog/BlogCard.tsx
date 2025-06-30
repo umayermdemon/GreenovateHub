@@ -82,14 +82,14 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
       : `/blogs/${data?.id}`;
 
   return (
-    <div className="w-full sm:w-[95%] mx-auto mb-8 rounded-2xl border border-[var(--primary)] bg-card shadow-[0_4px_24px_0_var(--primary-light)] overflow-hidden relative transition-all duration-300 hover:shadow-[var(--primary-light)]/50 hover:-translate-y-1 flex flex-col h-[450px]">
+    <div className="w-full sm:w-[95%] mx-auto mb-8 rounded-2xl border border-primary bg-card shadow-lg overflow-hidden relative transition-all duration-300 hover:shadow-primary/30 hover:-translate-y-1 flex flex-col h-[550px]">
       {/* Blog badge */}
       <div className="absolute top-3 left-1 z-10 flex justify-between items-center w-full px-2">
-        <div className="flex items-center gap-1 bg-[var(--primary)] text-[var(--on-primary)] px-3 py-1 rounded-full shadow text-xs font-bold">
+        <div className="flex items-center gap-1 bg-primary text-primary-foreground px-3 py-1 rounded-full shadow text-xs font-bold">
           <BookOpen size={16} /> Blog
         </div>
         <div>
-          <p className="bg-[var(--primary)] text-[var(--on-primary)] text-xs px-3 py-1 rounded-full font-semibold tracking-wide shadow">
+          <p className="bg-primary text-primary-foreground text-xs px-3 py-1 rounded-full font-semibold tracking-wide shadow">
             {data.category === "waste"
               ? "Waste"
               : data.category === "energy"
@@ -114,18 +114,18 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
       </Link>
 
       <div className="px-5 pb-5 pt-3 flex flex-col flex-grow">
-        <h1 className="text-xl font-bold text-[var(--primary-dark)] mb-1 truncate">
+        <h1 className="text-xl font-bold text-primary mb-1 truncate">
           {data.title.split(" ").slice(0, 4).join(" ")}
         </h1>
-        <p className="pb-2 text-[var(--text-primary)] italic text-justify">
-          {data.description.split(" ").slice(0, 24).join(" ")}...
+        <p className="pb-2 text-muted-foreground italic text-justify">
+          {data.description.split(" ").slice(0, 50).join(" ")}...
         </p>
 
-        <div className="flex flex-row justify-between items-center gap-2 pt-2 mt-auto border-t border-[var(--primary-light)]">
-          <p className="text-xs text-[var(--primary)] italic">{timeAgo}</p>
+        <div className="flex flex-row justify-between items-center gap-2 pt-2 mt-auto border-t border-primary/20">
+          <p className="text-xs text-primary italic">{timeAgo}</p>
           <div className="flex gap-4">
-            <div className="flex gap-2 bg-[var(--primary)] px-3 py-1 rounded-full">
-              <div className="flex items-center gap-1 border-r border-[var(--on-primary)] pr-2 text-[var(--on-primary)] text-lg cursor-pointer">
+            <div className="flex gap-2 bg-primary/10 px-3 py-1 rounded-full">
+              <div className="flex items-center gap-1 border-r border-primary pr-2 text-primary text-lg cursor-pointer">
                 {vote?.isVoted && vote?.value === "up" ? (
                   <BiSolidLike onClick={removeVote} />
                 ) : (
@@ -133,7 +133,7 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
                 )}
                 <span className="text-sm">{data.up_votes || 0}</span>
               </div>
-              <div className="flex items-center text-[var(--on-primary)] text-lg cursor-pointer">
+              <div className="flex items-center text-primary text-lg cursor-pointer">
                 {vote?.isVoted && vote?.value === "down" ? (
                   <AiFillDislike onClick={removeVote} />
                 ) : (
@@ -142,7 +142,7 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
               </div>
             </div>
             <Link href={blogDetailsLink}>
-              <MessageSquareMore size={22} className="text-[var(--primary)]" />
+              <MessageSquareMore size={22} className="text-primary" />
             </Link>
           </div>
         </div>

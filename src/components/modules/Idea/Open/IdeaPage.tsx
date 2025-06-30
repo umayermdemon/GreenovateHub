@@ -119,7 +119,7 @@ const IdeaPage = ({
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-4  mx-5 grid-cols-1">
+      <div className="grid lg:grid-cols-4  mx-5 grid-cols-1 gap-4">
         {ideas.length ? (
           ideas?.map((idea: TIdea) => <IdeaCard key={idea.id} data={idea} />)
         ) : (

@@ -44,9 +44,7 @@ const Banner = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section
-      className="relative w-full h-[100vh] overflow-hidden"
-      ref={carouselRef}>
+    <section className="relative w-full  overflow-hidden" ref={carouselRef}>
       <Carousel
         opts={{
           loop: true,
@@ -98,7 +96,7 @@ const Banner = () => {
                   transition={{ duration: 0.5, delay: 0.4 }}
                   className="mt-6 sm:mt-8">
                   <Link href="/about">
-                    <Button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-md rounded-full cursor-pointer">
+                    <Button className="bg-secondary/80 hover:bg-secondary text-white px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-md rounded-full cursor-pointer">
                       View More
                     </Button>
                   </Link>
@@ -109,13 +107,13 @@ const Banner = () => {
         </CarouselContent>
 
         {/* Arrows */}
-        <CarouselPrevious className="hidden md:flex absolute left-4 top-[500px] md:top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-white/70 hover:bg-white text-black rounded-full shadow-md" />
-        <CarouselNext className="hidden md:flex absolute right-4  top-[500px] md:top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-white/70 hover:bg-white text-black rounded-full shadow-md" />
+        <CarouselPrevious className="hidden md:flex absolute left-4 top-[500px] md:top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-white/70 hover:bg-white text-black rounded-full shadow-md cursor-pointer" />
+        <CarouselNext className="hidden md:flex absolute right-4  top-[500px] md:top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-white/70 hover:bg-white text-black rounded-full shadow-md cursor-pointer" />
       </Carousel>
 
       {/* Scroll down */}
       <div
-        className="absolute bottom-36 left-1/2 transform -translate-x-1/2 z-30 flex items-center justify-center w-72 h-28 cursor-pointer"
+        className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-30 flex items-center justify-center w-72 h-28 cursor-pointer"
         onClick={() => {
           const stateSection = document.getElementById("stats");
           if (stateSection) {
@@ -132,11 +130,11 @@ const Banner = () => {
           scroll
         </span>
         {/* Foreground content */}
-        <div className="relative bg-white rounded-2xl shadow-lg w-full h-full flex flex-col items-center justify-center">
+        <div className="relative bg-white rounded-t-2xl shadow-lg w-full h-full flex flex-col items-center justify-center">
           <span className="text-center text-[var(--text-primary,#3d2c41)] text-base font-semibold z-10">
             scroll and <br /> discover more
           </span>
-          <span className="mt-2 text-2xl text-orange-500 animate-bounce z-10">
+          <span className="mt-2 text-2xl text-secondary animate-bounce z-10">
             ↓
           </span>
         </div>

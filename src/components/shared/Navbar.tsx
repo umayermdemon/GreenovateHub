@@ -168,10 +168,10 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
           </div>
         )}
         {hideSearchBar && (
-          <div className="hidden lg:flex w-full md:w-[40%] mt-2 md:mt-0 border border-secondary overflow-hidden rounded-full rounded-l-none">
+          <div className="hidden lg:flex w-full md:w-[40%] mt-2 md:mt-0 rounded-full relative">
             <Input
               placeholder="Search Idea..."
-              className="rounded-l-none rounded-r-none border border-secondary"
+              className="rounded-r-3xl border border-secondary"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => {
@@ -179,7 +179,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
               }}
             />
             <Button
-              className="rounded-l-none rounded-r-full cursor-pointer bg-secondary/70 hover:bg-secondary"
+              className="rounded-r-full cursor-pointer bg-secondary/70 hover:bg-secondary absolute right-0"
               size="icon"
               onClick={handleSearch}>
               <Search size={18} />
@@ -292,7 +292,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
           ) : (
             <Link
               href={"/login"}
-              className="flex items-center justify-center h-14 w-24 gap-2 hover:text-amber-500">
+              className="flex items-center justify-center h-14 w-24 gap-2 text-secondary/70 hover:text-secondary">
               <FaUser />
               <span className="text-xs md:text-sm">Account</span>
             </Link>
