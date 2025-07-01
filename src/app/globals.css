@@ -51,7 +51,7 @@ html {
   --radius: 0.625rem;
 
   /* Layout */
-  --background: oklch(0.985 0.01 260); /* soft light background */
+  --background: oklch(1 0 0); /* soft light background */
   --foreground: oklch(0.2 0.02 260); /* dark slate text */
 
   /* Card / Popover */

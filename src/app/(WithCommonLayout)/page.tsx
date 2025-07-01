@@ -6,7 +6,6 @@ import TestimonialSection from "@/components/modules/Home/Testimonial";
 import { getAllIdeas } from "@/services/idea";
 import StatsSection from "@/components/modules/Home/StatsSection";
 import CtaSection from "@/components/modules/Home/CtaSection";
-import { Separator } from "@/components/ui/separator";
 
 const HomePage = async () => {
   const ideas = await getAllIdeas({ status: "approved" });
@@ -17,12 +16,10 @@ const HomePage = async () => {
       <StatsSection />
       <FeaturedIdea ideas={ideas?.data} />
       <FeaturedBlog />
-      <Separator />
       <CommunitySection />
-      <Separator />
+      <CtaSection />
       <TestimonialSection />
       {/* CTA Section */}
-      <CtaSection />
     </div>
   );
 };
