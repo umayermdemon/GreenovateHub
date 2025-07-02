@@ -150,7 +150,7 @@ const IdeaDetailsCard = ({
   }
 
   return (
-    <div className="max-w-5xl lg:container mx-auto min-h-[calc(100vh-100px)] p-3 sm:p-4 md:p-6 my-6 rounded-2xl border border-green-300 bg-gradient-to-br from-amber-50 via-white to-green-50 shadow-[0_4px_24px_0_rgba(34,197,94,0.10)] overflow-hidden relative transition-all duration-300 hover:shadow-green-400/40">
+    <div className="max-w-7xl mx-auto min-h-[calc(100vh-100px)] p-3 sm:p-4 md:p-6 my-6 rounded-2xl border border-green-300 bg-gradient-to-br from-amber-50 via-white to-green-50 shadow-[0_4px_24px_0_rgba(34,197,94,0.10)] overflow-hidden relative transition-all duration-300 hover:shadow-green-400/40">
       {/* Glassy Category Badge */}
       <div className="absolute top-4 left-4 flex items-center gap-2 px-4 py-1 rounded-full shadow text-xs sm:text-sm font-bold z-10 backdrop-blur bg-green-500/90 text-white border border-green-300">
         {idea.category}
@@ -168,8 +168,15 @@ const IdeaDetailsCard = ({
             {idea.images.map((img, idx) => (
               <SwiperSlide key={idx}>
                 <Image
-                  src={img || "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"}
-                  alt={idea.title ? `${idea.title} Image ${idx + 1}` : `Idea Image ${idx + 1}`}
+                  src={
+                    img ||
+                    "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
+                  }
+                  alt={
+                    idea.title
+                      ? `${idea.title} Image ${idx + 1}`
+                      : `Idea Image ${idx + 1}`
+                  }
                   width={800}
                   height={400}
                   className="rounded-xl w-full h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] object-cover"
@@ -182,7 +189,9 @@ const IdeaDetailsCard = ({
         ) : (
           <Image
             src="https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
-            alt={idea.title ? `${idea.title} Default Image` : "Idea Default Image"}
+            alt={
+              idea.title ? `${idea.title} Default Image` : "Idea Default Image"
+            }
             width={800}
             height={400}
             className="rounded-xl w-full h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] object-cover"
@@ -194,9 +203,12 @@ const IdeaDetailsCard = ({
 
       {/* Top Row: Premium & Actions */}
       <div className="flex flex-row justify-between items-center mb-4 gap-3">
-        <div className={`px-4 py-1 rounded-full text-xs sm:text-sm font-medium shadow ${
-          idea.isPremium ? "bg-gradient-to-r from-purple-600 to-purple-800 text-white" : "bg-gray-200 text-gray-800"
-        }`}>
+        <div
+          className={`px-4 py-1 rounded-full text-xs sm:text-sm font-medium shadow ${
+            idea.isPremium
+              ? "bg-gradient-to-r from-purple-600 to-purple-800 text-white"
+              : "bg-gray-200 text-gray-800"
+          }`}>
           {idea.isPremium ? `Premium - $${idea.price}` : "Free"}
         </div>
         <div className="flex items-center gap-4 flex-wrap">
@@ -232,7 +244,10 @@ const IdeaDetailsCard = ({
           {idea.title}
         </h1>
         <div className="flex items-center gap-2 text-muted-foreground mb-2 text-sm">
-          <span>Posted on {idea.createdAt ? format(new Date(idea.createdAt), "PPP") : "N/A"}</span>
+          <span>
+            Posted on{" "}
+            {idea.createdAt ? format(new Date(idea.createdAt), "PPP") : "N/A"}
+          </span>
           <span>•</span>
           <span className="text-green-700 font-medium">by {user?.name}</span>
         </div>
@@ -267,7 +282,10 @@ const IdeaDetailsCard = ({
 
       {/* Status and Voting */}
       <div className="flex flex-wrap justify-between items-center gap-4 mb-8">
-        <div className={`px-4 py-1 rounded-full text-white text-xs sm:text-sm font-medium shadow ${getStatusColor(idea.status)}`}>
+        <div
+          className={`px-4 py-1 rounded-full text-white text-xs sm:text-sm font-medium shadow ${getStatusColor(
+            idea.status
+          )}`}>
           Status: {idea.status}
         </div>
         <div className="flex gap-4">

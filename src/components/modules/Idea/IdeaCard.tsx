@@ -21,7 +21,7 @@ const IdeaCard = ({ data }: { data: TIdea }) => {
       : `/ideas/${data.id}`;
 
   return (
-    <div className="rounded-xl shadow-md w-full max-w-sm mx-auto mb-8 flex flex-col items-center bg-background">
+    <div className="rounded-xl shadow-md w-full max-w-sm mx-auto mb-6 flex flex-col items-center bg-background">
       <div className="w-full h-56 rounded-t-xl overflow-hidden relative">
         <Image
           className="object-cover w-full h-full"

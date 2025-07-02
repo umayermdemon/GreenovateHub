@@ -1,6 +1,6 @@
 const BlogDetailsSkeleton = () => {
   return (
-    <div className="max-w-5xl lg:container mx-auto min-h-[calc(100vh-100px)] p-4 my-4 shadow-lg rounded-2xl border bg-gradient-to-br from-amber-50 via-white to-green-50 border-amber-400 animate-pulse">
+    <div className="max-w-7xl mx-auto min-h-[calc(100vh-100px)] p-4 my-4 shadow-lg rounded-2xl border bg-gradient-to-br from-amber-50 via-white to-green-50 border-amber-400 animate-pulse">
       {/* Image Skeleton */}
       <div className="rounded-xl mb-6 w-full h-[500px] bg-amber-100 border-2 border-amber-200"></div>
 

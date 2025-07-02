@@ -37,11 +37,14 @@ const AboutPage = () => {
     <div>
       {/* Header section */}
       <div className="h-60 w-full flex items-center justify-center bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-white via-[#f8fafc] to-[#f3f4f6]">
-        <div className="max-w-7xl w-full mx-auto flex flex-col md:flex-row items-center justify-between py-8">
+        <div className=" max-w-7xl w-full mx-auto flex flex-col md:flex-row items-center justify-between py-8 px-6 lg:px-0">
           <div>
             <h1 className="text-3xl md:text-5xl font-bold text-secondary mb-2">
               About Page
             </h1>
+            <p className="text-muted-foreground text-base md:text-lg">
+              We are here to answer any question you may have.
+            </p>
           </div>
         </div>
       </div>

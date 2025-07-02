@@ -35,7 +35,7 @@ const stats = [
 
 const StatsSection = () => (
   <section className="py-16" id="stats">
-    <div className="container mx-auto px-4">
+    <div className="max-w-7xl mx-auto px-4">
       {/* Section Header */}
       <div className="mb-12 text-center">
         <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-2">

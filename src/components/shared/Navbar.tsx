@@ -126,7 +126,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
       }`}`}>
       {/* Top nav */}
       <div
-        className={`flex flex-col gap-2 md:flex-row md:items-center md:justify-between px-2 md:px-4 container mx-auto transition-all duration-300 ${
+        className={`flex flex-col gap-2 md:flex-row md:items-center md:justify-between px-2 md:px-4 lg:px-0 max-w-7xl mx-auto transition-all duration-300 ${
           isScrolled
             ? "md:h-0 md:overflow-hidden md:opacity-0"
             : "py-2 opacity-100"
@@ -142,7 +142,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
           <div className="flex items-center gap-6 md:hidden">
             <Drafts />
             <button
-              className=" mr-4"
+              className="mr-4"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
               {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
@@ -307,7 +307,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
 
       {/* Popular Searches */}
       <div
-        className={`px-2 md:px-4 py-1 hidden lg:flex items-center justify-center text-xs md:text-sm container mx-auto text-center transition-all duration-300 ${
+        className={`px-2 md:px-0 py-1 hidden lg:flex items-center justify-center text-xs md:text-sm max-w-7xl mx-auto text-center transition-all duration-300 ${
           isScrolled ? "md:h-0 md:overflow-hidden md:opacity-0" : "opacity-100"
         }`}>
         <span className="font-semibold ml-2 md:ml-6 mr-2">
@@ -336,7 +336,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
 
       {/* Bottom nav */}
       <div
-        className={`flex flex-row items-center justify-between gap-2 px-2 md:px-4 py-2 text-xs md:text-sm container mx-auto transition-all duration-300 ${
+        className={`flex flex-row items-center justify-between gap-2 px-2 md:px-4 lg:px-0 py-2 text-xs md:text-sm max-w-7xl mx-auto transition-all duration-300 ${
           isScrolled ? "md:py-2" : ""
         }`}>
         {/* Category Dropdown */}
@@ -373,7 +373,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
           )}
         </div>
         {/* Menu Items */}
-        <div className="w-full overflow-x-auto md:overflow-visible hidden md:flex items-center justify-center lg:pl-36">
+        <div className="w-full overflow-x-auto md:overflow-visible hidden md:flex items-center justify-center">
           <ul className="flex flex-wrap items-center space-x-2 md:space-x-6 font-medium text-base md:text-lg">
             {menuItems.map((item, i) => (
               <li key={i} className="relative group">

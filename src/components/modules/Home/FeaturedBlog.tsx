@@ -25,7 +25,7 @@ const FeaturedBlog = () => {
 
   return (
     <section className="py-16">
-      <div className="container mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-center text-3xl font-bold mb-2">
           <span className="text-secondary">Featured Blog</span>
         </h2>
@@ -33,13 +33,13 @@ const FeaturedBlog = () => {
           Explore expert insights, practical tips, and inspiring stories from
           the world of sustainability and innovation.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {isLoading
             ? Array.from({ length: 4 }).map((_, i) => (
                 <BlogCardSkeleton key={i} />
               ))
             : blogs
-                ?.slice(0, 4)
+                ?.slice(0, 3)
                 .map((blog: TBlog) => (
                   <BlogCard key={blog.id} data={blog} userId={user?.userId} />
                 ))}

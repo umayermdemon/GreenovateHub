@@ -146,7 +146,10 @@ const BlogDetailsCard = ({
   }
 
   return (
-    <div className={`max-w-5xl lg:container mx-auto min-h-[calc(100vh-100px)] p-4 my-4 shadow-lg rounded-2xl border ${getCategoryColor(blog?.category)} bg-gradient-to-br from-amber-50 via-white to-amber-50`}>
+    <div
+      className={`max-w-7xl mx-auto min-h-[calc(100vh-100px)] p-4 my-4 shadow-lg rounded-2xl border ${getCategoryColor(
+        blog?.category
+      )} bg-gradient-to-br from-amber-50 via-white to-amber-50`}>
       {/* Images */}
       {blog?.images && blog?.images?.length > 0 && (
         <Swiper
@@ -173,7 +176,9 @@ const BlogDetailsCard = ({
       <div className="flex justify-between items-center mb-6">
         <Badge
           variant="outline"
-          className={`capitalize text-white p-2 ${getBadgeColor(blog?.category)}`}>
+          className={`capitalize text-white p-2 ${getBadgeColor(
+            blog?.category
+          )}`}>
           {blog?.category}
         </Badge>
         <div>
@@ -204,7 +209,10 @@ const BlogDetailsCard = ({
           {blog?.title}
         </h1>
         <div className="flex items-center gap-2 text-muted-foreground text-sm">
-          <span>Posted on {blog?.createdAt ? format(new Date(blog?.createdAt), "PPP") : "N/A"}</span>
+          <span>
+            Posted on{" "}
+            {blog?.createdAt ? format(new Date(blog?.createdAt), "PPP") : "N/A"}
+          </span>
           <span>•</span>
           <span className="text-amber-700 font-medium">by {user?.name}</span>
         </div>

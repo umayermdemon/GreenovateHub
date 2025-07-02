@@ -1,6 +1,6 @@
 const IdeaDetailsSkeleton = () => {
   return (
-    <div className="max-w-5xl lg:container mx-auto min-h-[calc(100vh-100px)] p-3 sm:p-4 md:p-6 my-6 rounded-2xl border border-green-300 bg-gradient-to-br from-amber-50 via-white to-green-50 shadow-[0_4px_24px_0_rgba(34,197,94,0.10)] overflow-hidden relative animate-pulse space-y-6">
+    <div className="max-w-7xl mx-auto min-h-[calc(100vh-100px)] p-3 sm:p-4 md:p-6 my-6 rounded-2xl border border-green-300 bg-gradient-to-br from-amber-50 via-white to-green-50 shadow-[0_4px_24px_0_rgba(34,197,94,0.10)] overflow-hidden relative animate-pulse space-y-6">
       {/* Glassy Category Badge */}
       <div className="absolute top-4 left-4 flex items-center gap-2 px-4 py-1 rounded-full shadow text-xs sm:text-sm font-bold z-10 backdrop-blur bg-green-400/80 text-white border border-green-300">
         <div className="h-4 w-20 bg-green-200 rounded-full" />

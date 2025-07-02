@@ -121,7 +121,7 @@ const BlogPage = ({
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-4 gap-2 mx-5 grid-cols-1 ">
+      <div className="grid lg:grid-cols-3 gap-2 mx-5 grid-cols-1 ">
         {blogs?.length ? (
           blogs?.map((blog) => (
             <BlogCard key={blog.id} data={blog} userId={user?.userId} />

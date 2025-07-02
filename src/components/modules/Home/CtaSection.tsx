@@ -17,7 +17,7 @@ const CtaSection = () => {
         }}
       />
       <div className="absolute inset-0 bg-foreground/60 pointer-events-none z-10" />
-      <div className="relative container mx-auto px-4 text-center z-20">
+      <div className="relative max-w-7xl mx-auto px-4 text-center z-20">
         <h2 className="text-3xl md:text-4xl font-bold mb-6">
           Ready to Make a Difference?
         </h2>

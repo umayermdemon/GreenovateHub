@@ -17,7 +17,7 @@ const Blogs = async ({ searchParams }: any) => {
   });
 
   return (
-    <div className="container mx-auto">
+    <div className="max-w-7xl mx-auto">
       <BlogPage
         initialBlogs={res?.data}
         initialMeta={res?.meta}

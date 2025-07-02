@@ -16,7 +16,7 @@ const Ideas = async ({ searchParams }: any) => {
     limit: "8",
   });
   return (
-    <div className="container mx-auto">
+    <div className="max-w-7xl mx-auto">
       <IdeaPage
         initialIdeas={res?.data}
         initialMeta={res?.meta}
