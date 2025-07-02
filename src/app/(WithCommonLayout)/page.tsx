@@ -6,6 +6,7 @@ import TestimonialSection from "@/components/modules/Home/Testimonial";
 import { getAllIdeas } from "@/services/idea";
 import StatsSection from "@/components/modules/Home/StatsSection";
 import CtaSection from "@/components/modules/Home/CtaSection";
+import MeetingCtaSection from "@/components/modules/Home/MeetingCtaSection";
 
 const HomePage = async () => {
   const ideas = await getAllIdeas({ status: "approved" });
@@ -19,7 +20,7 @@ const HomePage = async () => {
       <CommunitySection />
       <CtaSection />
       <TestimonialSection />
-      {/* CTA Section */}
+      <MeetingCtaSection />
     </div>
   );
 };

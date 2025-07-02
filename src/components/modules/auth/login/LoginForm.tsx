@@ -58,7 +58,7 @@ const LoginForm = () => {
   return (
     <div className="lg:max-w-3xl lg:w-full lg:mx-auto lg:px-8 px-3">
       <div className="mb-2 lg:mr-0 relative lg:left-0 left-3">
-        <Link href="/" className="text-green-500 underline">
+        <Link href="/" className="text-primary underline">
           {" "}
           Back To Home
         </Link>
@@ -67,16 +67,15 @@ const LoginForm = () => {
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-4 lg:w-[480px] w-full p-3">
-          <div
-            className={`space-y-1 border-2 border-green-300 border-b-0 rounded-2xl pt-6`}>
-            <h1 className="text-center text-2xl text-green-500">
-              Enter You Credentials
+          <div className="space-y-1 border-2 border-primary border-b-0 rounded-2xl pt-6">
+            <h1 className="text-center text-2xl text-primary">
+              Enter Your Credentials
             </h1>
             <div className="flex justify-center gap-3 mb-4">
               <Button
                 type="button"
                 variant="outline"
-                className="border-green-500 text-green-600 hover:bg-green-50 transition font-semibold cursor-pointer"
+                className="border-primary text-primary hover:bg-primary/10 transition font-semibold cursor-pointer"
                 onClick={() => fillDemo("member")}>
                 Demo member
               </Button>
@@ -87,7 +86,7 @@ const LoginForm = () => {
                 label="Email"
                 placeholder="Email"
                 control={form.control}
-                className={`focus:outline-none rounded-none border ${commonWidth} border-green-500`}
+                className={`focus:outline-none rounded-none border ${commonWidth} border-primary`}
                 required
               />
             </div>
@@ -97,7 +96,7 @@ const LoginForm = () => {
                 label="Password"
                 placeholder="********"
                 control={form.control}
-                className={`focus:outline-none rounded-none ${commonWidth}  border border-green-500`}
+                className={`focus:outline-none rounded-none ${commonWidth} border border-primary`}
                 type="password"
                 required
               />
@@ -105,14 +104,14 @@ const LoginForm = () => {
             <div className="flex justify-center">
               <Button
                 type="submit"
-                className={`${commonWidth}  rounded-none mt-3 text-white bg-green-500 cursor-pointer`}>
+                className={`${commonWidth} rounded-none mt-3 text-primary-foreground bg-primary cursor-pointer`}>
                 {isSubmitting ? <Loader className="animate-spin" /> : "Login"}
               </Button>
             </div>
-            <h1 className="text-center text-green-500">
+            <h1 className="text-center text-primary">
               New here?{" "}
               <Link
-                className="text-black hover:underline cursor-pointer"
+                className="text-secondary hover:underline cursor-pointer"
                 href={`/register${
                   redirectPath ? `?redirectPath=${redirectPath}` : ""
                 }`}>

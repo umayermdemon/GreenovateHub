@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { FaUser, FaList, FaPhoneAlt } from "react-icons/fa";
+import { FaUser, FaList } from "react-icons/fa";
 import { RiDraftLine } from "react-icons/ri";
 import Logo from "./Logo";
 import { useEffect, useRef, useState } from "react";
@@ -26,6 +26,7 @@ import { logoutUser } from "@/services/auth";
 import { TUserProfile } from "@/types";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import UpdateProfile from "../UpdateProfile";
+import GetInTouchModal from "../utils/GenInTouchModal";
 
 const Drafts = () => {
   return (
@@ -46,6 +47,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showGetInTouch, setShowGetInTouch] = useState(false);
   const router = useRouter();
   const hideSearchBar = pathname === "/ideas" || pathname === "/blogs";
 
@@ -349,7 +351,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
             <ChevronDown />
           </button>
           {category === "open" && (
-            <div className="absolute left-0 mt-2 bg-secondary-foreground shadow-lg rounded w-full md:w-48 text-secondary/60 z-50">
+            <div className="absolute left-0 mt-2 bg-background shadow-xl rounded w-full md:w-48 text-secondary/60 z-50">
               {["All", "Energy", "Waste", "Transportation"].map((item) => (
                 <div
                   key={item}
@@ -403,12 +405,18 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
           </ul>
         </div>
         {/* Contact */}
-        <div className="flex items-center justify-center md:justify-end w-full md:w-1/4 mt-2 md:mt-0 gap-2">
-          <FaPhoneAlt className="text-base md:text-lg" />
-          <span className="text-xs lg:text-base whitespace-nowrap">
-            +880 1636 279878
-          </span>
+        <div className="flex items-center">
+          <Button
+            onClick={() => setShowGetInTouch(true)}
+            className="bg-primary hover:bg-secondary text-primary-foreground cursor-pointer">
+            Get In Touch
+          </Button>
         </div>
+        {/* Get In Touch Modal */}
+        <GetInTouchModal
+          open={showGetInTouch}
+          onOpenChange={setShowGetInTouch}
+        />
       </div>
     </div>
   );
