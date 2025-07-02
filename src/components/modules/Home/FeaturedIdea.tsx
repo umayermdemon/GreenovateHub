@@ -13,7 +13,7 @@ const FeaturedIdea = ({ ideas }: { ideas: TIdea[] }) => {
   }, [ideas]);
 
   return (
-    <section className="py-16 bg-[#f9f9f9]">
+    <section className="py-16 bg-secondary-foreground">
       <div className="container mx-auto px-4">
         <h2 className="text-center text-3xl font-bold mb-2">
           <span className="text-secondary">Featured Ideas</span>

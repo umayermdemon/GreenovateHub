@@ -7,12 +7,12 @@ import { Mail, MapPin, Phone } from "lucide-react";
 const ContactPage = () => {
   return (
     <div className="">
-      <div className="h-60 bg-gradient-to-b from-[#eafcfb] to-[#ccf3f8] text-center flex items-center justify-center">
+      <div className="h-60 w-full flex items-center justify-center bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-white via-[#f8fafc] to-[#f3f4f6]">
         <h1 className="text-3xl font-bold text-[#06002C]">Contact Page</h1>
       </div>
 
       {/* Contact Info Section */}
-      <div className="bg-[#f3f9ff] py-24">
+      <div className="bg-background py-24">
         <div className="max-w-7xl mx-auto ">
           <div className="text-center space-y-2 mb-8">
             <h2 className="text-3xl font-bold text-[#06002C]">Contact Info</h2>
