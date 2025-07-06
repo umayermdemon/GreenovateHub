@@ -31,7 +31,8 @@
     "zod": "^3.24.3"
   },
   "devDependencies": {
-    "@prisma/client": "^6.7.0",
-    "prisma": "^6.7.0"
+    "@prisma/client": "^6.11.1",
+    "prisma": "^6.11.1",
+    "ts-node-dev": "^2.0.0"
   }
 }
