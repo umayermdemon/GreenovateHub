@@ -83,12 +83,12 @@ const BlogPage = ({
   };
 
   return (
-    <div className="my-1 md:my-6">
-      <div className="lg:flex lg:flex-row-reverse gap-3 lg:mx-4 mx-1">
+    <div className="py-1 md:py-10">
+      <div className="lg:flex lg:flex-row-reverse gap-3">
         <div className="flex flex-1 lg:mb-0 mb-1 lg:mx-0 mx-0.5">
           <Input
             placeholder="Search Blog..."
-            className="lg:w-full border-amber-500 rounded-r-none focus:border-amber-500"
+            className="lg:w-full border-primary rounded-r-none focus:border-primary"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyDown={(e) => {
@@ -96,7 +96,7 @@ const BlogPage = ({
             }}
           />
           <Button
-            className="rounded-l-none rounded-r-full cursor-pointer bg-amber-500"
+            className="rounded-l-none rounded-r-full cursor-pointer bg-primary text-white"
             size="icon"
             onClick={handleSearch}>
             <Search size={18} />
@@ -112,7 +112,7 @@ const BlogPage = ({
                 <TabsTrigger
                   key={tab}
                   value={tab}
-                  className="w-full data-[state=active]:bg-amber-500 data-[state=active]:text-white cursor-pointer">
+                  className="w-full data-[state=active]:bg-primary data-[state=active]:text-white cursor-pointer">
                   {tab.charAt(0).toUpperCase() + tab.slice(1)}
                 </TabsTrigger>
               ))}
@@ -121,7 +121,7 @@ const BlogPage = ({
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-2 mx-5 grid-cols-1 ">
+      <div className="grid lg:grid-cols-3 gap-2 grid-cols-1 ">
         {blogs?.length ? (
           blogs?.map((blog) => (
             <BlogCard key={blog.id} data={blog} userId={user?.userId} />
@@ -133,21 +133,21 @@ const BlogPage = ({
         )}
       </div>
       {/* pagination section */}
-      <div className="mt-6 flex justify-center items-center gap-4 flex-wrap">
+      <div className="mt-6 flex justify-center items-center gap-2 sm:gap-4 flex-wrap">
         <Button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
           className={`rounded-md border transition-all duration-200 flex items-center gap-2
       ${
         currentPage === 1
-          ? "bg-gray-400 text-black cursor-not-allowed"
-          : "bg-white text-amber-600 border-amber-600 hover:bg-amber-600 hover:text-white"
-      } cursor-pointer`}>
+          ? "bg-gray-300 text-gray-500 cursor-not-allowed border-gray-200"
+          : "bg-white text-primary border-primary hover:bg-primary hover:text-white"
+      } cursor-pointer px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-base`}>
           <ChevronLeft className="text-lg" />
         </Button>
 
         {/* Page Number Buttons with Icons */}
-        <div className="flex gap-1">
+        <div className="flex gap-0.5 sm:gap-1">
           {[...Array(Math.max(1, meta?.totalPage || 1))].map((_, index) => {
             const page = index + 1;
             const isActive = page === currentPage;
@@ -155,12 +155,13 @@ const BlogPage = ({
               <button
                 key={page}
                 onClick={() => handlePageChange(page)}
-                className={`px-3 py-1 cursor-pointer rounded-md text-sm border transition-all duration-200 flex items-center gap-1
+                className={`px-2 sm:px-3 py-1 cursor-pointer rounded-md text-xs sm:text-sm border transition-all duration-200 flex items-center gap-1
             ${
               isActive
-                ? "bg-amber-600 text-white border-amber-600"
-                : "bg-white text-amber-600 border-amber-500 hover:bg-amber-600 hover:text-white hover:border-amber-600"
-            }`}>
+                ? "bg-primary text-white border-primary"
+                : "bg-white text-primary border-primary hover:bg-primary hover:text-white"
+            }`}
+                style={{ minWidth: 32 }}>
                 <span className="font-semibold">{page}</span>
               </button>
             );
@@ -170,12 +171,12 @@ const BlogPage = ({
         <Button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === meta?.totalPage}
-          className={`px-4 py-2 rounded-md border transition-all duration-200 flex items-center gap-2 cursor-pointer
+          className={`rounded-md border transition-all duration-200 flex items-center gap-2 cursor-pointer
       ${
         currentPage === meta?.totalPage
-          ? "bg-gray-400 text-black cursor-not-allowed"
-          : "bg-amber-600 text-white hover:bg-amber-600 border-amber-600"
-      }`}>
+          ? "bg-gray-300 text-gray-500 cursor-not-allowed border-gray-200"
+          : "bg-primary text-white hover:bg-primary border-primary"
+      } px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-base`}>
           <ChevronRight className="text-lg" />
         </Button>
       </div>

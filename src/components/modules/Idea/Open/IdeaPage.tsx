@@ -81,8 +81,8 @@ const IdeaPage = ({
   };
 
   return (
-    <div className="my-1 md:my-6">
-      <div className="lg:flex lg:flex-row-reverse gap-3 lg:mx-4 mx-1">
+    <div className="py-1 md:py-10">
+      <div className="lg:flex lg:flex-row-reverse gap-3">
         <div className="flex flex-1 lg:mb-0 mb-1 lg:mx-0 mx-0.5">
           <Input
             placeholder="Search Idea..."
@@ -119,7 +119,7 @@ const IdeaPage = ({
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-4  mx-5 grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3">
         {ideas.length ? (
           ideas?.map((idea: TIdea) => <IdeaCard key={idea.id} data={idea} />)
         ) : (
