@@ -3,32 +3,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Mail, MapPin, Phone } from "lucide-react";
-import Link from "next/link";
+import PageTopStyle from "@/components/shared/PageTopStyle";
 
 const ContactPage = () => {
   return (
-    <div className="">
-      <div className="h-32 max-w-7xl mx-auto w-full flex items-center justify-center">
-        <div className="w-full mx-auto flex flex-col md:flex-row items-center justify-between py-8 px-6 lg:px-0">
-          <div>
-            <h1 className="text-3xl font-bold text-secondary mb-2">
-              Contact Page
-            </h1>
-            <p className="text-muted-foreground text-base">
-              We are here to answer any question you may have.
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center justify-center text-sm md:text-base">
-          <Link
-            href="/"
-            className="text-muted-foreground hover:text-secondary transition-colors">
-            Home
-          </Link>
-          <span>/</span>
-          <h2 className="text-muted-foreground">Contact</h2>
-        </div>
-      </div>
+    <div className="py-16 lg:py-0">
+      {/* Header section */}
+      <PageTopStyle
+        header="Contact Page"
+        description="We are here to answer any question you may have."
+        footer="Contact"
+      />
 
       {/* Contact Info Section */}
       <div className="bg-background py-24">

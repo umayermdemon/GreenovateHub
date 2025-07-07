@@ -81,7 +81,7 @@ const IdeaPage = ({
   };
 
   return (
-    <div className="py-1 md:py-4 max-w-7xl mx-auto">
+    <div className="py-1 md:py-4 max-w-7xl mx-2 lg:mx-auto">
       <div className="lg:flex lg:flex-row-reverse gap-3">
         <div className="flex flex-1 lg:mb-0 mb-1 lg:mx-0 mx-0.5">
           <Input
@@ -119,7 +119,7 @@ const IdeaPage = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:gap-2">
         {ideas.length ? (
           ideas?.map((idea: TIdea) => <IdeaCard key={idea.id} data={idea} />)
         ) : (

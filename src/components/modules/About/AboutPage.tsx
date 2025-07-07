@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import aboutImage from "@/app/assets/about.png";
 import apple from "@/app/assets/apple.png";
-import Link from "next/link";
+import PageTopStyle from "@/components/shared/PageTopStyle";
 
 const features = [
   {
@@ -35,29 +35,13 @@ const features = [
 
 const AboutPage = () => {
   return (
-    <div>
+    <div className="py-16 lg:py-0">
       {/* Header section */}
-      <div className="h-32 max-w-7xl mx-auto w-full flex items-center justify-center">
-        <div className="  w-full mx-auto flex flex-col md:flex-row items-center justify-between py-8 px-6 lg:px-0">
-          <div>
-            <h1 className="text-3xl font-bold text-secondary mb-2">
-              About Page
-            </h1>
-            <p className="text-muted-foreground text-base">
-              We are here to answer any question you may have.
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center justify-center text-sm md:text-base">
-          <Link
-            href="/"
-            className="text-muted-foreground hover:text-secondary transition-colors">
-            Home
-          </Link>
-          <span>/</span>
-          <h2 className="text-muted-foreground">About</h2>
-        </div>
-      </div>
+      <PageTopStyle
+        header="About Page"
+        description="We are here to answer any question you may have."
+        footer="About"
+      />
       {/* Welcome section */}
       <div className="bg-background flex items-center justify-center py-12 md:py-16 px-4">
         <div className="max-w-6xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 items-center">
