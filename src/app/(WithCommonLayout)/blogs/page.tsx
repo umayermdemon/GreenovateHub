@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import BlogPage from "@/components/modules/blog/Open/BlogPage";
 import { getAllBlogs } from "@/services/blog";
+import Link from "next/link";
 
 const Blogs = async ({ searchParams }: any) => {
   const { category, page, search } = await searchParams;
@@ -17,14 +18,37 @@ const Blogs = async ({ searchParams }: any) => {
   });
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <BlogPage
-        initialBlogs={res?.data}
-        initialMeta={res?.meta}
-        initialCategory={categoryName}
-        initialSearch={searchTerm}
-        initialPage={parseInt(currentPage, 10)}
-      />
+    <div>
+      <div className="h-32 max-w-7xl mx-auto w-full flex items-center justify-center">
+        <div className="w-full mx-auto flex flex-col md:flex-row items-center justify-between py-8 px-6 lg:px-0">
+          <div>
+            <h1 className="text-3xl font-bold text-secondary mb-2">
+              Blog Posts
+            </h1>
+            <p className="text-muted-foreground text-base">
+              Browse our latest blog posts below.
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center justify-center text-sm md:text-base">
+          <Link
+            href="/"
+            className="text-muted-foreground hover:text-secondary transition-colors">
+            Home
+          </Link>
+          <span>/</span>
+          <h2 className="text-muted-foreground">Blogs</h2>
+        </div>
+      </div>
+      <div className="bg-background">
+        <BlogPage
+          initialBlogs={res?.data}
+          initialMeta={res?.meta}
+          initialCategory={categoryName}
+          initialSearch={searchTerm}
+          initialPage={parseInt(currentPage, 10)}
+        />
+      </div>
     </div>
   );
 };

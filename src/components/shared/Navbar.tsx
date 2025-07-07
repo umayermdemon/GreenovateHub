@@ -345,7 +345,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
           ref={dropdownRef}>
           <button
             onClick={() => setCategory((c) => (c === "open" ? "" : "open"))}
-            className="px-2 border-r-2 border-secondary relative cursor-pointer text-xs md:text-sm flex items-center gap-2 w-full lg:w-52">
+            className="border-r-2 border-secondary relative cursor-pointer text-xs md:text-sm flex items-center gap-2 w-full lg:w-52">
             <FaList />
             <span className="md:hidden lg:block">Browse Categories</span>
             <ChevronDown />

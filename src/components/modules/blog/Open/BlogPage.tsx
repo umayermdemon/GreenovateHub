@@ -83,7 +83,7 @@ const BlogPage = ({
   };
 
   return (
-    <div className="py-1 md:py-10">
+    <div className="py-1 md:py-4 max-w-7xl mx-auto">
       <div className="lg:flex lg:flex-row-reverse gap-3">
         <div className="flex flex-1 lg:mb-0 mb-1 lg:mx-0 mx-0.5">
           <Input
