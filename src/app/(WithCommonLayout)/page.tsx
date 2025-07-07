@@ -13,14 +13,13 @@ const HomePage = async () => {
   return (
     <div className="min-h-screen bg-primary-foreground">
       <Banner />
-      {/* Stats Section */}
       <StatsSection />
       <FeaturedIdea ideas={ideas?.data} />
       <FeaturedBlog />
-      <CommunitySection />
       <CtaSection />
-      <TestimonialSection />
+      <CommunitySection />
       <MeetingCtaSection />
+      <TestimonialSection />
     </div>
   );
 };
