@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import aboutImage from "@/app/assets/about.png";
 import apple from "@/app/assets/apple.png";
+import Link from "next/link";
 
 const features = [
   {
@@ -36,8 +37,8 @@ const AboutPage = () => {
   return (
     <div>
       {/* Header section */}
-      <div className="h-60 w-full flex items-center justify-center bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-white via-[#f8fafc] to-[#f3f4f6]">
-        <div className=" max-w-7xl w-full mx-auto flex flex-col md:flex-row items-center justify-between py-8 px-6 lg:px-0">
+      <div className="h-60 max-w-7xl mx-auto w-full flex items-center justify-center bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-white via-[#f8fafc] to-[#f3f4f6]">
+        <div className="  w-full mx-auto flex flex-col md:flex-row items-center justify-between py-8 px-6 lg:px-0">
           <div>
             <h1 className="text-3xl md:text-5xl font-bold text-secondary mb-2">
               About Page
@@ -46,6 +47,15 @@ const AboutPage = () => {
               We are here to answer any question you may have.
             </p>
           </div>
+        </div>
+        <div className="flex items-center justify-center text-sm md:text-base">
+          <Link
+            href="/"
+            className="text-muted-foreground hover:text-secondary transition-colors">
+            Home
+          </Link>
+          <span>/</span>
+          <h2 className="text-muted-foreground">About</h2>
         </div>
       </div>
       {/* Welcome section */}

@@ -3,12 +3,31 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Mail, MapPin, Phone } from "lucide-react";
+import Link from "next/link";
 
 const ContactPage = () => {
   return (
     <div className="">
-      <div className="h-60 w-full flex items-center justify-center bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-white via-[#f8fafc] to-[#f3f4f6]">
-        <h1 className="text-3xl font-bold text-[#06002C]">Contact Page</h1>
+      <div className="h-60 max-w-7xl mx-auto w-full flex items-center justify-center bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-white via-[#f8fafc] to-[#f3f4f6]">
+        <div className="w-full mx-auto flex flex-col md:flex-row items-center justify-between py-8 px-6 lg:px-0">
+          <div>
+            <h1 className="text-3xl md:text-5xl font-bold text-secondary mb-2">
+              Contact Page
+            </h1>
+            <p className="text-muted-foreground text-base md:text-lg">
+              We are here to answer any question you may have.
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center justify-center text-sm md:text-base">
+          <Link
+            href="/"
+            className="text-muted-foreground hover:text-secondary transition-colors">
+            Home
+          </Link>
+          <span>/</span>
+          <h2 className="text-muted-foreground">Contact</h2>
+        </div>
       </div>
 
       {/* Contact Info Section */}
