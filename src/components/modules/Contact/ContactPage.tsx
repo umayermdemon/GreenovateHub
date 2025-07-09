@@ -1,89 +1,86 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Mail, MapPin, Phone } from "lucide-react";
 import PageTopStyle from "@/components/shared/PageTopStyle";
 
 const ContactPage = () => {
   return (
-    <div className="py-16 lg:py-0">
+    <div className="bg-background min-h-[calc(100vh-300px)]  md:py-16 lg:py-0">
       {/* Header section */}
       <PageTopStyle
-        header="Contact Page"
-        description="We are here to answer any question you may have."
+        header="Contact"
+        description="We are here to answer any question you may have. Feel free to reach via contact form."
         footer="Contact"
       />
 
-      {/* Contact Info Section */}
-      <div className="bg-background py-24">
-        <div className="max-w-7xl mx-auto ">
-          <div className="text-center space-y-2 mb-8">
-            <h2 className="text-3xl font-bold text-[#06002C]">Contact Info</h2>
-            <p className="text-gray-600">
-              Let us know your opinions. Also you can write us if you have any
-              questions.
+      {/* Contact Section */}
+      <div className="max-w-7xl mx-auto py-12 px-2">
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* Contact Info Card */}
+          <div className="bg-card border border-border rounded-xl p-8 flex-1 flex flex-col justify-center shadow-sm">
+            <h2 className="text-2xl font-bold text-foreground mb-4">
+              Get in touch
+            </h2>
+            <p className="text-muted-foreground mb-6">
+              We are here to answer any question you may have. Feel free to
+              reach via contact form.
             </p>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3">
+                <MapPin className="text-muted-foreground mt-1" />
+                <span>
+                  <span className="font-semibold text-foreground">
+                    290 Maryam Springs 260,
+                  </span>
+                  <br />
+                  <span className="font-semibold text-foreground">
+                    Courbevoie, Paris
+                  </span>
+                </span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Mail className="text-muted-foreground" />
+                <span>
+                  <span className="font-semibold text-foreground">Email:</span>{" "}
+                  <span className="font-semibold text-muted-foreground">
+                    hello@liquid-themes.com
+                  </span>
+                </span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Phone className="text-muted-foreground" />
+                <span>
+                  <span className="font-semibold text-foreground">Phone:</span>{" "}
+                  <span className="font-semibold text-muted-foreground">
+                    +47 213 5941 295
+                  </span>
+                </span>
+              </li>
+            </ul>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-8">
-            <Card className="text-center py-8 shadow-md">
-              <CardContent className="flex flex-col items-center space-y-4">
-                <div className="bg-green-500 p-4 rounded-full text-white">
-                  <MapPin />
-                </div>
-                <h3 className="font-semibold text-[#06002C]">Office Address</h3>
-                <p className="text-sm text-gray-700">
-                  1201 Park Street, Fifth Avenue
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="text-center py-8 shadow-md">
-              <CardContent className="flex flex-col items-center space-y-4">
-                <div className="bg-green-500 p-4 rounded-full text-white">
-                  <Phone />
-                </div>
-                <h3 className="font-semibold text-[#06002C]">Phone Number</h3>
-                <p className="text-sm text-gray-700">
-                  +22698 745 632, 02 982 745
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="text-center py-8 shadow-md">
-              <CardContent className="flex flex-col items-center space-y-4">
-                <div className="bg-green-500 p-4 rounded-full text-white">
-                  <Mail />
-                </div>
-                <h3 className="font-semibold text-[#06002C]">Send Email</h3>
-                <p className="text-sm text-gray-700">youremail@gmail.com</p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </div>
-      {/* Feedback Form */}
-      <div className="">
-        <div className="max-w-7xl mx-auto py-12">
-          <div className="text-center space-y-2 mb-8">
-            <h2 className="text-3xl font-bold text-[#06002C]">Feedback</h2>
-            <p className="text-gray-600">
-              Let us know your opinions. Also you can write us if you have any
-              questions.
-            </p>
-          </div>
-          <form className="space-y-6 max-w-4xl mx-auto px-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Input placeholder="Your Name" />
-              <Input placeholder="Your Email" />
-              <Input placeholder="Phone" />
-              <Input placeholder="Subject" />
-            </div>
-            <Textarea placeholder="Your Message" className="min-h-[150px]" />
-            <div className="text-center">
-              <Button className="bg-green-100 text-green-600 hover:bg-green-200 cursor-pointer">
-                Send Your Message
+          {/* Contact Form */}
+          <div className="flex-1 flex lg:justify-end">
+            <form className="flex flex-col gap-4 w-full md:w-[500px]">
+              <Input
+                placeholder="Your name"
+                className="bg-muted/40 border border-border focus:ring-primary"
+              />
+              <Input
+                placeholder="Your Email Address"
+                className="bg-muted/40 border border-border focus:ring-primary"
+              />
+              <Textarea
+                placeholder="Your message"
+                className="bg-muted/40 border border-border min-h-[120px] focus:ring-primary"
+              />
+              <Button
+                type="submit"
+                className="bg-green-500 hover:bg-green-600 text-white text-base rounded-md mt-2">
+                Send email
               </Button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>

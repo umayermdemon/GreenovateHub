@@ -1,6 +1,6 @@
 "use client";
 
-import BlogDetails from "@/components/modules/blog/BlogDetailsCard";
+import BlogDetailsCard from "@/components/modules/blog/BlogDetailsCard";
 import { getSingleBlog } from "@/services/blog";
 import { getSingleUser } from "@/services/user";
 import BlogDetailsSkeleton from "@/skeletons/BlogDetailsSkeleton";
@@ -34,7 +34,7 @@ const BlogDetails = () => {
     return <BlogDetailsSkeleton />;
   }
 
-  return <BlogDetails blog={blog} user={user} />;
+  return <BlogDetailsCard blog={blog} user={user} />;
 };
 
 export default BlogDetails;
