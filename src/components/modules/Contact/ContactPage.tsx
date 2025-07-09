@@ -6,7 +6,7 @@ import PageTopStyle from "@/components/shared/PageTopStyle";
 
 const ContactPage = () => {
   return (
-    <div className="bg-background min-h-[calc(100vh-300px)]  md:py-16 lg:py-0">
+    <div className="bg-background pt-16 lg:pt-0 lg:pb-12">
       {/* Header section */}
       <PageTopStyle
         header="Contact"

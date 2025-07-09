@@ -10,7 +10,7 @@ const CommonLayout = async ({ children }: { children: ReactNode }) => {
       <div className="h-28 md:h-32 lg:h-36">
         <Navbar myProfile={myProfile} />
       </div>
-      <div className="min-h-screen bg-background">{children}</div>
+      <div className="bg-background">{children}</div>
       <Footer />
     </>
   );

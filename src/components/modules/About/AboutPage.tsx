@@ -35,7 +35,7 @@ const features = [
 
 const AboutPage = () => {
   return (
-    <div className="py-16 lg:py-0">
+    <div className="pt-16 lg:py-0">
       {/* Header section */}
       <PageTopStyle
         header="About Page"
