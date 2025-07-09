@@ -129,7 +129,7 @@ const BlogDetailsCard = ({
   return (
     <div className="max-w-7xl mx-auto min-h-[calc(100vh-100px)] p-2 sm:p-4 my-4 rounded-2xl border bg-background flex flex-row gap-4 shadow-lg">
       {/* Blog Header */}
-      <div>
+      <div className="w-full md:w-2/3">
         {/* Images */}
         <div>
           {blog?.images && blog?.images?.length > 0 && (
@@ -233,17 +233,17 @@ const BlogDetailsCard = ({
       </div>
 
       {/* Comments Section */}
-      <div className="bg-card p-4 sm:p-6 rounded-xl border border-border">
+      <div className="bg-card p-4 sm:p-6 rounded-xl border border-border w-full md:w-1/3">
         <h2 className="text-lg sm:text-xl font-semibold text-primary mb-6">
           Comments
         </h2>
-        <div className="flex flex-col md:flex-row gap-8">
+        <div className="flex flex-col-reverse gap-8">
           {/* Comment Field */}
-          <div className="w-full md:w-1/2">
+          <div className="w-full">
             <h3 className="text-base sm:text-lg font-medium text-foreground mb-3">
               Write a Comment
             </h3>
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-3 w-full">
               <Avatar className="w-[40px] h-[40px] border-primary border">
                 <AvatarImage
                   src={user?.image || "https://i.pravatar.cc/40"}
@@ -251,7 +251,7 @@ const BlogDetailsCard = ({
                 />
                 <AvatarFallback></AvatarFallback>
               </Avatar>
-              <div className="flex-1 bg-background rounded-xl px-4 py-2 border border-border shadow-sm">
+              <div className="flex-1  bg-background rounded-xl px-4 py-2 border border-border shadow-sm">
                 <textarea
                   className="w-full resize-none bg-transparent outline-none text-sm placeholder-muted-foreground"
                   placeholder="Write a comment..."
@@ -269,7 +269,7 @@ const BlogDetailsCard = ({
             </div>
           </div>
           {/* Comment List */}
-          <div className="w-full md:w-1/2">
+          <div className="w-full">
             <h3 className="text-base sm:text-lg font-medium text-foreground mb-3">
               All Comments
             </h3>
