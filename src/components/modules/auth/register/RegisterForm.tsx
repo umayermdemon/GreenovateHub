@@ -66,16 +66,16 @@ const RegisterForm = () => {
   return (
     <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 lg:px-8">
       <div className="mb-2">
-        <Link href="/" className="text-green-500 underline ">
+        <Link href="/" className="text-primary underline">
           Back To Home
         </Link>
       </div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 w-[480px] bg-white shadow-xl rounded-2xl border border-green-100 p-3">
+          className="space-y-4 w-full max-w-lg bg-card shadow-xl rounded-2xl border border-border p-3">
           <div className="space-y-1 pt-6">
-            <h1 className="text-center text-3xl text-green-600 mb-2 font-medium">
+            <h1 className="text-center text-3xl text-primary mb-2 font-medium">
               Register to Greenovate Hub
             </h1>
             <div className="w-full flex justify-center">
@@ -84,7 +84,7 @@ const RegisterForm = () => {
                 label="Name"
                 placeholder="Name"
                 control={form.control}
-                className={`focus:outline-none rounded-md border  ${commonWidth} border-green-400`}
+                className={`focus:outline-none rounded-md border ${commonWidth} border-border bg-background text-foreground`}
                 required
               />
             </div>
@@ -94,7 +94,7 @@ const RegisterForm = () => {
                 label="Email"
                 placeholder="Email"
                 control={form.control}
-                className={`focus:outline-none rounded-md border ${commonWidth} border-green-400`}
+                className={`focus:outline-none rounded-md border ${commonWidth} border-border bg-background text-foreground`}
                 required
               />
             </div>
@@ -104,7 +104,7 @@ const RegisterForm = () => {
                 label="Password"
                 placeholder="********"
                 control={form.control}
-                className={`focus:outline-none rounded-md ${commonWidth}  border border-green-400`}
+                className={`focus:outline-none rounded-md ${commonWidth} border border-border bg-background text-foreground`}
                 type="password"
                 required
               />
@@ -119,25 +119,25 @@ const RegisterForm = () => {
             <div className="flex justify-center">
               <Button
                 type="submit"
-                className={`${commonWidth} rounded-md mt-3 text-white bg-green-500 hover:bg-green-600 transition font-semibold shadow cursor-pointer`}>
+                className={`${commonWidth} rounded-md mt-3 text-primary-foreground bg-primary hover:bg-primary/90 transition font-semibold shadow cursor-pointer`}>
                 {isSubmitting ? <Loader className="animate-spin" /> : "Sign Up"}
               </Button>
             </div>
-            <h1 className="text-center text-green-500 mt-2">
+            <h1 className="text-center text-primary mt-2">
               Already Have an Account?{" "}
               <Link
-                className="text-black hover:underline font-semibold"
+                className="text-foreground hover:underline font-semibold"
                 href="/login">
                 Login
               </Link>
             </h1>
             <div className="flex items-center my-2">
-              <div className="flex-grow border-t border-gray-200"></div>
-              <span className="mx-2 text-gray-400">or</span>
-              <div className="flex-grow border-t border-gray-200"></div>
+              <div className="flex-grow border-t border-border"></div>
+              <span className="mx-2 text-muted-foreground">or</span>
+              <div className="flex-grow border-t border-border"></div>
             </div>
             <div className="flex justify-center">
-              <Button className="bg-amber-300 text-amber-700 cursor-pointer flex items-center gap-2 shadow hover:bg-amber-400 transition font-semibold">
+              <Button className="bg-muted text-foreground cursor-pointer flex items-center gap-2 shadow hover:bg-muted/80 transition font-semibold">
                 <FcGoogle className="text-xl" />
                 Google
               </Button>
