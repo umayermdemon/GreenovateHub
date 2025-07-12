@@ -84,7 +84,7 @@ const BlogPage = ({
 
   return (
     <div className="py-1 md:py-4 max-w-7xl mx-auto">
-      <div className="lg:flex lg:flex-row-reverse gap-3">
+      {/* <div className="lg:flex lg:flex-row-reverse gap-3">
         <div className="flex flex-1 lg:mb-0 mb-1 lg:mx-0 mx-0.5">
           <Input
             placeholder="Search Blog..."
@@ -119,66 +119,68 @@ const BlogPage = ({
             </TabsList>
           </Tabs>
         </div>
-      </div>
+      </div> */}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:gap-2">
-        {blogs?.length ? (
-          blogs?.map((blog) => (
-            <BlogCard key={blog.id} data={blog} userId={user?.userId} />
-          ))
-        ) : (
-          <div className="text-center w-full border">
-            <p className="text-black text-center">No blogs found</p>
-          </div>
-        )}
-      </div>
-      {/* pagination section */}
-      <div className="mt-6 flex justify-center items-center gap-2 sm:gap-4 flex-wrap">
-        <Button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className={`rounded-md border transition-all duration-200 flex items-center gap-2
+      <div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:gap-2">
+          {blogs?.length ? (
+            blogs?.map((blog) => (
+              <BlogCard key={blog.id} data={blog} userId={user?.userId} />
+            ))
+          ) : (
+            <div className="text-center w-full border">
+              <p className="text-black text-center">No blogs found</p>
+            </div>
+          )}
+        </div>
+        {/* pagination section */}
+        <div className="mt-6 flex justify-center items-center gap-2 sm:gap-4 flex-wrap">
+          <Button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`rounded-md border transition-all duration-200 flex items-center gap-2
       ${
         currentPage === 1
           ? "bg-gray-300 text-gray-500 cursor-not-allowed border-gray-200"
           : "bg-white text-primary border-primary hover:bg-primary hover:text-white"
       } cursor-pointer px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-base`}>
-          <ChevronLeft className="text-lg" />
-        </Button>
+            <ChevronLeft className="text-lg" />
+          </Button>
 
-        {/* Page Number Buttons with Icons */}
-        <div className="flex gap-0.5 sm:gap-1">
-          {[...Array(Math.max(1, meta?.totalPage || 1))].map((_, index) => {
-            const page = index + 1;
-            const isActive = page === currentPage;
-            return (
-              <button
-                key={page}
-                onClick={() => handlePageChange(page)}
-                className={`px-2 sm:px-3 py-1 cursor-pointer rounded-md text-xs sm:text-sm border transition-all duration-200 flex items-center gap-1
+          {/* Page Number Buttons with Icons */}
+          <div className="flex gap-0.5 sm:gap-1">
+            {[...Array(Math.max(1, meta?.totalPage || 1))].map((_, index) => {
+              const page = index + 1;
+              const isActive = page === currentPage;
+              return (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={`px-2 sm:px-3 py-1 cursor-pointer rounded-md text-xs sm:text-sm border transition-all duration-200 flex items-center gap-1
             ${
               isActive
                 ? "bg-primary text-white border-primary"
                 : "bg-white text-primary border-primary hover:bg-primary hover:text-white"
             }`}
-                style={{ minWidth: 32 }}>
-                <span className="font-semibold">{page}</span>
-              </button>
-            );
-          })}
-        </div>
+                  style={{ minWidth: 32 }}>
+                  <span className="font-semibold">{page}</span>
+                </button>
+              );
+            })}
+          </div>
 
-        <Button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === meta?.totalPage}
-          className={`rounded-md border transition-all duration-200 flex items-center gap-2 cursor-pointer
+          <Button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === meta?.totalPage}
+            className={`rounded-md border transition-all duration-200 flex items-center gap-2 cursor-pointer
       ${
         currentPage === meta?.totalPage
           ? "bg-gray-300 text-gray-500 cursor-not-allowed border-gray-200"
           : "bg-primary text-white hover:bg-primary border-primary"
       } px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-base`}>
-          <ChevronRight className="text-lg" />
-        </Button>
+            <ChevronRight className="text-lg" />
+          </Button>
+        </div>
       </div>
     </div>
   );

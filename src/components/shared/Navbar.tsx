@@ -64,7 +64,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
     if (stored) setSearchHistory(JSON.parse(stored));
   }, []);
 
-  const handleSearch = () => {
+  const handleIdeaSearch = () => {
     if (!searchTerm.trim()) return;
     let updatedHistory = [
       searchTerm,
@@ -74,6 +74,17 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
     setSearchHistory(updatedHistory);
     localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
     router.push(`/ideas?search=${encodeURIComponent(searchTerm)}`);
+  };
+  const handleBlogSearch = () => {
+    if (!searchTerm.trim()) return;
+    let updatedHistory = [
+      searchTerm,
+      ...searchHistory.filter((item) => item !== searchTerm),
+    ];
+    if (updatedHistory.length > 5) updatedHistory = updatedHistory.slice(0, 5);
+    setSearchHistory(updatedHistory);
+    localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
+    router.push(`/blogs?search=${encodeURIComponent(searchTerm)}`);
   };
 
   const handleLogout = async () => {
@@ -158,18 +169,18 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter") handleSearch();
+                if (e.key === "Enter") handleIdeaSearch();
               }}
             />
             <Button
               className="rounded-r-full cursor-pointer bg-secondary/70 hover:bg-secondary absolute right-0"
               size="icon"
-              onClick={handleSearch}>
+              onClick={handleIdeaSearch}>
               <Search size={18} />
             </Button>
           </div>
         )}
-        {hideSearchBar && (
+        {hideSearchBar && pathname === "/ideas" ? (
           <div className="hidden lg:flex w-full md:w-[40%] mt-2 md:mt-0 rounded-full relative">
             <Input
               placeholder="Search Idea..."
@@ -177,17 +188,35 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter") handleSearch();
+                if (e.key === "Enter") handleIdeaSearch();
               }}
             />
             <Button
               className="rounded-r-full cursor-pointer bg-secondary/70 hover:bg-secondary absolute right-0"
               size="icon"
-              onClick={handleSearch}>
+              onClick={handleIdeaSearch}>
               <Search size={18} />
             </Button>
           </div>
-        )}
+        ) : hideSearchBar && pathname === "/blogs" ? (
+          <div className="hidden lg:flex w-full md:w-[40%] mt-2 md:mt-0 rounded-full relative">
+            <Input
+              placeholder="Search Blog..."
+              className="rounded-r-3xl border border-secondary"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleBlogSearch();
+              }}
+            />
+            <Button
+              className="rounded-r-full cursor-pointer bg-secondary/70 hover:bg-secondary absolute right-0"
+              size="icon"
+              onClick={handleIdeaSearch}>
+              <Search size={18} />
+            </Button>
+          </div>
+        ) : null}
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
