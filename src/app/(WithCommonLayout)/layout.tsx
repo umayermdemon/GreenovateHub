@@ -7,7 +7,7 @@ const CommonLayout = async ({ children }: { children: ReactNode }) => {
   const { data: myProfile } = await getMyProfile();
   return (
     <>
-      <div className="h-28 md:h-32 lg:h-36">
+      <div className="h-16 md:h-32 lg:h-36">
         <Navbar myProfile={myProfile} />
       </div>
       <div className="bg-background">{children}</div>

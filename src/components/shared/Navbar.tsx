@@ -42,6 +42,7 @@ const Drafts = () => {
 const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
   const { user } = useUser();
   const pathname = usePathname();
+  const [mobileSearchBar, setMobileSearchBar] = useState(false);
   const [category, setCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -84,6 +85,26 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
     setSearchHistory(updatedHistory);
     localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
     router.push(`/blogs?search=${encodeURIComponent(searchTerm)}`);
+  };
+
+  // const mobileIdeaSearch = () => {
+  //   if (!searchTerm.trim()) return;
+  //   let updatedHistory = [
+  //     searchTerm,
+  //     ...searchHistory.filter((item) => item !== searchTerm),
+  //   ];
+  //   if (updatedHistory.length > 5) updatedHistory = updatedHistory.slice(0, 5);
+  //   setSearchHistory(updatedHistory);
+  //   localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
+  //   router.push(`/ideas?search=${encodeURIComponent(searchTerm)}`);
+  // };
+
+  const handleMobileSearch = () => {
+    setMobileSearchBar(!mobileSearchBar);
+    if (mobileSearchBar) {
+      setSearchTerm("");
+      setMobileMenuOpen(false);
+    }
   };
 
   const handleLogout = async () => {
@@ -132,7 +153,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
   return (
     <div
       className={`${`w-full z-50 transition-all duration-300 fixed bg-background ${
-        isScrolled ? "py-2 md:py-0" : "py-2"
+        isScrolled ? "md:py-0" : "py-0"
       }`}`}>
       {/* Top nav */}
       <div
@@ -143,12 +164,12 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
         }`}>
         {/* Logo */}
         <div
-          className={`flex items-center justify-between ${
+          className={`flex items-center justify-between pt-2 ${
             isScrolled ? "text-lg md:text-xl" : "text-xl md:text-2xl"
           } font-bold`}>
           <div className="flex items-center gap-4 md:hidden pl-2">
             <Drafts />
-            <Search />
+            <Search onClick={handleMobileSearch} className="cursor-pointer" />
           </div>
           <div>
             <Logo style={"text-secondary"} />
@@ -162,26 +183,36 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
           </div>
         </div>
 
-        {/* Search bar */}
-        {/* {!hideSearchBar && (
-          <div className="flex w-full md:w-[40%] mt-2 md:mt-0 rounded-full relative">
+        {/* Mobile Search bar */}
+        {mobileSearchBar && (
+          <div
+            className="fixed top-0 left-0 w-full h-16 bg-background z-[100] flex items-center px-4 transition-transform duration-300 ease-in"
+            style={{
+              transform: mobileSearchBar
+                ? "translateY(0)"
+                : "translateY(-100%)",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
+            }}>
             <Input
               placeholder="Search Idea..."
-              className="rounded-r-3xl border border-secondary"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") handleIdeaSearch();
               }}
+              className="flex-1 mr-10"
+              autoFocus
             />
-            <Button
-              className="rounded-r-full cursor-pointer bg-secondary/70 hover:bg-secondary absolute right-0"
-              size="icon"
-              onClick={handleIdeaSearch}>
-              <Search size={18} />
-            </Button>
+            <X
+              className="absolute right-6 top-1/2 -translate-y-1/2 cursor-pointer"
+              size={28}
+              onClick={() => {
+                setMobileSearchBar(false);
+                setSearchTerm("");
+              }}
+            />
           </div>
-        )} */}
+        )}
         {pathname === "/ideas" ? (
           <div className="hidden lg:flex w-full md:w-[40%] mt-2 md:mt-0 rounded-full relative">
             <Input

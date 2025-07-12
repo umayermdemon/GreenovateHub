@@ -1,16 +1,16 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import { useUser } from "@/context/UserContext";
-import { ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+// import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import BlogCard from "@/components/modules/blog/BlogCard";
 import { TBlog } from "@/types/blog.types";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const tabOrder = ["all", "energy", "waste", "transportation"];
+// const tabOrder = ["all", "energy", "waste", "transportation"];
 
 interface TMeta {
   page: number;
@@ -28,8 +28,8 @@ interface IBlogProps {
 const BlogPage = ({
   initialBlogs,
   initialMeta,
-  initialCategory,
-  initialSearch,
+  // initialCategory,
+  // initialSearch,
   initialPage,
 }: IBlogProps) => {
   const { user } = useUser();
@@ -37,44 +37,44 @@ const BlogPage = ({
   const router = useRouter();
   const [blogs, setBlogs] = useState<TBlog[]>(initialBlogs);
   const [meta, setMeta] = useState<TMeta>(initialMeta);
-  const [selectedTab, setSelectedTab] = useState<string>(
-    initialCategory || "all"
-  );
-  const [searchTerm, setSearchTerm] = useState<string>(initialSearch || "");
+  // const [selectedTab, setSelectedTab] = useState<string>(
+  //   initialCategory || "all"
+  // );
+  // const [searchTerm, setSearchTerm] = useState<string>(initialSearch || "");
   const [currentPage, setCurrentPage] = useState(initialPage || 1);
 
   useEffect(() => {
-    const urlCategory = searchParams.get("category") || "all";
-    const urlSearch = searchParams.get("search") || "";
+    // const urlCategory = searchParams.get("category") || "all";
+    // const urlSearch = searchParams.get("search") || "";
     const urlPage = parseInt(searchParams.get("page") || "1", 10);
-    setSelectedTab(urlCategory);
-    setSearchTerm(urlSearch);
+    // setSelectedTab(urlCategory);
+    // setSearchTerm(urlSearch);
     setCurrentPage(urlPage);
     setBlogs(initialBlogs);
     setMeta(initialMeta);
   }, [searchParams, initialBlogs, initialMeta]);
 
-  const handleTabChange = (val: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (val === "all") {
-      params.delete("category");
-    } else {
-      params.set("category", val);
-    }
-    params.set("page", "1");
-    router.push(`/blogs?${params.toString()}`);
-  };
+  // const handleTabChange = (val: string) => {
+  //   const params = new URLSearchParams(searchParams.toString());
+  //   if (val === "all") {
+  //     params.delete("category");
+  //   } else {
+  //     params.set("category", val);
+  //   }
+  //   params.set("page", "1");
+  //   router.push(`/blogs?${params.toString()}`);
+  // };
 
-  const handleSearch = () => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (searchTerm) {
-      params.set("search", searchTerm);
-    } else {
-      params.delete("search");
-    }
-    params.set("page", "1");
-    router.push(`/blogs?${params.toString()}`);
-  };
+  // const handleSearch = () => {
+  //   const params = new URLSearchParams(searchParams.toString());
+  //   if (searchTerm) {
+  //     params.set("search", searchTerm);
+  //   } else {
+  //     params.delete("search");
+  //   }
+  //   params.set("page", "1");
+  //   router.push(`/blogs?${params.toString()}`);
+  // };
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
