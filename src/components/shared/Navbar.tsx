@@ -49,7 +49,6 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showGetInTouch, setShowGetInTouch] = useState(false);
   const router = useRouter();
-  const hideSearchBar = pathname === "/ideas" || pathname === "/blogs";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -133,25 +132,28 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
   return (
     <div
       className={`${`w-full z-50 transition-all duration-300 fixed bg-background ${
-        isScrolled ? "md:py-0" : "py-2"
+        isScrolled ? "py-2 md:py-0" : "py-2"
       }`}`}>
       {/* Top nav */}
       <div
-        className={`flex flex-col gap-2 md:flex-row md:items-center md:justify-between px-2 md:px-4 lg:px-0 max-w-7xl mx-auto transition-all duration-300 ${
+        className={`flex flex-col gap-2 md:flex-row md:items-center md:justify-between px-0 md:px-4 lg:px-0 max-w-7xl mx-auto transition-all duration-300 ${
           isScrolled
-            ? "md:h-0 md:overflow-hidden md:opacity-0"
-            : "py-2 opacity-100"
+            ? "h-16 py-2 md:py-0 md:h-0 md:overflow-hidden md:opacity-0"
+            : "h-16 py-2 opacity-100"
         }`}>
         {/* Logo */}
         <div
           className={`flex items-center justify-between ${
             isScrolled ? "text-lg md:text-xl" : "text-xl md:text-2xl"
           } font-bold`}>
+          <div className="flex items-center gap-4 md:hidden pl-2">
+            <Drafts />
+            <Search />
+          </div>
           <div>
             <Logo style={"text-secondary"} />
           </div>
           <div className="flex items-center gap-6 md:hidden">
-            <Drafts />
             <button
               className="mr-4"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -161,7 +163,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
         </div>
 
         {/* Search bar */}
-        {!hideSearchBar && (
+        {/* {!hideSearchBar && (
           <div className="flex w-full md:w-[40%] mt-2 md:mt-0 rounded-full relative">
             <Input
               placeholder="Search Idea..."
@@ -179,8 +181,8 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
               <Search size={18} />
             </Button>
           </div>
-        )}
-        {hideSearchBar && pathname === "/ideas" ? (
+        )} */}
+        {pathname === "/ideas" ? (
           <div className="hidden lg:flex w-full md:w-[40%] mt-2 md:mt-0 rounded-full relative">
             <Input
               placeholder="Search Idea..."
@@ -198,7 +200,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
               <Search size={18} />
             </Button>
           </div>
-        ) : hideSearchBar && pathname === "/blogs" ? (
+        ) : pathname === "/blogs" || pathname.startsWith("/blogs/") ? (
           <div className="hidden lg:flex w-full md:w-[40%] mt-2 md:mt-0 rounded-full relative">
             <Input
               placeholder="Search Blog..."
@@ -212,15 +214,33 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
             <Button
               className="rounded-r-full cursor-pointer bg-secondary/70 hover:bg-secondary absolute right-0"
               size="icon"
+              onClick={handleBlogSearch}>
+              <Search size={18} />
+            </Button>
+          </div>
+        ) : (
+          <div className="hidden lg:flex w-full md:w-[40%] mt-2 md:mt-0 rounded-full relative">
+            <Input
+              placeholder="Search Idea..."
+              className="rounded-r-3xl border border-secondary"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleIdeaSearch();
+              }}
+            />
+            <Button
+              className="rounded-r-full cursor-pointer bg-secondary/70 hover:bg-secondary absolute right-0"
+              size="icon"
               onClick={handleIdeaSearch}>
               <Search size={18} />
             </Button>
           </div>
-        ) : null}
+        )}
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden px-4 pb-2">
+          <div className="md:hidden px-4 pb-2 bg-background mt-4 rounded-lg shadow-lg">
             <ul className="flex flex-col gap-2 font-medium text-base">
               {menuItems.map((item, i) => (
                 <li key={i}>
@@ -261,7 +281,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
               ) : (
                 <Link
                   href="/login"
-                  className="block w-full text-center bg-secondary px-4 py-2 rounded-md font-semibold mt-2">
+                  className="block w-full text-center bg-secondary text-white px-4 py-2 rounded-md font-semibold mt-2">
                   Sign In
                 </Link>
               )}
@@ -365,7 +385,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
 
       {/* Bottom nav */}
       <div
-        className={`flex flex-row items-center justify-between gap-2 px-2 md:px-4 lg:px-0 py-2 text-xs md:text-sm max-w-7xl mx-auto transition-all duration-300 ${
+        className={`hidden md:flex flex-row items-center justify-between gap-2 px-2 md:px-4 lg:px-0 py-2 text-xs md:text-sm max-w-7xl mx-auto transition-all duration-300 ${
           isScrolled ? "md:py-2" : ""
         }`}>
         {/* Category Dropdown */}
@@ -374,9 +394,9 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
           ref={dropdownRef}>
           <button
             onClick={() => setCategory((c) => (c === "open" ? "" : "open"))}
-            className="border-r-2 border-secondary relative cursor-pointer text-xs md:text-sm flex items-center gap-2 w-full lg:w-52">
+            className="relative cursor-pointer text-xs md:text-sm flex items-center gap-2 w-full lg:w-52">
             <FaList />
-            <span className="md:hidden lg:block">Browse Categories</span>
+            <span className="hidden lg:block">Browse Ideas</span>
             <ChevronDown />
           </button>
           {category === "open" && (
@@ -402,8 +422,8 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
           )}
         </div>
         {/* Menu Items */}
-        <div className="w-full overflow-x-auto md:overflow-visible hidden md:flex items-center justify-center">
-          <ul className="flex flex-wrap items-center space-x-2 md:space-x-6 font-medium text-base md:text-lg">
+        <div className="w-full flex items-center justify-center">
+          <ul className="flex flex-wrap items-center space-x-2 md:space-x-6 font-medium text-lg">
             {menuItems.map((item, i) => (
               <li key={i} className="relative group">
                 <Link

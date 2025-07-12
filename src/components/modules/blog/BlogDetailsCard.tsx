@@ -232,78 +232,82 @@ const BlogDetailsCard = ({
         </div>
       </div>
 
-      {/* Comments Section */}
-      <div className="bg-card p-4 sm:p-6 rounded-xl border border-border w-full md:w-1/3">
-        <h2 className="text-lg sm:text-xl font-semibold text-primary mb-6">
-          Comments
-        </h2>
-        <div className="flex flex-col-reverse gap-8">
-          {/* Comment Field */}
-          <div className="w-full">
-            <h3 className="text-base sm:text-lg font-medium text-foreground mb-3">
-              Write a Comment
-            </h3>
-            <div className="flex items-start gap-3 w-full">
-              <Avatar className="w-[40px] h-[40px] border-primary border">
-                <AvatarImage
-                  src={user?.image || "https://i.pravatar.cc/40"}
-                  alt={user?.name}
-                />
-                <AvatarFallback></AvatarFallback>
-              </Avatar>
-              <div className="flex-1  bg-background rounded-xl px-4 py-2 border border-border shadow-sm">
-                <textarea
-                  className="w-full resize-none bg-transparent outline-none text-sm placeholder-muted-foreground"
-                  placeholder="Write a comment..."
-                  rows={3}
-                  value={commentText}
-                  onChange={(e) => setCommentText(e.target.value)}></textarea>
-                <div className="flex justify-end mt-1">
-                  <button
-                    onClick={handleAddComment}
-                    className="bg-primary text-primary-foreground text-sm px-4 py-1.5 rounded-md hover:bg-primary/90 transition-all duration-300">
-                    Post
-                  </button>
+      <div className="border border-border w-full md:w-1/3">
+        {/* Comments Section */}
+        <div className="bg-card p-4 sm:p-6 rounded-xl ">
+          <h2 className="text-lg sm:text-xl font-semibold text-primary mb-6">
+            Comments
+          </h2>
+          <div className="flex flex-col-reverse gap-8">
+            {/* Comment Field */}
+            <div className="w-full">
+              <h3 className="text-base sm:text-lg font-medium text-foreground mb-3">
+                Write a Comment
+              </h3>
+              <div className="flex items-start gap-3 w-full">
+                <Avatar className="w-[40px] h-[40px] border-primary border">
+                  <AvatarImage
+                    src={user?.image || "https://i.pravatar.cc/40"}
+                    alt={user?.name}
+                  />
+                  <AvatarFallback></AvatarFallback>
+                </Avatar>
+                <div className="flex-1  bg-background rounded-xl px-4 py-2 border border-border shadow-sm">
+                  <textarea
+                    className="w-full resize-none bg-transparent outline-none text-sm placeholder-muted-foreground"
+                    placeholder="Write a comment..."
+                    rows={3}
+                    value={commentText}
+                    onChange={(e) => setCommentText(e.target.value)}></textarea>
+                  <div className="flex justify-end mt-1">
+                    <button
+                      onClick={handleAddComment}
+                      className="bg-primary text-primary-foreground text-sm px-4 py-1.5 rounded-md hover:bg-primary/90 transition-all duration-300">
+                      Post
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          {/* Comment List */}
-          <div className="w-full">
-            <h3 className="text-base sm:text-lg font-medium text-foreground mb-3">
-              All Comments
-            </h3>
-            <div className="h-[200px] sm:h-[300px] overflow-y-auto pr-2 space-y-4">
-              {comments.length === 0 ? (
-                <p className="text-muted-foreground text-sm">
-                  No comments yet.
-                </p>
-              ) : (
-                comments.map((comment) => (
-                  <div
-                    key={comment.id}
-                    className="bg-background rounded-xl shadow-sm p-4 border border-border">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Avatar className="w-8 h-8 border-primary border">
-                        <AvatarImage
-                          src={`https://i.pravatar.cc/40?u=${comment.author}`}
-                          alt={comment.author}
-                        />
-                        <AvatarFallback></AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="text-sm font-semibold text-primary">
-                          {comment.author}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {format(new Date(comment.createdAt), "PPPp")}
-                        </p>
+            {/* Comment List */}
+            <div className="w-full">
+              <h3 className="text-base sm:text-lg font-medium text-foreground mb-3">
+                All Comments
+              </h3>
+              <div className="h-[200px] sm:h-[300px] overflow-y-auto pr-2 space-y-4">
+                {comments.length === 0 ? (
+                  <p className="text-muted-foreground text-sm">
+                    No comments yet.
+                  </p>
+                ) : (
+                  comments.map((comment) => (
+                    <div
+                      key={comment.id}
+                      className="bg-background rounded-xl shadow-sm p-4 border border-border">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Avatar className="w-8 h-8 border-primary border">
+                          <AvatarImage
+                            src={`https://i.pravatar.cc/40?u=${comment.author}`}
+                            alt={comment.author}
+                          />
+                          <AvatarFallback></AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="text-sm font-semibold text-primary">
+                            {comment.author}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {format(new Date(comment.createdAt), "PPPp")}
+                          </p>
+                        </div>
                       </div>
+                      <p className="text-foreground text-sm">
+                        {comment.content}
+                      </p>
                     </div>
-                    <p className="text-foreground text-sm">{comment.content}</p>
-                  </div>
-                ))
-              )}
+                  ))
+                )}
+              </div>
             </div>
           </div>
         </div>
