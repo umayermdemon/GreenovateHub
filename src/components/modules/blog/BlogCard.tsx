@@ -8,7 +8,6 @@ import { AiFillDislike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { BiSolidLike } from "react-icons/bi";
 
 import { TBlog } from "@/types/blog.types";
-import { useUser } from "@/context/UserContext";
 import { createVote, isUserVoted, undoVote } from "@/services/vote";
 import { BookOpen, MessageSquareMore } from "lucide-react";
 
@@ -24,7 +23,6 @@ export interface TIsVoted {
 
 const BlogCard = ({ data, userId }: IBlogCard) => {
   const [vote, setVote] = useState<TIsVoted>({} as TIsVoted);
-  const { user } = useUser();
 
   useEffect(() => {
     const fetchIsVoted = async () => {
@@ -74,12 +72,13 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
     }
   };
 
-  const blogDetailsLink =
-    user?.role === "member"
-      ? `/member/dashboard/my-blogs/details/${data?.id}`
-      : user?.role === "admin"
-      ? `/admin/dashboard/all-blogs/details/${data?.id}`
-      : `/blogs/${data?.id}`;
+  const blogDetailsLink = `/blogs/${data?.id}`;
+  // const blogDetailsLink =
+  //   user?.role === "member"
+  //     ? `/member/dashboard/my-blogs/details/${data?.id}`
+  //     : user?.role === "admin"
+  //     ? `/admin/dashboard/all-blogs/details/${data?.id}`
+  //     : `/blogs/${data?.id}`;
 
   return (
     <div className="w-full sm:w-[95%] mx-auto mb-8 rounded-2xl border border-primary bg-card shadow-lg overflow-hidden relative transition-all duration-300 hover:shadow-primary/30 hover:-translate-y-1 flex flex-col h-[550px]">

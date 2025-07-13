@@ -46,6 +46,7 @@ const BlogDetailsCard = ({
   const [commentText, setCommentText] = useState("");
   const router = useRouter();
   const { user: currentUser } = useUser();
+
   const pathname = usePathname();
   const addVote = async (value: string) => {
     const voteData = {
@@ -274,7 +275,7 @@ const BlogDetailsCard = ({
               <h3 className="text-base sm:text-lg font-medium text-foreground mb-3">
                 All Comments
               </h3>
-              <div className="h-[200px] sm:h-[300px] overflow-y-auto pr-2 space-y-4">
+              <div className="h-[200px] sm:h-[100px] overflow-y-auto pr-2 space-y-4">
                 {comments.length === 0 ? (
                   <p className="text-muted-foreground text-sm">
                     No comments yet.

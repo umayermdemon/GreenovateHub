@@ -1,38 +1,17 @@
-"use client";
-
 import BlogDetailsCard from "@/components/modules/blog/BlogDetailsCard";
 import { getSingleBlog } from "@/services/blog";
+import { getSingleUser } from "@/services/user";
 import BlogDetailsSkeleton from "@/skeletons/BlogDetailsSkeleton";
-import { TBlog } from "@/types/blog.types";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
 
-const BlogDetails = () => {
-  const { id } = useParams();
-  const [blog, setBlog] = useState<TBlog>({} as TBlog);
-  const [loading, setLoading] = useState(true);
-  const user = null;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await getSingleBlog(id);
-        if (res?.data) {
-          setBlog(res?.data);
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, [id]);
-
-  if (loading || !blog) {
+const BlogDetails = async ({ params }: { params: { id: string } }) => {
+  const { id } = await params;
+  const { data: blog } = await getSingleBlog(id);
+  const { data: author } = await getSingleUser(blog.authorId);
+  if (!blog) {
     return <BlogDetailsSkeleton />;
   }
 
-  return <BlogDetailsCard blog={blog} user={user} />;
+  return <BlogDetailsCard blog={blog} user={author} />;
 };
 
 export default BlogDetails;
