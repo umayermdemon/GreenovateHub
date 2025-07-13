@@ -1,40 +1,15 @@
-"use client";
-
 import IdeaDetailsCard from "@/components/modules/Idea/IdeaDetailsCard";
 import { getSingleIdea } from "@/services/idea";
-import IdeaDetailsSkeleton from "@/skeletons/IdeaDetailsSkeleton";
-import { TIdea } from "@/types/idea.types";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { getSingleUser } from "@/services/user";
 
-const IdeaDetails = () => {
-  const { id } = useParams();
-  const [idea, setIdea] = useState<TIdea | null>(null);
-  const [loading, setLoading] = useState(true);
-  const user = null;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await getSingleIdea(id);
-        if (res?.data) {
-          setIdea(res?.data);
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, [id]);
-
-  if (loading || !idea) {
-    return <IdeaDetailsSkeleton />;
-  }
+const IdeaDetails = async ({ params }: { params: { id: string } }) => {
+  const { id } = await params;
+  const { data: idea } = await getSingleIdea(id);
+  const { data: author } = await getSingleUser(idea.authorId);
 
   return (
     <div className="mt-12 md:mt-0">
-      <IdeaDetailsCard idea={idea} user={user} />
+      <IdeaDetailsCard idea={idea} user={author} />
     </div>
   );
 };

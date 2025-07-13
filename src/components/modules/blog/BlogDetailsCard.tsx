@@ -46,6 +46,7 @@ const BlogDetailsCard = ({
   const [commentText, setCommentText] = useState("");
   const router = useRouter();
   const { user: currentUser } = useUser();
+  console.log(currentUser, user);
 
   const pathname = usePathname();
   const addVote = async (value: string) => {
@@ -165,24 +166,26 @@ const BlogDetailsCard = ({
             {blog?.category}
           </Badge>
           <div>
-            {user && (
-              <div className="flex items-center gap-4">
-                <Link
-                  href={
-                    currentUser?.role === "member"
-                      ? `/member/dashboard/my-blogs/update/${blog?.id}`
-                      : `/admin/dashboard/all-blogs/update/${blog?.id}`
-                  }
-                  className="cursor-pointer hover:text-primary transition-colors">
-                  <Edit className="text-primary" />
-                </Link>
-                <button
-                  onClick={() => deleteBlog(blog.id)}
-                  className="cursor-pointer hover:text-destructive transition-colors">
-                  <Trash className="text-destructive" />
-                </button>
-              </div>
-            )}
+            {user &&
+              (currentUser?.userId === user?.id ||
+                currentUser?.role === "admin") && (
+                <div className="flex items-center gap-4">
+                  <Link
+                    href={
+                      currentUser?.role === "member"
+                        ? `/member/dashboard/my-blogs/update/${blog?.id}`
+                        : `/admin/dashboard/all-blogs/update/${blog?.id}`
+                    }
+                    className="cursor-pointer hover:text-primary transition-colors">
+                    <Edit className="text-primary" />
+                  </Link>
+                  <button
+                    onClick={() => deleteBlog(blog.id)}
+                    className="cursor-pointer hover:text-destructive transition-colors">
+                    <Trash className="text-destructive" />
+                  </button>
+                </div>
+              )}
           </div>
         </div>
 
