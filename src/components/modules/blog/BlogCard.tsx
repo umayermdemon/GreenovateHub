@@ -73,15 +73,9 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
   };
 
   const blogDetailsLink = `/blogs/${data?.id}`;
-  // const blogDetailsLink =
-  //   user?.role === "member"
-  //     ? `/member/dashboard/my-blogs/details/${data?.id}`
-  //     : user?.role === "admin"
-  //     ? `/admin/dashboard/all-blogs/details/${data?.id}`
-  //     : `/blogs/${data?.id}`;
 
   return (
-    <div className="w-full sm:w-[95%] mx-auto mb-8 rounded-2xl border border-primary bg-card shadow-lg overflow-hidden relative transition-all duration-300 hover:shadow-primary/30 hover:-translate-y-1 flex flex-col h-[550px]">
+    <div className="w-full sm:w-[95%] mx-auto mb-8 rounded-2xl border border-primary/30 hover:border-primary bg-card overflow-hidden relative transition-all duration-300 flex flex-col h-[550px]">
       {/* Blog badge */}
       <div className="absolute top-3 left-1 z-10 flex justify-between items-center w-full px-2">
         <div className="flex items-center gap-1 bg-primary text-primary-foreground px-3 py-1 rounded-full shadow text-xs font-bold">

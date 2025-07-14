@@ -53,7 +53,7 @@ const BlogDetailsCard = ({
       console.log(error);
     }
   };
-
+  console.log(pathname);
   useEffect(() => {
     const getCurrentUser = async () => {
       if (!currentUser) return;
@@ -136,7 +136,7 @@ const BlogDetailsCard = ({
   return (
     <div className="max-w-7xl mx-auto min-h-[calc(100vh-100px)] p-2 md:p-4 mt-4  bg-background flex flex-row gap-4">
       {/* Blog Left side */}
-      <div className="w-full md:w-2/3 rounded-xl border border-border bg-card p-6 shadow-lg">
+      <div className="w-full md:w-3/4 rounded-xl border border-border bg-card p-6 shadow-lg">
         {/* Title and Meta */}
         <div className="mb-6">
           <h1 className="text-2xl md:text-3xl font-medium mb-2 text-foreground">
@@ -234,16 +234,13 @@ const BlogDetailsCard = ({
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Blog Right side */}
-      <div className="w-full md:w-1/3">
         {/* Comments Section */}
-        <div className="bg-card p-4 md:p-6 rounded-xl border border-border">
+        <div className="bg-card p-4 md:p-6 rounded-xl border border-border mt-4">
           <h2 className="text-lg sm:text-xl font-semibold text-primary">
             Comments
           </h2>
-          <div className="flex flex-col-reverse gap-8">
+          <div className="flex flex-col gap-8">
             {/* Comment Field */}
             <div className="w-full">
               <h3 className="text-base sm:text-lg font-medium text-foreground mb-3">
@@ -268,74 +265,100 @@ const BlogDetailsCard = ({
                     value={commentText}
                     onChange={(e) => setCommentText(e.target.value)}></textarea>
                   <div className="absolute bottom-2 right-2">
-                    <SendHorizontal
-                      onClick={
-                        commentText.trim() ? handleAddComment : undefined
-                      }
-                      className={`transition-opacity ${
-                        commentText.trim()
-                          ? "text-primary opacity-100 cursor-pointer"
-                          : "text-muted-foreground opacity-50 pointer-events-none"
-                      }`}
-                      aria-disabled={!commentText.trim()}
-                    />
+                    {currentUser ? (
+                      <SendHorizontal
+                        onClick={
+                          commentText.trim() ? handleAddComment : undefined
+                        }
+                        className={`transition-opacity ${
+                          commentText.trim()
+                            ? "text-primary opacity-100 cursor-pointer"
+                            : "text-muted-foreground opacity-50 pointer-events-none"
+                        }`}
+                        aria-disabled={!commentText.trim()}
+                      />
+                    ) : (
+                      <Button
+                        onClick={() =>
+                          router.push(`/login?redirectPath=${pathname}`)
+                        }
+                        className="bg-primary text-white hover:bg-primary/90 transition-colors rounded-full cursor-pointer">
+                        Sign In
+                      </Button>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
             {/* Comment List */}
-            <div className="w-full">
-              <h3 className="text-base sm:text-lg font-medium text-foreground mb-3">
-                All Comments
-              </h3>
-              <div className="h-[200px] md:h-[300px] overflow-y-auto pr-2 space-y-4">
-                {comments.length === 0 ? (
-                  <p className="text-muted-foreground text-sm">
-                    No comments yet.
-                  </p>
-                ) : (
-                  comments.map((comment) => (
-                    <div
-                      key={comment.id}
-                      className="bg-background rounded-xl shadow-sm p-4 border border-border">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Avatar className="w-8 h-8 border-primary border">
+            {comments.length > 0 && (
+              <div className="w-full">
+                <h3 className="text-base sm:text-lg font-medium text-foreground mb-3">
+                  All Comments
+                </h3>
+                <div
+                  className={`${
+                    comments.length > 2 && "h-[200px] md:h-[300px]"
+                  } overflow-y-auto pr-2 space-y-4`}>
+                  {comments.length === 0 ? (
+                    <p className="text-muted-foreground text-sm">
+                      No comments yet.
+                    </p>
+                  ) : (
+                    comments.map((comment) => (
+                      <div
+                        key={comment.id}
+                        className="flex items-start gap-3 border-l-2 border-muted-foreground/20 pl-4 pb-4">
+                        <Avatar className="w-8 h-8 mt-1 border border-border">
                           <AvatarImage
                             src={`https://i.pravatar.cc/40?u=${comment.author}`}
                             alt={comment.author}
                           />
-                          <AvatarFallback></AvatarFallback>
+                          <AvatarFallback />
                         </Avatar>
-                        <div>
-                          <p className="text-sm font-semibold text-primary">
-                            {comment.author}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {format(new Date(comment.createdAt), "PPPp")}
-                          </p>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-semibold text-foreground text-sm">
+                              {comment.author}
+                            </span>
+                            <span className="text-xs text-muted-foreground">
+                              {format(new Date(comment.createdAt), "Pp")}
+                            </span>
+                          </div>
+                          <div className="mt-1 mb-1 border-l-2 border-muted-foreground/20 p-2">
+                            {comment.content.split("\n").map((line, idx) => (
+                              <p
+                                key={idx}
+                                className="text-foreground text-sm text-justify">
+                                {line}
+                              </p>
+                            ))}
+                          </div>
+                          <button
+                            className="text-primary text-xs font-medium hover:underline cursor-pointer"
+                            // onClick={() => handleReply(comment.id)} // Implement reply logic if needed
+                            type="button">
+                            Reply
+                          </button>
                         </div>
                       </div>
-                      {comment.content.split("\n").map((line, idx) => (
-                        <p
-                          key={idx}
-                          className="text-foreground text-sm text-justify overflow-auto mb-1">
-                          {line}
-                        </p>
-                      ))}
-                    </div>
-                  ))
-                )}
+                    ))
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
+      </div>
 
+      {/* Blog Right side */}
+      <div className="w-full md:w-1/4">
         {/* Search Bar */}
-        <div className="bg-card rounded-xl border border-border p-4 mt-4">
+        <div className="bg-card rounded-xl border border-border p-4">
           <h1 className="text-foreground font-bold text-center text-2xl">
             Search Blog
           </h1>
-          <div className="flex items-center gap-2 mt-2">
+          <div className="flex items-center gap-2 my-2">
             <Input
               type="text"
               className="flex-1 p-2 border border-border rounded-none focus:border-primary focus:ring-0"
