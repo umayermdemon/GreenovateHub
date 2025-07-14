@@ -1,7 +1,6 @@
 "use client";
 
 import { TAuthor, TBlog } from "@/types/blog.types";
-import { Badge } from "@/components/ui/badge";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -10,7 +9,7 @@ import Image from "next/image";
 import { format } from "date-fns";
 import { BiSolidLike } from "react-icons/bi";
 import { AiFillDislike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
-import { Edit, Trash } from "lucide-react";
+import { Edit, SendHorizontal, Trash } from "lucide-react";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import { deleteMyBlog } from "@/services/blog";
@@ -18,22 +17,11 @@ import { toast } from "sonner";
 import { usePathname, useRouter } from "next/navigation";
 import { createVote, undoVote } from "@/services/vote";
 import { useUser } from "@/context/UserContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TComment } from "../Idea/IdeaDetailsCard";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-const getBadgeColor = (category: string) => {
-  switch (category) {
-    case "waste":
-      return "bg-amber-600";
-    case "energy":
-      return "bg-amber-700";
-    case "transportation":
-      return "bg-amber-500";
-    default:
-      return "bg-amber-600";
-  }
-};
+import { getSingleUser } from "@/services/user";
+import { Badge } from "@/components/ui/badge";
 
 const BlogDetailsCard = ({
   blog,
@@ -43,11 +31,10 @@ const BlogDetailsCard = ({
   user: TAuthor | null;
 }) => {
   const [comments, setComments] = useState<TComment[]>([]);
+  const [getCurrentUser, setGetCurrentUser] = useState<TAuthor | null>(null);
   const [commentText, setCommentText] = useState("");
   const router = useRouter();
   const { user: currentUser } = useUser();
-  console.log(currentUser, user);
-
   const pathname = usePathname();
   const addVote = async (value: string) => {
     const voteData = {
@@ -63,6 +50,15 @@ const BlogDetailsCard = ({
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      if (!currentUser) return;
+      const user = await getSingleUser(currentUser?.userId);
+      setGetCurrentUser(user.data);
+    };
+    getCurrentUser();
+  }, [currentUser]);
   // / Dummy: Add comment
   const handleAddComment = () => {
     if (!commentText.trim()) return;
@@ -73,8 +69,8 @@ const BlogDetailsCard = ({
     }
 
     const newComment: TComment = {
-      id: user?.id,
-      author: user?.name || "Anonymous",
+      id: getCurrentUser?.id || "temp-id",
+      author: getCurrentUser?.name || "Anonymous",
       content: commentText,
       createdAt: new Date().toISOString(),
       blogId: "",
@@ -129,9 +125,54 @@ const BlogDetailsCard = ({
   const isDownvoted = blog.down_votes > 0;
 
   return (
-    <div className="max-w-7xl mx-auto min-h-[calc(100vh-100px)] p-2 sm:p-4 my-4 rounded-2xl border bg-background flex flex-row gap-4 shadow-lg">
+    <div className="max-w-7xl mx-auto min-h-[calc(100vh-100px)] p-2 md:p-4 mt-4  bg-background flex flex-row gap-4">
       {/* Blog Header */}
-      <div className="w-full md:w-2/3">
+      <div className="w-full md:w-2/3 rounded-xl border border-border bg-card p-6 shadow-lg">
+        {/* Title and Meta */}
+        <div className="mb-6">
+          <h1 className="text-2xl md:text-3xl font-medium mb-2 text-foreground">
+            {blog?.title}
+          </h1>
+          <div className="flex flex-wrap items-center justify-between gap-2 text-muted-foreground text-sm">
+            <div>
+              <span>
+                Posted on{" "}
+                {blog?.createdAt
+                  ? format(new Date(blog?.createdAt), "PPP")
+                  : "N/A"}
+              </span>
+              <span>•</span>
+              <span className="text-primary font-medium">by {user?.name}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div>
+                {user &&
+                  (currentUser?.userId === user?.id ||
+                    currentUser?.role === "admin") && (
+                    <div className="flex items-center gap-4">
+                      <Link
+                        href={
+                          currentUser?.role === "member"
+                            ? `/member/dashboard/my-blogs/update/${blog?.id}`
+                            : `/admin/dashboard/all-blogs/update/${blog?.id}`
+                        }
+                        className="cursor-pointer hover:text-primary transition-colors">
+                        <Edit className="text-primary" />
+                      </Link>
+                      <button
+                        onClick={() => deleteBlog(blog.id)}
+                        className="cursor-pointer hover:text-destructive transition-colors">
+                        <Trash className="text-destructive" />
+                      </button>
+                    </div>
+                  )}
+              </div>
+              <Badge className={`capitalize text-white p-2 bg-primary`}>
+                {blog?.category}
+              </Badge>
+            </div>
+          </div>
+        </div>
         {/* Images */}
         <div>
           {blog?.images && blog?.images?.length > 0 && (
@@ -156,65 +197,15 @@ const BlogDetailsCard = ({
           )}
         </div>
 
-        {/* Top Row: Badge & Actions */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-2">
-          <Badge
-            variant="outline"
-            className={`capitalize text-primary-foreground p-2 ${getBadgeColor(
-              blog?.category
-            )}`}>
-            {blog?.category}
-          </Badge>
-          <div>
-            {user &&
-              (currentUser?.userId === user?.id ||
-                currentUser?.role === "admin") && (
-                <div className="flex items-center gap-4">
-                  <Link
-                    href={
-                      currentUser?.role === "member"
-                        ? `/member/dashboard/my-blogs/update/${blog?.id}`
-                        : `/admin/dashboard/all-blogs/update/${blog?.id}`
-                    }
-                    className="cursor-pointer hover:text-primary transition-colors">
-                    <Edit className="text-primary" />
-                  </Link>
-                  <button
-                    onClick={() => deleteBlog(blog.id)}
-                    className="cursor-pointer hover:text-destructive transition-colors">
-                    <Trash className="text-destructive" />
-                  </button>
-                </div>
-              )}
-          </div>
-        </div>
-
-        {/* Title and Meta */}
-        <div className="mb-6">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-2">
-            {blog?.title}
-          </h1>
-          <div className="flex flex-wrap items-center gap-2 text-muted-foreground text-sm">
-            <span>
-              Posted on{" "}
-              {blog?.createdAt
-                ? format(new Date(blog?.createdAt), "PPP")
-                : "N/A"}
-            </span>
-            <span>•</span>
-            <span className="text-primary font-medium">by {user?.name}</span>
-          </div>
-        </div>
-
         {/* Description */}
-        <div className="bg-card p-4 sm:p-6 rounded-xl border border-border mb-6">
+        <div className="bg-card rounded-xl">
           <p className="text-base text-foreground text-justify">
             {blog?.description}
           </p>
         </div>
 
         {/* Voting */}
-        <div className="flex justify-end mb-8">
+        <div className="flex justify-end">
           <div className="flex gap-2 bg-primary px-4 py-1 rounded-full shadow-lg border border-border">
             <div className="flex items-center gap-1 border-r border-white/30 pr-2 text-primary-foreground text-lg cursor-pointer hover:text-primary/80 transition-colors">
               {isUpvoted ? (
@@ -236,10 +227,10 @@ const BlogDetailsCard = ({
         </div>
       </div>
 
-      <div className="border border-border w-full md:w-1/3">
+      <div className="w-full md:w-1/3">
         {/* Comments Section */}
-        <div className="bg-card p-4 sm:p-6 rounded-xl ">
-          <h2 className="text-lg sm:text-xl font-semibold text-primary mb-6">
+        <div className="bg-card p-4 sm:p-6 rounded-xl border border-border">
+          <h2 className="text-lg sm:text-xl font-semibold text-primary">
             Comments
           </h2>
           <div className="flex flex-col-reverse gap-8">
@@ -251,24 +242,33 @@ const BlogDetailsCard = ({
               <div className="flex items-start gap-3 w-full">
                 <Avatar className="w-[40px] h-[40px] border-primary border">
                   <AvatarImage
-                    src={user?.image || "https://i.pravatar.cc/40"}
-                    alt={user?.name}
+                    src={
+                      getCurrentUser?.image ||
+                      "https://res.cloudinary.com/duagqnvpw/image/upload/v1752406954/young-bearded-man-with-striped-shirt_1_b9fdtl.jpg"
+                    }
+                    alt={getCurrentUser?.name}
                   />
                   <AvatarFallback></AvatarFallback>
                 </Avatar>
-                <div className="flex-1  bg-background rounded-xl px-4 py-2 border border-border shadow-sm">
+                <div className="flex-1 bg-background rounded-xl px-4 py-2 border border-border shadow-sm relative">
                   <textarea
-                    className="w-full resize-none bg-transparent outline-none text-sm placeholder-muted-foreground"
+                    className="w-full resize-none bg-transparent outline-none text-sm placeholder-muted-foreground "
                     placeholder="Write a comment..."
                     rows={3}
                     value={commentText}
                     onChange={(e) => setCommentText(e.target.value)}></textarea>
-                  <div className="flex justify-end mt-1">
-                    <button
-                      onClick={handleAddComment}
-                      className="bg-primary text-primary-foreground text-sm px-4 py-1.5 rounded-md hover:bg-primary/90 transition-all duration-300">
-                      Post
-                    </button>
+                  <div className="absolute bottom-2 right-2">
+                    <SendHorizontal
+                      onClick={
+                        commentText.trim() ? handleAddComment : undefined
+                      }
+                      className={`transition-opacity ${
+                        commentText.trim()
+                          ? "text-primary opacity-100 cursor-pointer"
+                          : "text-muted-foreground opacity-50 pointer-events-none"
+                      }`}
+                      aria-disabled={!commentText.trim()}
+                    />
                   </div>
                 </div>
               </div>
@@ -278,7 +278,7 @@ const BlogDetailsCard = ({
               <h3 className="text-base sm:text-lg font-medium text-foreground mb-3">
                 All Comments
               </h3>
-              <div className="h-[200px] sm:h-[100px] overflow-y-auto pr-2 space-y-4">
+              <div className="h-[200px] md:h-[300px] overflow-y-auto pr-2 space-y-4">
                 {comments.length === 0 ? (
                   <p className="text-muted-foreground text-sm">
                     No comments yet.
@@ -305,9 +305,13 @@ const BlogDetailsCard = ({
                           </p>
                         </div>
                       </div>
-                      <p className="text-foreground text-sm">
-                        {comment.content}
-                      </p>
+                      {comment.content.split("\n").map((line, idx) => (
+                        <p
+                          key={idx}
+                          className="text-foreground text-sm text-justify overflow-auto mb-1">
+                          {line}
+                        </p>
+                      ))}
                     </div>
                   ))
                 )}

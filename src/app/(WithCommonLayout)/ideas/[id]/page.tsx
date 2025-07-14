@@ -2,7 +2,7 @@ import IdeaDetailsCard from "@/components/modules/Idea/IdeaDetailsCard";
 import { getSingleIdea } from "@/services/idea";
 import { getSingleUser } from "@/services/user";
 
-const IdeaDetails = async ({ params }: { params: { id: string } }) => {
+const IdeaDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const { data: idea } = await getSingleIdea(id);
   const { data: author } = await getSingleUser(idea.authorId);

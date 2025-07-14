@@ -144,7 +144,10 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
   const AvatarComponent = (
     <Avatar className="w-[40px] h-[40px] md:w-[50px] md:h-[50px] cursor-pointer">
       <AvatarImage
-        src={myProfile?.image || "https://github.com/shadcn.png"}
+        src={
+          myProfile?.image ||
+          "https://res.cloudinary.com/duagqnvpw/image/upload/v1752406954/young-bearded-man-with-striped-shirt_1_b9fdtl.jpg"
+        }
         className="rounded-full border border-secondary"
       />
       <AvatarFallback>Profile Image</AvatarFallback>
