@@ -22,6 +22,8 @@ import { TComment } from "../Idea/IdeaDetailsCard";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getSingleUser } from "@/services/user";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 const BlogDetailsCard = ({
   blog,
@@ -32,6 +34,7 @@ const BlogDetailsCard = ({
 }) => {
   const [comments, setComments] = useState<TComment[]>([]);
   const [getCurrentUser, setGetCurrentUser] = useState<TAuthor | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const [commentText, setCommentText] = useState("");
   const router = useRouter();
   const { user: currentUser } = useUser();
@@ -124,9 +127,15 @@ const BlogDetailsCard = ({
   const isUpvoted = blog.up_votes > 0;
   const isDownvoted = blog.down_votes > 0;
 
+  const handleSearch = () => {
+    if (!searchTerm.trim()) return;
+    router.push(`/blogs?search=${encodeURIComponent(searchTerm)}`);
+    setSearchTerm("");
+  };
+
   return (
     <div className="max-w-7xl mx-auto min-h-[calc(100vh-100px)] p-2 md:p-4 mt-4  bg-background flex flex-row gap-4">
-      {/* Blog Header */}
+      {/* Blog Left side */}
       <div className="w-full md:w-2/3 rounded-xl border border-border bg-card p-6 shadow-lg">
         {/* Title and Meta */}
         <div className="mb-6">
@@ -227,9 +236,10 @@ const BlogDetailsCard = ({
         </div>
       </div>
 
+      {/* Blog Right side */}
       <div className="w-full md:w-1/3">
         {/* Comments Section */}
-        <div className="bg-card p-4 sm:p-6 rounded-xl border border-border">
+        <div className="bg-card p-4 md:p-6 rounded-xl border border-border">
           <h2 className="text-lg sm:text-xl font-semibold text-primary">
             Comments
           </h2>
@@ -317,6 +327,32 @@ const BlogDetailsCard = ({
                 )}
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Search Bar */}
+        <div className="bg-card rounded-xl border border-border p-4 mt-4">
+          <h1 className="text-foreground font-bold text-center text-2xl">
+            Search Blog
+          </h1>
+          <div className="flex items-center gap-2 mt-2">
+            <Input
+              type="text"
+              className="flex-1 p-2 border border-border rounded-none focus:border-primary focus:ring-0"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch();
+                }
+              }}
+            />
+            <Button
+              onClick={handleSearch}
+              size={"lg"}
+              className="bg-primary/90 text-white hover:bg-primary transition-colors rounded-none cursor-pointer">
+              Search
+            </Button>
           </div>
         </div>
       </div>

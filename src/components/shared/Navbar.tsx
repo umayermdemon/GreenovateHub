@@ -87,18 +87,6 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
     router.push(`/blogs?search=${encodeURIComponent(searchTerm)}`);
   };
 
-  // const mobileIdeaSearch = () => {
-  //   if (!searchTerm.trim()) return;
-  //   let updatedHistory = [
-  //     searchTerm,
-  //     ...searchHistory.filter((item) => item !== searchTerm),
-  //   ];
-  //   if (updatedHistory.length > 5) updatedHistory = updatedHistory.slice(0, 5);
-  //   setSearchHistory(updatedHistory);
-  //   localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
-  //   router.push(`/ideas?search=${encodeURIComponent(searchTerm)}`);
-  // };
-
   const handleMobileSearch = () => {
     setMobileSearchBar(!mobileSearchBar);
     if (mobileSearchBar) {
