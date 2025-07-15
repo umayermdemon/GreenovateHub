@@ -134,9 +134,9 @@ const BlogDetailsCard = ({
   };
 
   return (
-    <div className="max-w-7xl mx-auto min-h-[calc(100vh-100px)] p-2 md:p-4 mt-4  bg-background flex flex-row gap-4">
+    <div className="max-w-7xl mx-auto min-h-[calc(100vh-100px)] mt-4  bg-background flex flex-col md:flex-row gap-4">
       {/* Blog Left side */}
-      <div className="w-full md:w-3/4 rounded-xl border border-border bg-card p-6 shadow-lg">
+      <div className="w-full md:w-3/4 rounded-xl border border-border bg-card p-6">
         {/* Title and Meta */}
         <div className="mb-6">
           <h1 className="text-2xl md:text-3xl font-medium mb-2 text-foreground">
