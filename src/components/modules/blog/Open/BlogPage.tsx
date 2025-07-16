@@ -1,16 +1,15 @@
 "use client";
 import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
 import { useUser } from "@/context/UserContext";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
-// import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import BlogCard from "@/components/modules/blog/BlogCard";
 import { TBlog } from "@/types/blog.types";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// const tabOrder = ["all", "energy", "waste", "transportation"];
+const tabOrder = ["all", "energy", "waste", "transportation"];
 
 interface TMeta {
   page: number;
@@ -28,8 +27,7 @@ interface IBlogProps {
 const BlogPage = ({
   initialBlogs,
   initialMeta,
-  // initialCategory,
-  // initialSearch,
+  initialCategory,
   initialPage,
 }: IBlogProps) => {
   const { user } = useUser();
@@ -37,44 +35,30 @@ const BlogPage = ({
   const router = useRouter();
   const [blogs, setBlogs] = useState<TBlog[]>(initialBlogs);
   const [meta, setMeta] = useState<TMeta>(initialMeta);
-  // const [selectedTab, setSelectedTab] = useState<string>(
-  //   initialCategory || "all"
-  // );
-  // const [searchTerm, setSearchTerm] = useState<string>(initialSearch || "");
+  const [selectedTab, setSelectedTab] = useState<string>(
+    initialCategory || "all"
+  );
   const [currentPage, setCurrentPage] = useState(initialPage || 1);
 
   useEffect(() => {
-    // const urlCategory = searchParams.get("category") || "all";
-    // const urlSearch = searchParams.get("search") || "";
+    const urlCategory = searchParams.get("category") || "all";
     const urlPage = parseInt(searchParams.get("page") || "1", 10);
-    // setSelectedTab(urlCategory);
-    // setSearchTerm(urlSearch);
+    setSelectedTab(urlCategory);
     setCurrentPage(urlPage);
     setBlogs(initialBlogs);
     setMeta(initialMeta);
   }, [searchParams, initialBlogs, initialMeta]);
 
-  // const handleTabChange = (val: string) => {
-  //   const params = new URLSearchParams(searchParams.toString());
-  //   if (val === "all") {
-  //     params.delete("category");
-  //   } else {
-  //     params.set("category", val);
-  //   }
-  //   params.set("page", "1");
-  //   router.push(`/blogs?${params.toString()}`);
-  // };
-
-  // const handleSearch = () => {
-  //   const params = new URLSearchParams(searchParams.toString());
-  //   if (searchTerm) {
-  //     params.set("search", searchTerm);
-  //   } else {
-  //     params.delete("search");
-  //   }
-  //   params.set("page", "1");
-  //   router.push(`/blogs?${params.toString()}`);
-  // };
+  const handleTabChange = (val: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (val === "all") {
+      params.delete("category");
+    } else {
+      params.set("category", val);
+    }
+    params.set("page", "1");
+    router.push(`/blogs?${params.toString()}`);
+  };
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -84,42 +68,45 @@ const BlogPage = ({
 
   return (
     <div className="py-1 md:py-4 max-w-7xl mx-auto">
-      {/* <div className="lg:flex lg:flex-row-reverse gap-3">
-        <div className="flex flex-1 lg:mb-0 mb-1 lg:mx-0 mx-0.5">
-          <Input
-            placeholder="Search Blog..."
-            className="lg:w-full border-primary rounded-r-none focus:border-primary"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleSearch();
-            }}
-          />
-          <Button
-            className="rounded-l-none rounded-r-full cursor-pointer bg-primary text-white"
-            size="icon"
-            onClick={handleSearch}>
-            <Search size={18} />
-          </Button>
-        </div>
-        <div className="flex-1 lg:mt-0 mt-2">
+      <div className="flex flex-col md:flex-row  gap-3">
+        <h3 className="text-center md:text-left">By Category</h3>
+        <div className="lg:mt-0 mt-2">
           <Tabs
             value={selectedTab}
             onValueChange={handleTabChange}
             className="mb-5">
-            <TabsList className="w-full">
+            <TabsList className="w-full md:w-1/2 bg-background flex relative">
               {tabOrder.map((tab) => (
                 <TabsTrigger
                   key={tab}
                   value={tab}
-                  className="w-full data-[state=active]:bg-primary data-[state=active]:text-white cursor-pointer">
+                  className={`
+        relative w-52 px-2 pb-3 transition-colors duration-200 group bg-background cursor-pointer
+        ${selectedTab === tab ? "font-semibold" : "text-muted-foreground"}
+      `}
+                  style={{ background: "transparent" }}>
                   {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                  <span
+                    className={`
+          absolute left-0 -bottom-1 h-[2px] w-full
+          bg-secondary
+          transition-transform duration-300
+          origin-left
+          ${
+            selectedTab === tab
+              ? "scale-x-100"
+              : "scale-x-0 group-hover:scale-x-100"
+          }
+          block
+        `}
+                    style={{ transformOrigin: "left" }}
+                  />
                 </TabsTrigger>
               ))}
             </TabsList>
           </Tabs>
         </div>
-      </div> */}
+      </div>
 
       <div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:gap-2">
