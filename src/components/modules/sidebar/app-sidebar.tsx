@@ -33,7 +33,7 @@ import { TUserProfile } from "@/types/user.type";
 
 import { getMyProfile } from "@/services/auth";
 import { NavUser } from "./nav-user";
-// Extend JWT Payload to include role
+import Logo from "@/components/shared/Logo";
 interface CustomJwtPayload extends JwtPayload {
   role: string;
   userId: string;
@@ -151,9 +151,9 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
     <Sidebar collapsible="icon" {...props}>
       <SidebarContent>
         <SidebarGroup>
-          <h1 className="text-2xl font-semibold border-b-2 text-[#1b2a5e] pb-3 text-center">
-            <span className="text-2xl text-green-500 ">Greenovate</span> Hub
-          </h1>
+          <div className="ml-2">
+            <Logo />
+          </div>
           <SidebarGroupContent>
             <SidebarMenu className="mt-10">
               {items.map((item) => (
