@@ -237,7 +237,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/umayeremon/Desktop/Level2/GreenovateHub/greenovate-hub-server/generated/prisma",
+      "value": "/home/umayeremon/Desktop/Level2/GreenovateHub/greenovateHub-server/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -251,7 +251,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/umayeremon/Desktop/Level2/GreenovateHub/greenovate-hub-server/prisma/schema.prisma",
+    "sourceFilePath": "/home/umayeremon/Desktop/Level2/GreenovateHub/greenovateHub-server/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -265,7 +265,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
