@@ -1,21 +1,19 @@
 "use client";
 
-import Cookies from "js-cookie";
-import { jwtDecode, JwtPayload } from "jwt-decode";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
 import {
-  Home,
-  Settings,
-  LayoutDashboard,
-  PenLine,
-  Sparkles,
+  Bell,
   BookOpenText,
-  Palette,
-  UserCog,
   FilePen,
-  Package,
   FileText,
+  Home,
+  LayoutDashboard,
+  LogOut,
+  Package,
+  Palette,
+  PenLine,
+  Settings,
+  Sparkles,
+  UserCog,
 } from "lucide-react";
 
 import {
@@ -28,12 +26,23 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import React, { useEffect, useState } from "react";
-import { TUserProfile } from "@/types/user.type";
+import { jwtDecode, JwtPayload } from "jwt-decode";
+import { usePathname } from "next/navigation";
+import { TUserProfile } from "@/types";
+import { useEffect, useState } from "react";
+import { getMyProfile, logoutUser } from "@/services/auth";
 
-import { getMyProfile } from "@/services/auth";
+import Cookies from "js-cookie";
+import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { HiChevronUpDown } from "react-icons/hi2";
 import { NavUser } from "./nav-user";
-// Extend JWT Payload to include role
+
 interface CustomJwtPayload extends JwtPayload {
   role: string;
   userId: string;
@@ -41,7 +50,9 @@ interface CustomJwtPayload extends JwtPayload {
   name?: string;
 }
 
-const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
+export function AppSidebar2({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
   const [myProfile, setMyProfile] = useState<TUserProfile | null>(null);
 
@@ -53,6 +64,14 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
     fetchProfile();
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
   const accessToken = Cookies.get("accessToken");
   let role = null;
 
@@ -146,7 +165,6 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
       icon: Settings,
     },
   ];
-
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarContent>
@@ -178,18 +196,63 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-
+      <Avatar className="mb-3 mx-2">
+        <div className="flex gap-2">
+          <AvatarImage
+            className="relative top-1 w-[44px] h-[44px] rounded-full border border-green-500"
+            src={myProfile?.image || "https://github.com/shadcn.png"}
+          />
+          <div>
+            <h1 className="font-semibold text-[15px]">{myProfile?.name}</h1>
+            <p className="font-semibold text-[14px] text-green-500">
+              {myProfile?.email}
+            </p>
+          </div>
+          <Popover>
+            <PopoverTrigger>
+              <HiChevronUpDown className="text-xl ml-6 cursor-pointer" />
+            </PopoverTrigger>
+            <PopoverContent className="relative left-52">
+              <div>
+                <div className="flex gap-3 border-b border-green-500 pb-4">
+                  <AvatarImage
+                    className="relative top-1 w-[44px] h-[44px] rounded-full border border-green-500"
+                    src={myProfile?.image || "https://github.com/shadcn.png"}
+                  />
+                  <div>
+                    <h1 className="font-semibold text-[15px]">
+                      {myProfile?.name}
+                    </h1>
+                    <p className="font-semibold text-[14px] text-green-500">
+                      {myProfile?.email}
+                    </p>
+                  </div>
+                </div>
+                <ul className="divide-y">
+                  <li
+                    onClick={handleLogout}
+                    className="mt-4  flex gap-2 cursor-pointer hover:bg-green-500 p-1 hover:text-white">
+                    <LogOut className="relative top-1" size={18} /> Logout
+                  </li>
+                  <li className="mt-2  flex gap-2 cursor-pointer hover:bg-green-500 p-1 hover:text-white">
+                    <Bell className="relative top-1" size={18} /> Notification
+                  </li>
+                </ul>
+              </div>
+            </PopoverContent>
+          </Popover>
+        </div>
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
       <SidebarFooter>
         <NavUser
           user={{
-            name: myProfile?.name || "User",
-            email: myProfile?.email || "",
-            avatar: myProfile?.image || "",
+            name: "hgsh",
+            email: "hgsh",
+            avatar: "sdhjj",
           }}
         />
       </SidebarFooter>
     </Sidebar>
   );
-};
-
-export default AppSidebar;
+}

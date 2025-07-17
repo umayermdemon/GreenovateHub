@@ -62,7 +62,7 @@ const IdeaPage = ({
     params.set("page", "1");
     router.push(`/ideas?${params.toString()}`);
   };
-
+  console.log(ideas, "ideas");
   const handleSearch = () => {
     const params = new URLSearchParams(searchParams.toString());
     if (searchTerm) {
@@ -120,7 +120,7 @@ const IdeaPage = ({
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:gap-2">
-        {ideas.length ? (
+        {ideas?.length ? (
           ideas?.map((idea: TIdea) => <IdeaCard key={idea.id} data={idea} />)
         ) : (
           <div className="text-center w-full border">
