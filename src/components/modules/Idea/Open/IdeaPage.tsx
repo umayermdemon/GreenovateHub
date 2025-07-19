@@ -119,12 +119,18 @@ const IdeaPage = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:gap-2">
+      <div>
         {ideas?.length ? (
-          ideas?.map((idea: TIdea) => <IdeaCard key={idea.id} data={idea} />)
+          ideas?.map((idea: TIdea) => (
+            <div
+              key={idea.id}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:gap-2">
+              <IdeaCard data={idea} />
+            </div>
+          ))
         ) : (
-          <div className="text-center w-full border">
-            <p className="text-black text-center">No ideas found</p>
+          <div>
+            <p className="text-red-500 text-center">No ideas found</p>
           </div>
         )}
       </div>

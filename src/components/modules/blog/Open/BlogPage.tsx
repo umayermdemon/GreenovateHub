@@ -109,17 +109,19 @@ const BlogPage = ({
       </div>
 
       <div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:gap-2">
-          {blogs?.length ? (
-            blogs?.map((blog) => (
-              <BlogCard key={blog.id} data={blog} userId={user?.userId} />
-            ))
-          ) : (
-            <div className="text-center w-full border">
-              <p className="text-black text-center">No blogs found</p>
+        {blogs?.length ? (
+          blogs?.map((blog) => (
+            <div
+              key={blog.id}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:gap-2">
+              <BlogCard data={blog} userId={user?.userId} />
             </div>
-          )}
-        </div>
+          ))
+        ) : (
+          <div>
+            <p className="text-red-500 text-center">No blogs found</p>
+          </div>
+        )}
         {/* pagination section */}
         <div className="mt-6 flex justify-center items-center gap-2 sm:gap-4 flex-wrap">
           <Button
