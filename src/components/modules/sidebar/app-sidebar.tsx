@@ -160,14 +160,16 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link
-                      className={` ${
-                        pathname === item.url ? "bg-green-500 text-white" : ""
-                      } text-[16px] rounded-none `}
+                      className={`${
+                        pathname === item.url
+                          ? "bg-primary hover:bg-primary text-white"
+                          : ""
+                      } text-[16px] rounded-none`}
                       href={item.url}>
                       <item.icon
                         className={`mr-2 ${
                           pathname === item.url ? "text-white" : ""
-                        } text-green-500 h-5 w-5`}
+                        } text-primary h-5 w-5`}
                       />
                       <span>{item.title}</span>
                     </Link>
