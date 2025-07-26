@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { FaUser, FaList } from "react-icons/fa";
+import { FaList } from "react-icons/fa";
 import { RiDraftLine } from "react-icons/ri";
 import Logo from "./Logo";
 import { useEffect, useRef, useState } from "react";
@@ -27,6 +27,7 @@ import { TUserProfile } from "@/types";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import UpdateProfile from "../UpdateProfile";
 import GetInTouchModal from "../utils/GenInTouchModal";
+import LoginForm from "../modules/auth/login/LoginForm";
 
 const Drafts = () => {
   return (
@@ -363,12 +364,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
               </Popover>
             </div>
           ) : (
-            <Link
-              href={"/login"}
-              className="flex items-center justify-center h-14 w-24 gap-2 text-secondary/70 hover:text-secondary">
-              <FaUser />
-              <span className="text-xs md:text-sm">Account</span>
-            </Link>
+            <LoginForm />
           )}
           <div className="relative">
             <Drafts />
