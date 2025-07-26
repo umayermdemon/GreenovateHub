@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+
 import { Form } from "@/components/ui/form";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import GFormInput from "@/components/shared/Form/GFormInput";
@@ -8,6 +10,8 @@ import { Loader } from "lucide-react";
 import { toast } from "sonner";
 import { loginUser } from "@/services/auth";
 import { useSearchParams } from "next/navigation";
+import Image from "next/image";
+import loginImg from "../../../../app/assets/login.png";
 
 const demoCredentials = {
   member: {
@@ -23,6 +27,7 @@ const LoginForm = () => {
       password: "",
     },
   });
+
   const {
     formState: { isSubmitting },
   } = form;
@@ -31,103 +36,101 @@ const LoginForm = () => {
   const redirectPath = searchParams.get("redirectPath") || "/";
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const { email, password } = data;
-    const loginData = {
-      email,
-      password,
-    };
     try {
-      const res = await loginUser(loginData);
+      const res = await loginUser(data);
       if (res.success) {
-        if (redirectPath) {
-          window.location.href = redirectPath;
-          toast.success(res.message);
-        }
+        toast.success(res.message);
+        window.location.href = redirectPath;
       } else {
         toast.error(res.message);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      toast.error("Something went wrong!", error);
     }
   };
-  const fillDemo = (type: "member") => {
-    form.setValue("email", demoCredentials[type].email);
-    form.setValue("password", demoCredentials[type].password);
+
+  const fillDemo = () => {
+    form.setValue("email", demoCredentials.member.email);
+    form.setValue("password", demoCredentials.member.password);
+    toast.info("Demo credentials filled!");
   };
-  const commonWidth = "lg:w-[400px] w-[340px]";
+
   return (
-    <div className="lg:max-w-3xl lg:w-full lg:mx-auto lg:px-8 px-3">
-      <div className="mb-2 lg:mr-0 relative lg:left-0 left-3">
-        <Link href="/" className="text-primary underline">
-          {" "}
-          Back To Home
-        </Link>
-      </div>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 lg:w-[480px] w-full p-3">
-          <div className="space-y-1 border-2 border-primary border-b-0 rounded-2xl pt-6">
-            <h1 className="text-center text-2xl text-primary">
-              Enter Your Credentials
-            </h1>
-            <div className="flex justify-center gap-3 mb-4">
-              <Button
-                type="button"
-                variant="outline"
-                className="border-primary text-primary hover:bg-primary/10 transition font-semibold cursor-pointer"
-                onClick={() => fillDemo("member")}>
-                Demo member
-              </Button>
-            </div>
-            <div className="w-full flex justify-center p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-white">
+      <div className="w-full max-w-md rounded-xl overflow-hidden shadow-lg">
+        <Image
+          src={loginImg}
+          alt="Login banner"
+          className="w-full h-48 object-cover rounded-t-xl"
+        />
+
+        <div className="p-6 bg-white">
+          <h2 className="text-2xl font-semibold text-center mb-1 text-black">
+            Welcome to GreenovateHub
+          </h2>
+          <p className="text-center text-gray-600 mb-4">
+            Join our community of sustainability enthusiasts and share your
+            ideas for a greener future.
+          </p>
+
+          {/* Demo Button */}
+          <div className="flex justify-center mb-4">
+            <button
+              onClick={fillDemo}
+              type="button"
+              className="text-green-600 border border-green-600 hover:bg-green-50 font-medium px-4 py-1 rounded-full transition">
+              Use Demo Member
+            </button>
+          </div>
+
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <GFormInput
                 name="email"
-                label="Email"
                 placeholder="Email"
                 control={form.control}
-                className={`focus:outline-none rounded-none border ${commonWidth} border-primary`}
+                className="w-full"
                 required
               />
-            </div>
-            <div className="w-full flex justify-center ">
               <GFormInput
                 name="password"
-                label="Password"
-                placeholder="********"
-                control={form.control}
-                className={`focus:outline-none rounded-none ${commonWidth} border border-primary`}
+                placeholder="Password"
                 type="password"
+                control={form.control}
+                className="w-full"
                 required
               />
-            </div>
-            <div className="flex justify-center">
+
+              <div className="flex items-center justify-between text-sm text-gray-700">
+                <label className="flex items-center gap-2">
+                  <input type="checkbox" className="accent-green-600" />
+                  Remember Me
+                </label>
+                <Link href="#" className="text-green-600 hover:underline">
+                  Forgot Password?
+                </Link>
+              </div>
+
               <Button
                 type="submit"
-                className={`${commonWidth} rounded-none mt-3 text-primary-foreground bg-primary cursor-pointer`}>
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-full">
                 {isSubmitting ? <Loader className="animate-spin" /> : "Login"}
               </Button>
-            </div>
-            <h1 className="text-center text-primary">
-              New here?{" "}
-              <Link
-                className="text-secondary hover:underline cursor-pointer"
-                href={`/register${
-                  redirectPath ? `?redirectPath=${redirectPath}` : ""
-                }`}>
-                SignUp
-              </Link>
-            </h1>
-            {/* <p className="text-center">or</p>
-            <div className="flex justify-center">
-              <Button className="bg-amber-300 text-amber-700 cursor-pointer">
-                <FcGoogle className="text-xl" />
-                Google
-              </Button>
-            </div> */}
-          </div>
-        </form>
-      </Form>
+            </form>
+          </Form>
+
+          <p className="text-center text-sm text-gray-600 mt-6">
+            Don’t have an account?{" "}
+            <Link
+              href={`/register${
+                redirectPath ? `?redirectPath=${redirectPath}` : ""
+              }`}
+              className="text-green-600 hover:underline">
+              Sign up
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
