@@ -302,11 +302,12 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
                   Logout
                 </button>
               ) : (
-                <Link
-                  href="/login"
-                  className="block w-full text-center bg-secondary text-white px-4 py-2 rounded-md font-semibold mt-2">
-                  Sign In
-                </Link>
+                // <Link
+                //   href="/login"
+                //   className="block w-full text-center bg-secondary text-white px-4 py-2 rounded-md font-semibold mt-2">
+                //   Sign In
+                // </Link>
+                <LoginForm />
               )}
             </div>
           </div>

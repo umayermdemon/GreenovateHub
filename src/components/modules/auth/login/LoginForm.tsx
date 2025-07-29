@@ -66,11 +66,12 @@ const LoginForm = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button className="flex items-center justify-center h-14 w-24 gap-2 text-secondary/70 hover:text-secondary cursor-pointer">
+        <button className="hidden md:flex items-center justify-center h-14 w-24 gap-2 text-secondary/70 hover:text-secondary cursor-pointer">
           <FaUser />
           <span className="text-xs md:text-sm">Account</span>
         </button>
       </DialogTrigger>
+
       <DialogContent className="p-0 max-w-md">
         <div className="w-full rounded-xl overflow-hidden">
           <Image
@@ -79,14 +80,14 @@ const LoginForm = () => {
             className="w-full h-48 object-cover"
           />
 
-          <div className="p-6 bg-white">
+          <div className="p-6 bg-card text-card-foreground">
             <DialogHeader>
-              <DialogTitle className="text-2xl text-center text-black">
+              <DialogTitle className="text-2xl text-center">
                 Welcome to GreenovateHub
               </DialogTitle>
             </DialogHeader>
 
-            <p className="text-center text-gray-600 mt-1 mb-4">
+            <p className="text-center text-muted-foreground mt-1 mb-4">
               Join our community of sustainability enthusiasts and share your
               ideas for a greener future.
             </p>
@@ -96,7 +97,7 @@ const LoginForm = () => {
               <button
                 onClick={fillDemo}
                 type="button"
-                className="text-green-600 border border-green-600 hover:bg-green-50 font-medium px-4 py-1 rounded-full transition">
+                className="text-primary border border-primary hover:bg-primary/10 font-medium px-4 py-1 rounded-full transition cursor-pointer">
                 Use Demo Member
               </button>
             </div>
@@ -121,31 +122,31 @@ const LoginForm = () => {
                   required
                 />
 
-                <div className="flex items-center justify-between text-sm text-gray-700">
+                <div className="flex items-center justify-between text-sm text-muted-foreground">
                   <label className="flex items-center gap-2">
-                    <input type="checkbox" className="accent-green-600" />
+                    <input type="checkbox" className="accent-primary" />
                     Remember Me
                   </label>
-                  <Link href="#" className="text-green-600 hover:underline">
+                  <Link href="#" className="text-primary hover:underline">
                     Forgot Password?
                   </Link>
                 </div>
 
                 <Button
                   type="submit"
-                  className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-full">
+                  className="w-full bg-primary hover:bg-primary/90 cursor-pointer text-primary-foreground font-semibold py-2 rounded-full">
                   {isSubmitting ? <Loader className="animate-spin" /> : "Login"}
                 </Button>
               </form>
             </Form>
 
-            <p className="text-center text-sm text-gray-600 mt-6">
+            <p className="text-center text-sm text-muted-foreground mt-6">
               Don’t have an account?{" "}
               <Link
                 href={`/register${
                   redirectPath ? `?redirectPath=${redirectPath}` : ""
                 }`}
-                className="text-green-600 hover:underline">
+                className="text-primary hover:underline">
                 Sign up
               </Link>
             </p>
