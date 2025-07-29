@@ -21,6 +21,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { FaUser } from "react-icons/fa";
+import RegisterPage from "@/app/register/page";
 
 const demoCredentials = {
   member: {
@@ -66,9 +67,9 @@ const LoginForm = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button className="hidden md:flex items-center justify-center h-14 w-24 gap-2 text-secondary/70 hover:text-secondary cursor-pointer">
+        <button className="hidden md:flex items-center justify-center h-14 w-24 gap-2 text-secondary/70 hover:text-primary cursor-pointer">
           <FaUser />
-          <span className="text-xs md:text-sm">Account</span>
+          <span className="text-xs md:text-sm">Sign In</span>
         </button>
       </DialogTrigger>
 
@@ -140,16 +141,19 @@ const LoginForm = () => {
               </form>
             </Form>
 
-            <p className="text-center text-sm text-muted-foreground mt-6">
-              Don’t have an account?{" "}
-              <Link
+            <div className="text-center text-sm text-muted-foreground mt-6 flex justify-center items-center">
+              <span> Don’t have an account?</span>{" "}
+              {/* <Link
                 href={`/register${
                   redirectPath ? `?redirectPath=${redirectPath}` : ""
                 }`}
                 className="text-primary hover:underline">
                 Sign up
-              </Link>
-            </p>
+              </Link> */}
+              <div>
+                <RegisterPage />
+              </div>
+            </div>
           </div>
         </div>
       </DialogContent>
