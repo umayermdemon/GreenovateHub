@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String    @unique @default(uuid())
+  name                String
+  email               String    @unique
+  role                userRole  @default(member)
+  password            String
+  needsPasswordChange Boolean   @default(true)
+  isDeleted           Boolean   @default(false)
+  image               String
+  address             String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  Idea                Idea[]
+  Blog                Blog[]
+  Vote                Vote[]
+  Comment             Comment[]
+  Payment             Payment[]
+
+  @@map("users")
+}
+
+model Idea {
+  id                String       @id @default(uuid())
+  title             String
+  description       String
+  category          categoryName
+  images            String[]
+  authorId          String
+  author            User         @relation(fields: [authorId], references: [id])
+  problem_statement String
+  proposed_solution String
+  isPremium         Boolean      @default(false)
+  price             String
+  status            ideaStatus   @default(underReview)
+  isDeleted         Boolean      @default(false)
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  Vote              Vote[]
+  Comment           Comment[]
+  Payment           Payment[]
+
+  @@map("ideas")
+}
+
+model Blog {
+  id          String       @id @default(uuid())
+  title       String       @unique
+  images      String[]
+  description String
+  authorId    String
+  author      User         @relation(fields: [authorId], references: [id])
+  category    categoryName
+  status      blogStatus
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  Vote        Vote[]
+  categoryId  String?
+
+  @@map("blogs")
+}
+
+model Vote {
+  id        String    @id @default(uuid())
+  voterId   String
+  value     voteValue
+  voter     User      @relation(fields: [voterId], references: [id])
+  ideaId    String?
+  idea      Idea?     @relation(fields: [ideaId], references: [id])
+  blogId    String?
+  blog      Blog?     @relation(fields: [blogId], references: [id])
+  isDeleted Boolean   @default(false)
+
+  @@unique([voterId, ideaId])
+  @@unique([voterId, blogId])
+  @@map("votes")
+}
+
+model Comment {
+  id          String   @id @default(uuid())
+  content     String
+  commenterId String
+  commenter   User     @relation(fields: [commenterId], references: [id])
+  ideaId      String
+  idea        Idea     @relation(fields: [ideaId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("comments")
+}
+
+model Payment {
+  id            String        @id @default(uuid())
+  ideaId        String
+  ideaTitle     String
+  idea          Idea          @relation(fields: [ideaId], references: [id])
+  authorId      String
+  author        User          @relation(fields: [authorId], references: [id])
+  transactionId String        @unique
+  status        paymentStatus @default(pending)
+  amount        Int
+  isDeleted     Boolean       @default(false)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@unique([ideaId, authorId])
+  @@map("payments")
+}
+
+enum ideaStatus {
+  underReview
+  draft
+  approved
+  rejected
+}
+
+enum paymentStatus {
+  pending
+  paid
+  unpaid
+}
+
+enum blogStatus {
+  underReview
+  draft
+  approved
+  rejected
+}
+
+enum categoryName {
+  energy
+  waste
+  transportation
+}
+
+enum userRole {
+  admin
+  member
+}
+
+enum voteValue {
+  up
+  down
+}
