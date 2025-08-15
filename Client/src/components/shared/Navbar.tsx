@@ -176,7 +176,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
         </div>
 
         {/* Mobile Search bar */}
-        {mobileSearchBar && (
+        {mobileSearchBar && pathname === "/ideas" ? (
           <div
             className="fixed top-0 left-0 w-full h-16 bg-background z-[100] flex items-center px-4 transition-transform duration-300 ease-in"
             style={{
@@ -186,7 +186,64 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
               boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
             }}>
             <Input
-              placeholder="Search Idea..."
+              placeholder="Search Ideasssss..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleIdeaSearch();
+              }}
+              className="flex-1 mr-10"
+              autoFocus
+            />
+            <X
+              className="absolute right-6 top-1/2 -translate-y-1/2 cursor-pointer"
+              size={28}
+              onClick={() => {
+                setMobileSearchBar(false);
+                setSearchTerm("");
+              }}
+            />
+          </div>
+        ) : mobileSearchBar &&
+          (pathname === "/blogs" || pathname.startsWith("/blogs/")) ? (
+          <div
+            className="fixed top-0 left-0 w-full h-16 bg-background z-[100] flex items-center px-4 transition-transform duration-300 ease-in"
+            style={{
+              transform: mobileSearchBar
+                ? "translateY(0)"
+                : "translateY(-100%)",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
+            }}>
+            <Input
+              placeholder="Search Blogs..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleBlogSearch();
+              }}
+              className="flex-1 mr-10"
+              autoFocus
+            />
+            <X
+              className="absolute right-6 top-1/2 -translate-y-1/2 cursor-pointer"
+              size={28}
+              onClick={() => {
+                setMobileSearchBar(false);
+                setSearchTerm("");
+              }}
+            />
+          </div>
+        ) : (
+          <div
+            className="fixed top-0 left-0 w-full h-16 bg-background z-[100] flex items-center px-4 transition-transform duration-300 ease-in"
+            style={{
+              transform: mobileSearchBar
+                ? "translateY(0)"
+                : "translateY(-100%)",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
+            }}>
+            <Input
+              placeholder="Search Ideas..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => {
@@ -205,6 +262,8 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
             />
           </div>
         )}
+
+        {/* Desktop Search bar */}
         {pathname === "/ideas" ? (
           <div className="hidden lg:flex w-full md:w-[40%] mt-2 md:mt-0 rounded-full relative">
             <Input
@@ -263,7 +322,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden px-4 pb-2 bg-background mt-4 rounded-lg shadow-lg">
+          <div className="md:hidden px-4 pb-2 bg-background mt-2 rounded-lg shadow-lg">
             <ul className="flex flex-col gap-2 font-medium text-base">
               {menuItems.map((item, i) => (
                 <li key={i}>
@@ -286,7 +345,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
                     className={`block py-1 ${
                       pathname === `/${user.role}/dashboard`
                         ? "text-secondary font-semibold"
-                        : ""
+                        : "text-secondary/70"
                     }`}
                     onClick={() => setMobileMenuOpen(false)}>
                     Dashboard
@@ -307,7 +366,9 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
                 //   className="block w-full text-center bg-secondary text-white px-4 py-2 rounded-md font-semibold mt-2">
                 //   Sign In
                 // </Link>
-                <LoginForm />
+                <div>
+                  <LoginForm />
+                </div>
               )}
             </div>
           </div>

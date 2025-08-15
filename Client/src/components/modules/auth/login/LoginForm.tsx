@@ -67,9 +67,9 @@ const LoginForm = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button className="hidden md:flex items-center justify-center h-14 w-24 gap-2 text-secondary/70 hover:text-primary cursor-pointer">
-          <FaUser />
-          <span className="text-xs md:text-sm">Sign In</span>
+        <button className="flex items-center justify-start md:justify-center h-14 w-24 gap-2 text-primary md:text-secondary/70 hover:text-primary cursor-pointer">
+          <FaUser className="hidden md:flex" />
+          <span className="text-base font-medium md:text-sm">Sign In</span>
         </button>
       </DialogTrigger>
 
