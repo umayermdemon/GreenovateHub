@@ -27,7 +27,7 @@ import { TUserProfile } from "@/types";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import UpdateProfile from "../UpdateProfile";
 import GetInTouchModal from "../utils/GenInTouchModal";
-import LoginForm from "../modules/auth/login/LoginForm";
+import LoginFormWrapper from "../modules/auth/login/LoginFormWrapper";
 
 const Drafts = () => {
   return (
@@ -361,13 +361,8 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
                   Logout
                 </button>
               ) : (
-                // <Link
-                //   href="/login"
-                //   className="block w-full text-center bg-secondary text-white px-4 py-2 rounded-md font-semibold mt-2">
-                //   Sign In
-                // </Link>
                 <div>
-                  <LoginForm />
+                  <LoginFormWrapper />
                 </div>
               )}
             </div>
@@ -426,7 +421,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
               </Popover>
             </div>
           ) : (
-            <LoginForm />
+            <LoginFormWrapper />
           )}
           <div className="relative">
             <Drafts />

@@ -2,6 +2,7 @@
 import BlogPage from "@/components/modules/blog/Open/BlogPage";
 import PageTopStyle from "@/components/shared/PageTopStyle";
 import { getAllBlogs } from "@/services/blog";
+import { Suspense } from "react";
 
 const Blogs = async ({ searchParams }: any) => {
   const { category, page, search } = await searchParams;
@@ -18,7 +19,7 @@ const Blogs = async ({ searchParams }: any) => {
   });
 
   return (
-    <div>
+    <Suspense fallback={<div>Loading...</div>}>
       <PageTopStyle
         header="Blog Posts"
         description="Browse our latest blog posts below."
@@ -33,7 +34,7 @@ const Blogs = async ({ searchParams }: any) => {
           initialPage={parseInt(currentPage, 10)}
         />
       </div>
-    </div>
+    </Suspense>
   );
 };
 
