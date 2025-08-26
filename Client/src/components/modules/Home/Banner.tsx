@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import bannerImage from "../../../app/assets/banner/banner.jpg";
 
 const Banner = () => {
   const handleScroll = () => {
@@ -12,16 +14,16 @@ const Banner = () => {
   };
 
   return (
-    <section className="relative w-full h-[80vh] bg-gray-50 overflow-hidden">
+    <section className="relative w-full h-[60vh] bg-gray-50 overflow-hidden">
       {/* Background Image */}
-      <img
-        src="/banner-person.jpg"
+      <Image
+        src={bannerImage}
         alt="Business Banner"
         className="absolute inset-0 w-full h-full object-cover"
       />
 
       {/* Overlay (light) */}
-      <div className="absolute inset-0 bg-white/40"></div>
+      <div className="absolute inset-0 bg-white/30"></div>
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto h-full flex flex-col justify-center px-6 md:px-12 lg:px-20">
