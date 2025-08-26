@@ -460,12 +460,12 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
 
       {/* Bottom nav */}
       <div
-        className={`hidden md:flex flex-row items-center justify-between gap-2 px-2 md:px-4 lg:px-0 py-2 text-xs md:text-sm max-w-7xl mx-auto transition-all duration-300 ${
-          isScrolled ? "md:py-2" : ""
+        className={`hidden md:flex flex-row items-center justify-between md:gap-2  md:px-4 lg:px-0 md:text-sm max-w-7xl mx-auto transition-all duration-300 ${
+          isScrolled ? "py-0 md:py-2" : ""
         }`}>
         {/* Category Dropdown */}
         <div
-          className="relative w-full md:w-auto mb-2 md:mb-0"
+          className="relative w-full md:w-auto mb-2 md:mb-0 hidden md:block"
           ref={dropdownRef}>
           <button
             onClick={() => setCategory((c) => (c === "open" ? "" : "open"))}
@@ -497,7 +497,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
           )}
         </div>
         {/* Menu Items */}
-        <div className="w-full flex items-center justify-center">
+        <div className="w-full hidden md:flex items-center justify-center">
           <ul className="flex flex-wrap items-center space-x-2 md:space-x-6 font-medium text-lg">
             {menuItems.map((item, i) => (
               <li key={i} className="relative group">
@@ -529,7 +529,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
           </ul>
         </div>
         {/* Contact */}
-        <div className="flex items-center">
+        <div className="hidden md:flex items-center">
           <Button
             onClick={() => setShowGetInTouch(true)}
             className="bg-primary hover:bg-secondary text-primary-foreground cursor-pointer">
