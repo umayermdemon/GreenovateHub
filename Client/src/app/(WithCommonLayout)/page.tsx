@@ -7,12 +7,14 @@ import { getAllIdeas } from "@/services/idea";
 import StatsSection from "@/components/modules/Home/StatsSection";
 import CtaSection from "@/components/modules/Home/CtaSection";
 import MeetingCtaSection from "@/components/modules/Home/MeetingCtaSection";
+import { getUser } from "@/services/auth";
 
 const HomePage = async () => {
   const ideas = await getAllIdeas({ status: "approved" });
+  const user = await getUser();
   return (
     <div className="min-h-screen bg-primary-foreground">
-      <Banner />
+      <Banner user={user} />
       <StatsSection />
       <FeaturedIdea ideas={ideas?.data} />
       <FeaturedBlog />

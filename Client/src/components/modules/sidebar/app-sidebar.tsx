@@ -162,14 +162,16 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
                     <Link
                       className={`${
                         pathname === item.url
-                          ? "bg-primary hover:bg-primary text-white"
-                          : ""
-                      } text-[16px] rounded-none`}
+                          ? "bg-primary hover:text-white text-white"
+                          : "hover:text-white"
+                      } text-[16px] rounded-md hover:text-white`}
                       href={item.url}>
                       <item.icon
                         className={`mr-2 ${
-                          pathname === item.url ? "text-white" : ""
-                        } text-primary h-5 w-5`}
+                          pathname === item.url
+                            ? "text-white hover:text-white"
+                            : "hover:text-white"
+                        }  h-5 w-5`}
                       />
                       <span>{item.title}</span>
                     </Link>
