@@ -5,7 +5,7 @@ import { getAllIdeas } from "@/services/idea";
 import { Suspense } from "react";
 
 const Ideas = async ({ searchParams }: any) => {
-  const { category, page, search } = searchParams;
+  const { category, page, search } = await searchParams;
   const categoryName = category || "all";
   const searchTerm = search || "";
   const currentPage = page || "1";
