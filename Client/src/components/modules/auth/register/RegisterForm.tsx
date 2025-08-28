@@ -25,9 +25,9 @@ import { Loader } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "sonner";
 import registerImage from "../../../../app/assets/register.png";
-import LoginPage from "@/app/login/page";
+import LoginPage from "@/app/(WithCommonLayout)/login/page";
 
-const RegisterDialog = () => {
+const RegisterForm = () => {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagePreview, setImagePreview] = useState<string[]>([]);
   const { uploadImagesToCloudinary } = useImageUploader();
@@ -73,29 +73,22 @@ const RegisterDialog = () => {
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <button className="flex items-center justify-center h-14 px-6  hover:text-primary cursor-pointer">
-          Sign Up
-        </button>
-      </DialogTrigger>
-
-      <DialogContent className="p-0 max-w-md rounded-2xl overflow-hidden">
-        <Image
-          src={registerImage}
-          alt="Register banner"
-          className="w-full h-48 object-cover"
-        />
-
+    <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center ">
+      <div className="w-full space-y-6 border-2 h-[550px]">
+        <div className="text-center bg-gray-100 p-4 text-xl font-medium uppercase">
+          Create Account
+        </div>
         <div className="p-6 bg-card text-card-foreground">
-          <DialogHeader>
-            <DialogTitle className="text-2xl text-center mb-2 text-primary">
+          <div>
+            <div className="text-2xl text-center mb-2 text-black font-semibold">
               Join GreenovateHub
-            </DialogTitle>
-          </DialogHeader>
+            </div>
+          </div>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-4 w-[550px]">
               <GFormInput
                 name="name"
                 placeholder="Enter your name"
@@ -129,25 +122,13 @@ const RegisterDialog = () => {
 
               <Button
                 type="submit"
-                className="w-full rounded-md mt-3 text-primary-foreground bg-primary hover:bg-primary/90 transition font-semibold shadow cursor-pointer">
+                className="w-full rounded-xl mt-3 text-primary-foreground bg-primary hover:bg-primary/90 transition font-semibold shadow cursor-pointer">
                 {isSubmitting ? (
                   <Loader className="animate-spin" />
                 ) : (
                   "Register"
                 )}
               </Button>
-
-              <div className="text-center text-sm mt-4 text-muted-foreground flex justify-center items-center">
-                <span> Already have an account?</span>{" "}
-                {/* <Link
-                  href="/login"
-                  className="text-primary hover:underline font-semibold">
-                  Login
-                </Link> */}
-                <div>
-                  <LoginPage />
-                </div>
-              </div>
 
               <div className="flex items-center my-3">
                 <div className="flex-grow border-t border-border"></div>
@@ -162,9 +143,9 @@ const RegisterDialog = () => {
             </form>
           </Form>
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>
   );
 };
 
-export default RegisterDialog;
+export default RegisterForm;

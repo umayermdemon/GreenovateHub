@@ -15,7 +15,7 @@ const GCImageUploader = ({
   setImageFiles,
   setImagePreview,
   className,
-  imageFiles
+  imageFiles,
 }: TImageUpload) => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files![0];
@@ -48,8 +48,12 @@ const GCImageUploader = ({
 
       <label
         htmlFor="image-uploader"
-        className="w-[400px]  flex justify-center items-center  border-dashed  cursor-pointer text-center border border-green-500 transition mt-3 py-1 text-green-400">
-        <File size={15} color="green" /> {imageFiles?.length === 0 ? "Upload your image" : imageFiles[0].name}
+        className={cn(
+          "flex justify-center items-center  border-dashed  cursor-pointer text-center border border-primary transition mt-3 py-1 text-primary w-full",
+          className
+        )}>
+        <File size={15} color="green" />{" "}
+        {imageFiles?.length === 0 ? "Upload your image" : imageFiles[0].name}
       </label>
     </div>
   );
