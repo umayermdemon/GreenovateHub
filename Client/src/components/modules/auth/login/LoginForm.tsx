@@ -52,15 +52,15 @@ const LoginForm = () => {
     form.setValue("password", demoCredentials.member.password);
   };
   return (
-    <div className="max-w-7xl mx-auto  flex flex-col md:flex-row items-center justify-center ">
-      <div className="w-full space-y-6 border-2 h-[550px]">
-        <div className="text-center bg-gray-100 p-4 text-xl font-medium uppercase">
+    <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center">
+      <div className="w-full space-y-6 border-2 md:h-[550px]">
+        <div className="text-center bg-gray-100 p-4 text-base md:text-lg lg:text-xl font-medium uppercase">
           Login
         </div>
-        <div className="bg-card text-card-foreground p-6">
+        <div className="bg-card text-card-foreground p-4 md:p-6">
           <div className="flex flex-col items-center justify-center mb-4">
-            <p className="text-center text-black font-semibold text-2xl mt-1 mb-4">
-              Join our community of sustainability
+            <p className="text-xl lg:text-2xl text-center mb-4 text-black font-semibold">
+              Join for sustainability
             </p>
           </div>
 
@@ -77,12 +77,12 @@ const LoginForm = () => {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4 w-[550px]">
+              className="space-y-4 lg:w-[550px]">
               <GFormInput
                 name="email"
                 placeholder="Email"
                 control={form.control}
-                className="w-full"
+                className="w-full border-primary"
                 required
               />
               <GFormInput
@@ -90,7 +90,7 @@ const LoginForm = () => {
                 placeholder="Password"
                 type="password"
                 control={form.control}
-                className="w-full"
+                className="w-full border-primary"
                 required
               />
 

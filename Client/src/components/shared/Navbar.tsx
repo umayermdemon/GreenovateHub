@@ -185,7 +185,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
               boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
             }}>
             <Input
-              placeholder="Search Ideasssss..."
+              placeholder="Search Idea..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => {
@@ -363,8 +363,8 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
                 <div>
                   <Link
                     href="/login"
-                    className="flex items-center gap-2 hover:text-primary">
-                    <FaUser className="hidden md:flex" /> Login
+                    className="flex items-center gap-2 text-primary mt-2">
+                    <FaUser className="flex md:hidden" /> Login
                   </Link>
                 </div>
               )}

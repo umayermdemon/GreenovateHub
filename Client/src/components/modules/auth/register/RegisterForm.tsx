@@ -73,14 +73,14 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center ">
-      <div className="w-full space-y-6 border-2 h-[550px]">
-        <div className="text-center bg-gray-100 p-4 text-xl font-medium uppercase">
+    <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center">
+      <div className="w-full space-y-6 border-2 md:h-[550px]">
+        <div className="text-center bg-gray-100 p-4 text-base md:text-lg lg:text-xl font-medium uppercase">
           Create Account
         </div>
-        <div className="p-6 bg-card text-card-foreground">
+        <div className="p-4 lg:p-6 bg-card text-card-foreground">
           <div>
-            <div className="text-2xl text-center mb-2 text-black font-semibold">
+            <div className="text-xl lg:text-2xl text-center mb-4 text-black font-semibold">
               Join GreenovateHub
             </div>
           </div>
@@ -88,12 +88,12 @@ const RegisterForm = () => {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4 w-[550px]">
+              className="space-y-4 lg:w-[550px]">
               <GFormInput
                 name="name"
                 placeholder="Enter your name"
                 control={form.control}
-                className="w-full rounded-md border border-border bg-background text-foreground"
+                className="w-full border-primary"
                 required
               />
 
@@ -101,7 +101,7 @@ const RegisterForm = () => {
                 name="email"
                 placeholder="Enter your email"
                 control={form.control}
-                className="w-full rounded-md border border-border bg-background text-foreground"
+                className="w-full border-primary"
                 required
               />
 
@@ -110,7 +110,7 @@ const RegisterForm = () => {
                 placeholder="Enter your password"
                 type="password"
                 control={form.control}
-                className="w-full rounded-md border border-border bg-background text-foreground"
+                className="w-full border-primary"
                 required
               />
 
