@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 const Banner = ({ user }: { user: IUser }) => {
   const router = useRouter();
   const handleScroll = () => {
-    const stateSection = document.getElementById("stats");
+    const stateSection = document.getElementById("categories");
     if (stateSection) {
       stateSection.scrollIntoView({ behavior: "smooth" });
     }
