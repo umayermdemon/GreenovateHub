@@ -2,6 +2,7 @@ import { getMyBlogs } from "@/services/blog";
 import ManageMemberDashboard from "@/components/modules/Dashboard/Member/ManageMemberDashboard";
 import { getMe } from "@/services/user";
 import { getMyIdeas } from "@/services/idea";
+export const dynamic = "force-dynamic";
 
 const MemberDashboard = async () => {
   const { data: blogs } = await getMyBlogs();

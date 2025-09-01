@@ -2,6 +2,7 @@ import ManageAdminDashboard from "@/components/modules/Dashboard/Admin/ManageAdm
 import { getAllBlogs } from "@/services/blog";
 import { getAllIdeas } from "@/services/idea";
 import { getMe } from "@/services/user";
+export const dynamic = "force-dynamic";
 
 const AdminHomePage = async () => {
   const { data: blogsUnderReview } = await getAllBlogs({

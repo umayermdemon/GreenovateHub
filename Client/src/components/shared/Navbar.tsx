@@ -3,12 +3,11 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { FaList, FaUser } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 import { RiDraftLine } from "react-icons/ri";
 import Logo from "./Logo";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  ChevronDown,
   Info,
   LayoutDashboard,
   LogOut,
@@ -43,7 +42,6 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
   const { user } = useUser();
   const pathname = usePathname();
   const [mobileSearchBar, setMobileSearchBar] = useState(false);
-  const [category, setCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
@@ -110,24 +108,6 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
     { label: "About Us", path: "/about" },
     { label: "Contact", path: "/contact" },
   ];
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setCategory("");
-      }
-    }
-    if (category === "open") {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [category]);
 
   const AvatarComponent = (
     <Avatar className="w-[40px] h-[40px] md:w-[50px] md:h-[50px] cursor-pointer">
@@ -472,39 +452,6 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
         className={`hidden md:flex flex-row items-center justify-between md:gap-2  md:px-4 lg:px-0 md:text-sm max-w-7xl mx-auto transition-all duration-300 ${
           isScrolled ? "py-0 md:py-2" : ""
         }`}>
-        {/* Category Dropdown */}
-        <div
-          className="relative w-full md:w-auto mb-2 md:mb-0 hidden md:block"
-          ref={dropdownRef}>
-          <button
-            onClick={() => setCategory((c) => (c === "open" ? "" : "open"))}
-            className="relative cursor-pointer text-xs md:text-sm flex items-center gap-2 w-full lg:w-52">
-            <FaList />
-            <span className="hidden lg:block">Browse Ideas</span>
-            <ChevronDown />
-          </button>
-          {category === "open" && (
-            <div className="absolute left-0 mt-2 bg-background shadow-xl rounded w-full md:w-48 text-secondary/60 z-50">
-              {["All", "Energy", "Waste", "Transportation"].map((item) => (
-                <div
-                  key={item}
-                  onClick={() => {
-                    setCategory(item);
-                    router.push(
-                      item === "All"
-                        ? "/ideas"
-                        : `/ideas?category=${encodeURIComponent(
-                            item.toLowerCase()
-                          )}`
-                    );
-                  }}
-                  className="cursor-pointer px-4 py-2 hover:text-secondary m-2 rounded-md">
-                  {item}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
         {/* Menu Items */}
         <div className="w-full hidden md:flex items-center justify-center">
           <ul className="flex flex-wrap items-center space-x-2 md:space-x-6 font-medium text-lg">

@@ -7,6 +7,7 @@ import bannerImage from "../../../app/assets/banner/banner.jpg";
 import { Lightbulb, Search } from "lucide-react";
 import { IUser } from "@/types";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const Banner = ({ user }: { user: IUser }) => {
   const router = useRouter();
@@ -16,6 +17,18 @@ const Banner = ({ user }: { user: IUser }) => {
       stateSection.scrollIntoView({ behavior: "smooth" });
     }
   };
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      window.location.hash === "#categories"
+    ) {
+      const scroll = document.getElementById("categories");
+      if (scroll) {
+        scroll.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, []);
+
   const handleIdeaCreate = () => {
     if (user) {
       router.push(`/${user?.role}/dashboard/create-idea`);

@@ -1,4 +1,7 @@
+"use client";
+
 import { Leaf, Recycle, Bus, Grid } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const categories = [
   {
@@ -24,34 +27,46 @@ const categories = [
   },
 ];
 
-const CategorySection = () => (
-  <section className="py-16 bg-white" id="categories">
-    <div className="max-w-7xl mx-auto px-4">
-      {/* Section Header */}
-      <div className="mb-12 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-          Browse Ideas by Category
-        </h2>
-        <p className="text-gray-600 max-w-xl mx-auto">
-          Explore different areas where you can contribute your sustainable
-          ideas.
-        </p>
-      </div>
+const CategorySection = () => {
+  const router = useRouter();
+  return (
+    <section className="py-16 bg-white" id="categories">
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Section Header */}
+        <div className="mb-12 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+            Browse Ideas by Category
+          </h2>
+          <p className="text-gray-600 max-w-xl mx-auto">
+            Explore different areas where you can contribute your sustainable
+            ideas.
+          </p>
+        </div>
 
-      {/* Categories Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-        {categories.map((cat, idx) => (
-          <div
-            key={idx}
-            className="bg-gray-50 cursor-pointer text-center p-6 rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
-            {cat.icon}
-            <h3 className="text-lg font-semibold text-gray-800">{cat.title}</h3>
-            <p className="text-gray-600 text-sm mt-1">{cat.description}</p>
-          </div>
-        ))}
+        {/* Categories Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+          {categories.map((cat, idx) => (
+            <div
+              key={idx}
+              onClick={() =>
+                router.push(
+                  cat.title === "All"
+                    ? `/ideas`
+                    : `/ideas?category=${cat.title.toLowerCase()}`
+                )
+              }
+              className="bg-gray-50 cursor-pointer text-center p-6 rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
+              {cat.icon}
+              <h3 className="text-lg font-semibold text-gray-800">
+                {cat.title}
+              </h3>
+              <p className="text-gray-600 text-sm mt-1">{cat.description}</p>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default CategorySection;
