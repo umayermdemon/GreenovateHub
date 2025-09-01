@@ -6,13 +6,15 @@ import { useEffect, useRef, useState } from "react";
 const ArrowUpScroll = () => {
   const [show, setShow] = useState(false);
   const [direction, setDirection] = useState<"up" | "down" | null>(null);
+  const [atBottom, setAtBottom] = useState(false);
   const lastScrollY = useRef(0);
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      const atBottom =
+      const isBottom =
         window.innerHeight + window.scrollY >= document.body.scrollHeight - 10;
-      setShow(currentScrollY > 100 && !atBottom);
+      setAtBottom(isBottom);
+      setShow(currentScrollY > 100 || isBottom);
       if (currentScrollY > lastScrollY.current) {
         setDirection("down");
       } else if (currentScrollY < lastScrollY.current) {
@@ -39,18 +41,24 @@ const ArrowUpScroll = () => {
     });
   };
 
-  if (!show || !direction) return null;
+  if (!show) return null;
   return (
     <div>
-      {direction === "up" ? (
+      {atBottom ? (
         <div
-          className="fixed bottom-4 right-4 bg-secondary-foreground rounded-full p-3 shadow-2xl hover:shadow-xl transition-shadow cursor-pointer z-50"
+          className="fixed bottom-4 right-4 bg-primary text-white rounded-full p-3 shadow-xl hover:shadow-2xl transition-shadow cursor-pointer z-50"
           onClick={scrollToTop}>
-          <ChevronUp className="text-2xl " />
+          <ChevronUp className="text-2xl" />
+        </div>
+      ) : direction === "up" ? (
+        <div
+          className="fixed bottom-4 right-4 bg-primary text-white rounded-full p-3 shadow-xl hover:shadow-2xl transition-shadow cursor-pointer z-50"
+          onClick={scrollToTop}>
+          <ChevronUp className="text-2xl" />
         </div>
       ) : (
         <div
-          className="fixed bottom-4 right-4 bg-secondary-foreground rounded-full p-3 shadow-2xl hover:shadow-xl transition-shadow cursor-pointer z-50"
+          className="fixed bottom-4 right-4 bg-primary text-white rounded-full p-3 shadow-2xl hover:shadow-xl transition-shadow cursor-pointer z-50"
           onClick={scrollToBottom}>
           <ChevronDown className="text-2xl" />
         </div>
