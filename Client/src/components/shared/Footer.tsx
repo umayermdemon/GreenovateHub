@@ -12,11 +12,15 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import Logo from "./Logo";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { getUser } from "@/services/auth";
+import { IUser } from "@/types";
 
 const quickLinks = [
   { label: "Home", path: "/" },
   { label: "Browse Ideas", path: "/ideas" },
-  { label: "Submit Idea", path: "/blogs" },
+  { label: "Submit Idea", path: "" },
   { label: "Categories", path: "" },
   { label: "About Us", path: "/about" },
 ];
@@ -40,15 +44,17 @@ const socialIcons = [
 ];
 
 const resources = [
-  { label: "Blog", path: "/blog" },
+  { label: "Blog", path: "/blogs" },
   { label: "FAQ", path: "/faq" },
   { label: "Community Guidelines", path: "/guidelines" },
-  { label: "Success Stories", path: "/success" },
+  { label: "Success Stories", path: "" },
   { label: "Partner With Us", path: "/partner" },
 ];
 
 const Footer = () => {
-  const pathname = window.location.pathname;
+  const [user, setUser] = useState<null | IUser>(null);
+  const pathname = usePathname();
+  const router = useRouter();
   const handleScroll = () => {
     if (pathname === "/") {
       const scroll = document.getElementById("categories");
@@ -57,6 +63,33 @@ const Footer = () => {
       }
     } else {
       window.location.href = "/#categories";
+    }
+  };
+
+  const handleStatScroll = () => {
+    if (pathname === "/") {
+      const scroll = document.getElementById("stats");
+      if (scroll) {
+        scroll.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      window.location.href = "/#stats";
+    }
+  };
+
+  useEffect(() => {
+    const user = async () => {
+      const userData = await getUser();
+      setUser(userData);
+    };
+    user();
+  }, []);
+
+  const handleIdeaCreate = () => {
+    if (user) {
+      router.push(`/${user?.role}/dashboard/create-idea`);
+    } else {
+      router.push("/login");
     }
   };
 
@@ -95,6 +128,12 @@ const Footer = () => {
                     className="hover:text-primary cursor-pointer">
                     {link.label}
                   </h1>
+                ) : link.label === "Submit Idea" ? (
+                  <h1
+                    onClick={handleIdeaCreate}
+                    className="hover:text-primary cursor-pointer">
+                    {link.label}
+                  </h1>
                 ) : (
                   <Link href={link.path} className="hover:text-primary">
                     {link.label}
@@ -111,9 +150,17 @@ const Footer = () => {
           <ul className="space-y-2 text-sm">
             {resources.map((link) => (
               <li key={link.label}>
-                <Link href={link.path} className="hover:text-primary">
-                  {link.label}
-                </Link>
+                {link.label === "Success Stories" ? (
+                  <h1
+                    onClick={handleStatScroll}
+                    className="hover:text-primary cursor-pointer">
+                    {link.label}
+                  </h1>
+                ) : (
+                  <Link href={link.path} className="hover:text-primary">
+                    {link.label}
+                  </Link>
+                )}
               </li>
             ))}
           </ul>

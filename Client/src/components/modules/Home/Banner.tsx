@@ -32,6 +32,8 @@ const Banner = ({ user }: { user: IUser }) => {
   const handleIdeaCreate = () => {
     if (user) {
       router.push(`/${user?.role}/dashboard/create-idea`);
+    } else {
+      router.push("/login");
     }
   };
 
@@ -69,14 +71,13 @@ const Banner = ({ user }: { user: IUser }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
             className="mt-6 flex items-center gap-4">
-            {user && (
-              <Button
-                onClick={handleIdeaCreate}
-                className="bg-primary hover:bg-accent-foreground text-white px-6 py-3 rounded-md cursor-pointer flex items-center gap-2">
-                <Lightbulb size={18} />
-                Share Your Idea
-              </Button>
-            )}
+            <Button
+              onClick={handleIdeaCreate}
+              className="bg-primary hover:bg-accent-foreground text-white px-6 py-3 rounded-md cursor-pointer flex items-center gap-2">
+              <Lightbulb size={18} />
+              Share Your Idea
+            </Button>
+
             <Button
               variant="outline"
               onClick={handleScroll}
