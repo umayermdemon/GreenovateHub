@@ -2,19 +2,22 @@
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { FaUser } from "react-icons/fa";
 import { RiDraftLine } from "react-icons/ri";
 import Logo from "./Logo";
 import { useEffect, useState } from "react";
 import {
+  Facebook,
   Info,
+  Instagram,
   LayoutDashboard,
+  Linkedin,
   LogOut,
   Menu,
   Palette,
   PencilLine,
   Search,
+  Twitter,
   X,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -37,6 +40,32 @@ const Drafts = () => {
     </div>
   );
 };
+const socialIcons = [
+  {
+    icon: <Facebook />,
+    link: "https://facebook.com",
+  },
+  {
+    icon: <Twitter />,
+    link: "https://twitter.com",
+  },
+  {
+    icon: <Instagram />,
+    link: "https://instagram.com",
+  },
+  {
+    icon: <Linkedin />,
+    link: "https://linkedin.com",
+  },
+];
+
+const menuItems = [
+  { label: "Home", path: "/" },
+  { label: "Ideas", path: "/ideas" },
+  { label: "Blogs", path: "/blogs" },
+  { label: "About Us", path: "/about" },
+  { label: "Contact", path: "/contact" },
+];
 
 const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
   const { user } = useUser();
@@ -101,13 +130,6 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
       console.error("Logout failed:", error);
     }
   };
-  const menuItems = [
-    { label: "Home", path: "/" },
-    { label: "Ideas", path: "/ideas" },
-    { label: "Blogs", path: "/blogs" },
-    { label: "About Us", path: "/about" },
-    { label: "Contact", path: "/contact" },
-  ];
 
   const AvatarComponent = (
     <Avatar className="w-[40px] h-[40px] md:w-[50px] md:h-[50px] cursor-pointer">
@@ -123,19 +145,19 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
   );
   return (
     <div
-      className={`${`w-full z-50 transition-all duration-300 fixed bg-background ${
+      className={`${`w-full z-50 transition-all duration-300 fixed bg-background  ${
         isScrolled ? "md:py-0" : "py-0"
       }`}`}>
       {/* Top nav */}
       <div
-        className={`flex flex-col gap-2 md:flex-row md:items-center md:justify-between px-0 md:px-4 lg:px-0 max-w-7xl mx-auto transition-all duration-300 ${
+        className={`flex flex-col md:bg-primary gap-2 md:flex-row md:items-center md:justify-between px-0 md:px-4 lg:px-0 transition-all duration-300 ${
           isScrolled
             ? "h-16 py-2 md:py-0 md:h-0 md:overflow-hidden md:opacity-0"
-            : "h-16 py-2 opacity-100"
+            : "h-16 md:h-8 py-2 opacity-100"
         }`}>
         {/* Logo */}
         <div
-          className={`flex items-center justify-between pt-2 ${
+          className={`flex md:hidden items-center justify-between pt-2 ${
             isScrolled ? "text-lg md:text-xl" : "text-xl md:text-2xl"
           } font-bold`}>
           <div className="flex items-center gap-4 md:hidden pl-2">
@@ -242,7 +264,200 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
           </div>
         )}
 
-        {/* Desktop Search bar */}
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden px-4 pb-2 bg-background mt-2 rounded-lg shadow-lg">
+            <ul className="flex flex-col gap-2 font-medium text-base">
+              {menuItems.map((item, i) => (
+                <li key={i}>
+                  <Link
+                    href={item.path}
+                    className={`block py-1 ${
+                      pathname === item.path
+                        ? "text-secondary font-semibold"
+                        : "text-secondary/70 "
+                    } `}
+                    onClick={() => setMobileMenuOpen(false)}>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+              {user && (
+                <li className="block md:hidden">
+                  <Link
+                    href={`/${user.role}/dashboard`}
+                    className={`block py-1 ${
+                      pathname === `/${user.role}/dashboard`
+                        ? "text-secondary font-semibold"
+                        : "text-secondary/70"
+                    }`}
+                    onClick={() => setMobileMenuOpen(false)}>
+                    Dashboard
+                  </Link>
+                </li>
+              )}
+            </ul>
+            <div>
+              {user ? (
+                <button
+                  onClick={handleLogout}
+                  className="text-red-600 font-semibold w-full text-left mt-2">
+                  Logout
+                </button>
+              ) : (
+                <div>
+                  <Link
+                    href="/login"
+                    className="flex items-center gap-2 text-primary mt-2">
+                    <FaUser className="flex md:hidden" /> Login
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Icons */}
+        <div className="flex flex-row items-center justify-between max-w-7xl mx-auto w-full gap-3 md:gap-6 mt-2 md:mt-0">
+          <div className="hidden md:flex">
+            <h1 className="text-white">Innovative Ideas For Healthy Living</h1>
+          </div>
+          <div className="hidden md:flex gap-12">
+            <div className="flex gap-8">
+              {socialIcons.map((social) => (
+                <Link
+                  key={social.link}
+                  href={social.link}
+                  target="_blank"
+                  className="text-white hover:text-white hover:scale-110 transition">
+                  {social.icon}
+                </Link>
+              ))}
+            </div>
+            <div>
+              <div>
+                <Link href="/login" className="font-medium text-white">
+                  Register / Login
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Top nav */}
+      {/* <div
+        className={`flex flex-col gap-2 md:flex-row md:items-center md:justify-between px-0 md:px-4 lg:px-0 max-w-7xl mx-auto transition-all duration-300 ${
+          isScrolled
+            ? "h-16 py-2 md:py-0 md:h-0 md:overflow-hidden md:opacity-0"
+            : "h-16 py-2 opacity-100"
+        }`}>
+        <div
+          className={`flex items-center justify-between pt-2 ${
+            isScrolled ? "text-lg md:text-xl" : "text-xl md:text-2xl"
+          } font-bold`}>
+          <div className="flex items-center gap-4 md:hidden pl-2">
+            <Drafts />
+            <Search onClick={handleMobileSearch} className="cursor-pointer" />
+          </div>
+          <div>
+            <Logo style={"text-secondary"} />
+          </div>
+          <div className="flex items-center gap-6 md:hidden">
+            <button
+              className="mr-4"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+              {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
+        </div>
+
+        {mobileSearchBar && pathname === "/ideas" ? (
+          <div
+            className="fixed top-0 left-0 w-full h-16 bg-background z-[100] flex items-center px-4 transition-transform duration-300 ease-in"
+            style={{
+              transform: mobileSearchBar
+                ? "translateY(0)"
+                : "translateY(-100%)",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
+            }}>
+            <Input
+              placeholder="Search Idea..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleIdeaSearch();
+              }}
+              className="flex-1 mr-10"
+              autoFocus
+            />
+            <X
+              className="absolute right-6 top-1/2 -translate-y-1/2 cursor-pointer"
+              size={28}
+              onClick={() => {
+                setMobileSearchBar(false);
+                setSearchTerm("");
+              }}
+            />
+          </div>
+        ) : mobileSearchBar &&
+          (pathname === "/blogs" || pathname.startsWith("/blogs/")) ? (
+          <div
+            className="fixed top-0 left-0 w-full h-16 bg-background z-[100] flex items-center px-4 transition-transform duration-300 ease-in"
+            style={{
+              transform: mobileSearchBar
+                ? "translateY(0)"
+                : "translateY(-100%)",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
+            }}>
+            <Input
+              placeholder="Search Blogs..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleBlogSearch();
+              }}
+              className="flex-1 mr-10"
+              autoFocus
+            />
+            <X
+              className="absolute right-6 top-1/2 -translate-y-1/2 cursor-pointer"
+              size={28}
+              onClick={() => {
+                setMobileSearchBar(false);
+                setSearchTerm("");
+              }}
+            />
+          </div>
+        ) : (
+          <div
+            className="fixed top-0 left-0 w-full h-16 bg-background z-[100] flex items-center px-4 transition-transform duration-300 ease-in"
+            style={{
+              transform: mobileSearchBar
+                ? "translateY(0)"
+                : "translateY(-100%)",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
+            }}>
+            <Input
+              placeholder="Search Ideas..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleIdeaSearch();
+              }}
+              className="flex-1 mr-10"
+              autoFocus
+            />
+            <X
+              className="absolute right-6 top-1/2 -translate-y-1/2 cursor-pointer"
+              size={28}
+              onClick={() => {
+                setMobileSearchBar(false);
+                setSearchTerm("");
+              }}
+            />
+          </div>
+        )}
+
         {pathname === "/ideas" ? (
           <div className="hidden lg:flex w-full md:w-[40%] mt-2 md:mt-0 rounded-full relative">
             <Input
@@ -299,7 +514,6 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
           </div>
         )}
 
-        {/* Mobile menu */}
         {mobileMenuOpen && (
           <div className="md:hidden px-4 pb-2 bg-background mt-2 rounded-lg shadow-lg">
             <ul className="flex flex-col gap-2 font-medium text-base">
@@ -352,7 +566,6 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
           </div>
         )}
 
-        {/* Icons */}
         <div className="hidden md:flex items-center gap-3 md:gap-6 mt-2 md:mt-0">
           {user ? (
             <div className="h-14 w-24 flex items-center justify-center">
@@ -416,10 +629,10 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
             <Drafts />
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Popular Searches */}
-      <div
+      {/* <div
         className={`px-2 md:px-0 py-1 hidden lg:flex items-center justify-center text-xs md:text-sm max-w-7xl mx-auto text-center transition-all duration-300 ${
           isScrolled ? "md:h-0 md:overflow-hidden md:opacity-0" : "opacity-100"
         }`}>
@@ -449,7 +662,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
 
       {/* Bottom nav */}
       <div
-        className={`hidden md:flex flex-row items-center justify-between md:gap-2  md:px-4 lg:px-0 md:text-sm max-w-7xl mx-auto transition-all duration-300 ${
+        className={`hidden md:flex flex-row items-center justify-between md:gap-2 md:h-16 md:px-4 lg:px-0 md:text-sm max-w-7xl mx-auto transition-all duration-300 ${
           isScrolled ? "py-0 md:py-2" : ""
         }`}>
         {/* Menu Items */}
