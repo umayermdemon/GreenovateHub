@@ -10,7 +10,7 @@ const PageTopStyle = ({
   footer: string;
 }) => {
   return (
-    <div className="bg-[linear-gradient(120deg,_#f8fafc_0%,_#f4f6fa_50%,_#eceff4_100%)]">
+    <div className="bg-[linear-gradient(120deg,_#f8fafc_0%,_#f4f6fa_50%,_#eceff4_100%)] px-2 md:px-0">
       <div className="max-w-7xl mx-2 lg:mx-auto w-full flex flex-col lg:flex-row items-start lg:items-center py-6 lg:py-12 justify-between">
         <div>
           <h1 className="text-3xl font-bold text-secondary">{header}</h1>

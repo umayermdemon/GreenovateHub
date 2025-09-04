@@ -15,7 +15,7 @@ const Blogs = async ({ searchParams }: any) => {
     searchTerm: searchTerm,
     page: currentPage,
     status: "approved",
-    limit: "8",
+    limit: "6",
   });
 
   return (

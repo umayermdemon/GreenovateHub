@@ -75,14 +75,14 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
   const blogDetailsLink = `/blogs/${data?.id}`;
 
   return (
-    <div className="w-full sm:w-[95%] mx-auto mb-8 rounded-2xl border border-primary/30 hover:border-primary bg-card overflow-hidden relative transition-all duration-300 flex flex-col h-[550px]">
+    <div className="w-[95%] md:w-[100%] mx-auto mb-8 rounded-2xl border border-primary/30 hover:border-primary bg-card overflow-hidden relative transition-all duration-300 flex flex-col h-[480px] sm:h-[520px] md:h-[540px] lg:h-[560px]">
       {/* Blog badge */}
       <div className="absolute top-3 left-1 z-10 flex justify-between items-center w-full px-2">
-        <div className="flex items-center gap-1 bg-primary text-primary-foreground px-3 py-1 rounded-full shadow text-xs font-bold">
+        <div className="flex items-center gap-1 bg-primary text-primary-foreground px-3 py-1 rounded-full shadow text-xs md:text-sm font-bold">
           <BookOpen size={16} /> Blog
         </div>
         <div>
-          <p className="bg-primary text-primary-foreground text-xs px-3 py-1 rounded-full font-semibold tracking-wide shadow">
+          <p className="bg-primary text-primary-foreground text-xs md:text-sm px-3 py-1 rounded-full font-semibold tracking-wide shadow">
             {data.category === "waste"
               ? "Waste"
               : data.category === "energy"
@@ -93,7 +93,7 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
       </div>
 
       <Link href={blogDetailsLink}>
-        <div className="relative w-full h-[200px]">
+        <div className="relative w-full h-[180px] sm:h-[200px] md:h-[220px] lg:h-[240px]">
           <Image
             src={
               data?.images[0] ||
@@ -106,27 +106,27 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
         </div>
       </Link>
 
-      <div className="px-5 pb-5 pt-3 flex flex-col flex-grow">
-        <h1 className="text-xl font-bold text-primary mb-1 truncate">
+      <div className="px-4 sm:px-5 pb-4 pt-3 flex flex-col flex-grow">
+        <h1 className="text-lg sm:text-xl font-bold text-primary mb-1 truncate">
           {data.title.split(" ").slice(0, 4).join(" ")}
         </h1>
-        <p className="pb-2 text-muted-foreground italic text-justify">
+        <p className="pb-2 text-muted-foreground italic text-justify text-xs sm:text-sm">
           {data.description.split(" ").slice(0, 50).join(" ")}...
         </p>
 
         <div className="flex flex-row justify-between items-center gap-2 pt-2 mt-auto border-t border-primary/20">
           <p className="text-xs text-primary italic">{timeAgo}</p>
-          <div className="flex gap-4">
-            <div className="flex gap-2 bg-primary/10 px-3 py-1 rounded-full">
-              <div className="flex items-center gap-1 border-r border-primary pr-2 text-primary text-lg cursor-pointer">
+          <div className="flex gap-3 sm:gap-4">
+            <div className="flex gap-2 bg-primary/10 px-2 sm:px-3 py-1 rounded-full">
+              <div className="flex items-center gap-1 border-r border-primary pr-2 text-primary text-base sm:text-lg cursor-pointer">
                 {vote?.isVoted && vote?.value === "up" ? (
                   <BiSolidLike onClick={removeVote} />
                 ) : (
                   <AiOutlineLike onClick={() => addVote("up")} />
                 )}
-                <span className="text-sm">{data.up_votes || 0}</span>
+                <span className="text-xs sm:text-sm">{data.up_votes || 0}</span>
               </div>
-              <div className="flex items-center text-primary text-lg cursor-pointer">
+              <div className="flex items-center text-primary text-base sm:text-lg cursor-pointer">
                 {vote?.isVoted && vote?.value === "down" ? (
                   <AiFillDislike onClick={removeVote} />
                 ) : (
@@ -135,7 +135,7 @@ const BlogCard = ({ data, userId }: IBlogCard) => {
               </div>
             </div>
             <Link href={blogDetailsLink}>
-              <MessageSquareMore size={22} className="text-primary" />
+              <MessageSquareMore size={20} className="text-primary" />
             </Link>
           </div>
         </div>
