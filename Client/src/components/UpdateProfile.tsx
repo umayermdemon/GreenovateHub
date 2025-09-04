@@ -45,7 +45,7 @@ const UpdateProfile = (myProfile: TUserProfile) => {
     <div>
       <Popover>
         <PopoverTrigger asChild>
-          <Button className="bg-green-500 cursor-pointer hover:bg-green-900">
+          <Button className="bg-primary/90 cursor-pointer hover:bg-primary ">
             Edit Profile
           </Button>
         </PopoverTrigger>
@@ -60,18 +60,18 @@ const UpdateProfile = (myProfile: TUserProfile) => {
                 label="Your Name"
                 placeholder="Enter your name"
                 control={form.control}
-                className="rounded-none border-green-500"
+                className="rounded-none border-primary"
               />
               <GFormInput
                 name="address"
                 label="Your Address"
                 placeholder="Enter your address"
                 control={form.control}
-                className="rounded-none border-green-500"
+                className="rounded-none border-primary"
               />
               <Label>
                 Your Image{" "}
-                <span className="text-xl text-green-500 relative right-0.5">
+                <span className="text-xl text-primary relative right-0.5">
                   *
                 </span>
               </Label>
@@ -79,7 +79,7 @@ const UpdateProfile = (myProfile: TUserProfile) => {
                 setImageFiles={setImageFiles}
                 imageFiles={imageFiles}
               />
-              <Button className="mt-2 w-full rounded-none bg-green-500 cursor-pointer hover:bg-green-900">
+              <Button className="mt-2 w-full rounded-none bg-primary/90 cursor-pointer hover:bg-primary">
                 Update
               </Button>
             </form>

@@ -1,9 +1,8 @@
 "use client";
 import IdeaCard from "@/components/modules/Idea/IdeaCard";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { TIdea } from "@/types/idea.types";
-import { ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -27,7 +26,6 @@ const IdeaPage = ({
   initialIdeas,
   initialMeta,
   initialCategory,
-  initialSearch,
   initialPage,
 }: IIdeaPageProps) => {
   const searchParams = useSearchParams();
@@ -37,16 +35,12 @@ const IdeaPage = ({
   const [selectedTab, setSelectedTab] = useState<string>(
     initialCategory || "all"
   );
-  const [searchTerm, setSearchTerm] = useState<string>(initialSearch || "");
   const [currentPage, setCurrentPage] = useState(initialPage || 1);
 
   useEffect(() => {
     const urlCategory = searchParams.get("category") || "all";
-    const urlSearch = searchParams.get("search") || "";
     const urlPage = parseInt(searchParams.get("page") || "1", 10);
-
     setSelectedTab(urlCategory);
-    setSearchTerm(urlSearch);
     setCurrentPage(urlPage);
     setIdeas(initialIdeas);
     setMeta(initialMeta);
@@ -62,17 +56,6 @@ const IdeaPage = ({
     params.set("page", "1");
     router.push(`/ideas?${params.toString()}`);
   };
-  console.log(ideas, "ideas");
-  const handleSearch = () => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (searchTerm) {
-      params.set("search", searchTerm);
-    } else {
-      params.delete("search");
-    }
-    params.set("page", "1");
-    router.push(`/ideas?${params.toString()}`);
-  };
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -81,36 +64,19 @@ const IdeaPage = ({
   };
 
   return (
-    <div className="py-1 md:py-4 max-w-7xl mx-2 lg:mx-auto">
+    <div className="py-2 md:py-6 max-w-7xl mx-auto px-2 sm:px-4">
       <div className="lg:flex lg:flex-row-reverse gap-3">
-        <div className="flex flex-1 lg:mb-0 mb-1 lg:mx-0 mx-0.5">
-          <Input
-            placeholder="Search Idea..."
-            className="lg:w-full border-green-600 rounded-r-none focus:border-green-600"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleSearch();
-            }}
-          />
-          <Button
-            className="rounded-l-none rounded-r-full cursor-pointer bg-green-600"
-            size="icon"
-            onClick={handleSearch}>
-            <Search size={18} />
-          </Button>
-        </div>
         <div className="flex-1 lg:mt-0 mt-2">
           <Tabs
             value={selectedTab}
             onValueChange={handleTabChange}
             className="mb-5">
-            <TabsList className="w-full">
+            <TabsList className="w-full overflow-x-auto flex-nowrap">
               {tabOrder.map((tab) => (
                 <TabsTrigger
                   key={tab}
                   value={tab}
-                  className="w-full data-[state=active]:bg-green-600 data-[state=active]:text-white cursor-pointer">
+                  className="min-w-[100px] w-full data-[state=active]:bg-green-600 data-[state=active]:text-white cursor-pointer">
                   {tab.charAt(0).toUpperCase() + tab.slice(1)}
                 </TabsTrigger>
               ))}
@@ -119,23 +85,17 @@ const IdeaPage = ({
         </div>
       </div>
 
-      <div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {ideas?.length ? (
-          ideas?.map((idea: TIdea) => (
-            <div
-              key={idea.id}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:gap-2">
-              <IdeaCard data={idea} />
-            </div>
-          ))
+          ideas?.map((idea: TIdea) => <IdeaCard key={idea.id} data={idea} />)
         ) : (
-          <div>
+          <div className="col-span-full">
             <p className="text-red-500 text-center">No ideas found</p>
           </div>
         )}
       </div>
       {/* pagination section */}
-      <div className="mt-6 flex justify-center items-center gap-4 flex-wrap">
+      <div className="mt-6 flex flex-wrap justify-center items-center gap-2">
         <Button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
@@ -149,7 +109,7 @@ const IdeaPage = ({
         </Button>
 
         {/* Page Number Buttons with Icons */}
-        <div className="flex gap-1">
+        <div className="flex gap-1 flex-wrap">
           {[...Array(Math.max(1, meta?.totalPage || 1))].map((_, index) => {
             const page = index + 1;
             const isActive = page === currentPage;

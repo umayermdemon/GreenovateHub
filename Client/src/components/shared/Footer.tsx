@@ -25,22 +25,10 @@ const quickLinks = [
   { label: "About Us", path: "/about" },
 ];
 const socialIcons = [
-  {
-    icon: <Facebook />,
-    link: "https://facebook.com",
-  },
-  {
-    icon: <Twitter />,
-    link: "https://twitter.com",
-  },
-  {
-    icon: <Instagram />,
-    link: "https://instagram.com",
-  },
-  {
-    icon: <Linkedin />,
-    link: "https://linkedin.com",
-  },
+  { icon: <Facebook />, link: "https://facebook.com" },
+  { icon: <Twitter />, link: "https://twitter.com" },
+  { icon: <Instagram />, link: "https://instagram.com" },
+  { icon: <Linkedin />, link: "https://linkedin.com" },
 ];
 
 const resources = [
@@ -55,12 +43,19 @@ const Footer = () => {
   const [user, setUser] = useState<null | IUser>(null);
   const pathname = usePathname();
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userData = await getUser();
+      setUser(userData);
+    };
+    fetchUser();
+  }, []);
+
   const handleScroll = () => {
     if (pathname === "/") {
       const scroll = document.getElementById("categories");
-      if (scroll) {
-        scroll.scrollIntoView({ behavior: "smooth" });
-      }
+      if (scroll) scroll.scrollIntoView({ behavior: "smooth" });
     } else {
       window.location.href = "/#categories";
     }
@@ -69,21 +64,11 @@ const Footer = () => {
   const handleStatScroll = () => {
     if (pathname === "/") {
       const scroll = document.getElementById("stats");
-      if (scroll) {
-        scroll.scrollIntoView({ behavior: "smooth" });
-      }
+      if (scroll) scroll.scrollIntoView({ behavior: "smooth" });
     } else {
       window.location.href = "/#stats";
     }
   };
-
-  useEffect(() => {
-    const user = async () => {
-      const userData = await getUser();
-      setUser(userData);
-    };
-    user();
-  }, []);
 
   const handleIdeaCreate = () => {
     if (user) {
@@ -94,10 +79,10 @@ const Footer = () => {
   };
 
   return (
-    <div className="bg-secondary text-white w-full">
-      <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-12">
+    <footer className="bg-secondary text-white w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
         {/* Logo and About */}
-        <div>
+        <div className="flex flex-col">
           <Logo />
           <p className="mt-4 text-sm text-[var(--text-secondary)] leading-relaxed">
             A community-driven platform for sharing and implementing sustainable
@@ -118,22 +103,22 @@ const Footer = () => {
 
         {/* Quick Links */}
         <div>
-          <h4 className="font-semibold text-lg text-white mb-4">Quick Links</h4>
+          <h4 className="font-semibold text-lg mb-4">Quick Links</h4>
           <ul className="space-y-2 text-sm">
             {quickLinks.map((link) => (
               <li key={link.label}>
                 {link.label === "Categories" ? (
-                  <h1
+                  <button
                     onClick={handleScroll}
-                    className="hover:text-primary cursor-pointer">
+                    className="hover:text-primary cursor-pointer bg-transparent border-none p-0">
                     {link.label}
-                  </h1>
+                  </button>
                 ) : link.label === "Submit Idea" ? (
-                  <h1
+                  <button
                     onClick={handleIdeaCreate}
-                    className="hover:text-primary cursor-pointer">
+                    className="hover:text-primary cursor-pointer bg-transparent border-none p-0">
                     {link.label}
-                  </h1>
+                  </button>
                 ) : (
                   <Link href={link.path} className="hover:text-primary">
                     {link.label}
@@ -146,16 +131,16 @@ const Footer = () => {
 
         {/* Resources */}
         <div>
-          <h4 className="font-semibold text-lg text-white mb-4">Resources</h4>
+          <h4 className="font-semibold text-lg mb-4">Resources</h4>
           <ul className="space-y-2 text-sm">
             {resources.map((link) => (
               <li key={link.label}>
                 {link.label === "Success Stories" ? (
-                  <h1
+                  <button
                     onClick={handleStatScroll}
-                    className="hover:text-primary cursor-pointer">
+                    className="hover:text-primary cursor-pointer bg-transparent border-none p-0">
                     {link.label}
-                  </h1>
+                  </button>
                 ) : (
                   <Link href={link.path} className="hover:text-primary">
                     {link.label}
@@ -168,7 +153,7 @@ const Footer = () => {
 
         {/* Contact */}
         <div>
-          <h4 className="font-semibold text-lg text-white mb-4">Contact Us</h4>
+          <h4 className="font-semibold text-lg mb-4">Contact Us</h4>
           <ul className="space-y-3 text-sm">
             <li className="flex items-center gap-2">
               <Mail className="w-4 h-4" /> contact@ecolideas.com
@@ -180,8 +165,8 @@ const Footer = () => {
               <MapPin className="w-4 h-4" /> 123 Green Street, Eco City
             </li>
           </ul>
-          <Link href="/contact">
-            <button className="mt-4 w-full bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-md transition cursor-pointer">
+          <Link href="/contact" className="block mt-4">
+            <button className="w-full bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-md transition cursor-pointer">
               Contact Us
             </button>
           </Link>
@@ -191,9 +176,11 @@ const Footer = () => {
       <Separator />
 
       {/* Bottom Bar */}
-      <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400">
-        <p>© {new Date().getFullYear()} GreenovateHub. All rights reserved.</p>
-        <div className="flex gap-4 mt-2 md:mt-0">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400">
+        <p className="mb-2 md:mb-0">
+          © {new Date().getFullYear()} GreenovateHub. All rights reserved.
+        </p>
+        <div className="flex gap-4">
           <Link href="#" className="hover:text-white">
             Privacy Policy
           </Link>
@@ -205,7 +192,7 @@ const Footer = () => {
           </Link>
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
 
