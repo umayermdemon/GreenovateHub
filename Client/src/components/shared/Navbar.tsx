@@ -419,7 +419,9 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
 
       <Separator
         className={`transition-all duration-300 ${
-          isScrolled ? "border-b-2 border-primary" : "opacity-100"
+          isScrolled
+            ? "border-b-2 border-primary"
+            : "opacity-100 border-b-2 border-border"
         }`}
       />
     </div>

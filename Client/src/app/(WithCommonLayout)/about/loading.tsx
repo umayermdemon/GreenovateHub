@@ -1,9 +1,7 @@
+import AboutPageSkeleton from '@/skeletons/AboutPageSkeleton';
+
 const loading = () => {
-  return (
-    <div>
-      <h1>This is loading component</h1>
-    </div>
-  );
+  return <AboutPageSkeleton />;
 };
 
 export default loading;
