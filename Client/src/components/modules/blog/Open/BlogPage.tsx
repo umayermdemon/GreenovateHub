@@ -5,31 +5,18 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import BlogCard from "@/components/modules/blog/BlogCard";
-import { TBlog } from "@/types/blog.types";
+import { TBlog, TBlogProps, TMeta } from "@/types/blog.types";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const tabOrder = ["all", "energy", "waste", "transportation"];
 
-interface TMeta {
-  page: number;
-  limit: number;
-  total: number;
-  totalPage: number;
-}
-interface IBlogProps {
-  initialBlogs: TBlog[];
-  initialMeta: TMeta;
-  initialCategory: string;
-  initialSearch: string;
-  initialPage: number;
-}
 const BlogPage = ({
   initialBlogs,
   initialMeta,
   initialCategory,
   initialPage,
-}: IBlogProps) => {
+}: TBlogProps) => {
   const { user } = useUser();
   const searchParams = useSearchParams();
   const router = useRouter();

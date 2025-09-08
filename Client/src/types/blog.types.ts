@@ -36,3 +36,18 @@ export type TBlog = {
   up_votes: number;
   down_votes: number;
 };
+
+export type TMeta = {
+  page: number;
+  limit: number;
+  total: number;
+  totalPage: number;
+};
+
+export type TBlogProps = {
+  initialBlogs: TBlog[];
+  initialMeta: TMeta;
+  initialCategory: string;
+  initialSearch: string;
+  initialPage: number;
+};
