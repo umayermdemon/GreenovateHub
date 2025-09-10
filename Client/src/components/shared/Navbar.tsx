@@ -209,8 +209,8 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
                     href={item.path}
                     className={`block py-1 ${
                       pathname === item.path
-                        ? "text-secondary font-semibold"
-                        : "text-secondary/70 "
+                        ? "text-primary font-semibold"
+                        : "text-secondary "
                     }`}
                     onClick={() => setMobileMenuOpen(false)}>
                     {item.label}
@@ -240,9 +240,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
                   Logout
                 </button>
               ) : (
-                <Link
-                  href="/login"
-                  className="flex items-center gap-2 text-primary mt-2">
+                <Link href="/login" className="flex items-center gap-2  mt-2">
                   <FaUser className="flex md:hidden" /> Login
                 </Link>
               )}

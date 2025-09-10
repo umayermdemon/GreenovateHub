@@ -2,29 +2,31 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const BlogCardSkeleton = () => {
   return (
-    <div className="w-full sm:w-[95%] mx-auto mb-8 rounded-2xl border border-[var(--primary)] bg-card shadow-[0_4px_24px_0_var(--primary-light)] overflow-hidden relative transition-all duration-300 flex flex-col h-[450px]">
+    <div className="w-[95%] md:w-[100%] mx-auto mb-8 rounded-2xl border border-primary/30 bg-card overflow-hidden relative flex flex-col h-[480px] sm:h-[520px] md:h-[540px] lg:h-[560px]">
       {/* Blog badge skeleton */}
       <div className="absolute top-3 left-1 z-10 flex justify-between items-center w-full px-2">
-        <div className="flex items-center gap-1">
-          <Skeleton className="w-16 h-6 rounded-full bg-[var(--primary)]" />
-        </div>
-        <Skeleton className="w-20 h-6 rounded-full bg-[var(--primary)]" />
+        <Skeleton className="h-6 w-16 rounded-full bg-gray-300" />
+        <Skeleton className="h-6 w-20 rounded-full bg-gray-300" />
       </div>
 
       {/* Image skeleton */}
-      <div className="relative w-full h-[200px]">
-        <Skeleton className="w-full h-full object-cover bg-gray-200" />
+      <div className="relative w-full h-[180px] sm:h-[200px] md:h-[220px] lg:h-[240px]">
+        <Skeleton className="h-full w-full bg-gray-300" />
       </div>
 
       {/* Content skeleton */}
-      <div className="px-5 pb-5 pt-3 flex flex-col flex-grow">
-        <Skeleton className="h-7 w-2/3 mb-2 bg-[var(--primary-light)]" />
-        <Skeleton className="h-4 w-full mb-3 bg-[var(--primary-light)]" />
-        <div className="flex flex-row justify-between items-center gap-2 pt-2 mt-auto border-t border-[var(--primary-light)]">
-          <Skeleton className="w-24 h-4 bg-[var(--primary-light)]" />
-          <div className="flex gap-4">
-            <Skeleton className="w-20 h-8 rounded-full bg-[var(--primary)]" />
-            <Skeleton className="w-8 h-8 rounded-full bg-[var(--primary-light)]" />
+      <div className="px-4 sm:px-5 pb-4 pt-3 flex flex-col flex-grow">
+        <Skeleton className="h-6 w-2/3 mb-2 bg-gray-300" />
+        <Skeleton className="h-4 w-full mb-2 bg-gray-300" />
+        <Skeleton className="h-4 w-5/6 mb-2 bg-gray-300" />
+        <Skeleton className="h-4 w-4/6 mb-4 bg-gray-300" />
+
+        {/* Footer skeleton */}
+        <div className="flex flex-row justify-between items-center gap-2 pt-2 mt-auto border-t border-primary/20">
+          <Skeleton className="h-4 w-20 bg-gray-300" />
+          <div className="flex gap-3 sm:gap-4">
+            <Skeleton className="h-8 w-16 rounded-full bg-gray-300" />
+            <Skeleton className="h-8 w-8 rounded-full bg-gray-300" />
           </div>
         </div>
       </div>
