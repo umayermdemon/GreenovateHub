@@ -43,26 +43,27 @@ const AboutPage = () => {
         footer="About"
       />
       {/* Welcome section */}
-      <div className="bg-background flex items-center justify-center py-12 md:py-16 px-4">
-        <div className="max-w-6xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 items-center">
+      <div className="bg-background flex items-center justify-center py-8 md:py-16 px-2 sm:px-4">
+        <div className="max-w-6xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
           <div className="flex justify-center mb-8 md:mb-0">
             <Image
               src={aboutImage}
               alt="GreenovateHub Graphic"
               width={600}
               height={400}
-              className="rounded-xl shadow-md w-full max-w-[400px] md:max-w-[600px] h-auto"
+              className="rounded-xl shadow-md w-full max-w-[350px] sm:max-w-[400px] md:max-w-[600px] h-auto"
+              priority
             />
           </div>
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
               Welcome to GreenovateHub
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground mb-6 font-medium">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-6 font-medium">
               We Are Here To Grow Communities, Connect Green-Minded People And
               Empower Sustainable Living.
             </p>
-            <p className="text-muted-foreground mb-6 text-base md:text-lg">
+            <p className="text-muted-foreground mb-6 text-sm sm:text-base md:text-lg">
               GreenovateHub is a vibrant social platform for eco-conscious
               individuals and organizations. Built on the power of community, we
               help you connect, collaborate, and contribute toward a healthier
@@ -77,12 +78,12 @@ const AboutPage = () => {
         </div>
       </div>
       {/* why choose section */}
-      <div className="py-12 md:py-16 px-4 bg-secondary-foreground/5 text-center">
-        <div className="max-w-4xl mx-auto mb-10 md:mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
+      <div className="py-8 md:py-16 px-2 sm:px-4 bg-secondary-foreground/5 text-center">
+        <div className="max-w-4xl mx-auto mb-8 md:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-4">
             Why Choose GreenovateHub
           </h2>
-          <p className="text-muted-foreground text-base md:text-lg">
+          <p className="text-muted-foreground text-sm sm:text-base md:text-lg">
             GreenovateHub connects people with sustainability-focused solutions.
             With our clean UI, smart features, and thriving eco-community, we
             make going green simple and accessible.
@@ -95,13 +96,13 @@ const AboutPage = () => {
               key={index}
               className="hover:shadow-lg transition duration-300 bg-card text-card-foreground">
               <CardHeader>
-                <div className="text-4xl mb-2">{item.icon}</div>
-                <CardTitle className="text-primary text-lg">
+                <div className="text-3xl sm:text-4xl mb-2">{item.icon}</div>
+                <CardTitle className="text-primary text-base sm:text-lg">
                   {item.title}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   {item.description}
                 </p>
               </CardContent>
@@ -110,14 +111,14 @@ const AboutPage = () => {
         </div>
       </div>
 
-      <div className="bg-background flex flex-col items-center justify-center text-center py-12 md:py-16 px-4">
-        <p className="text-primary font-semibold text-lg mb-2">
+      <div className="bg-background flex flex-col items-center justify-center text-center py-8 md:py-16 px-2 sm:px-4">
+        <p className="text-primary font-semibold text-base sm:text-lg mb-2">
           Download the GreenovateHub App
         </p>
-        <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
           Connecting Sustainable Lives, Easily
         </h1>
-        <p className="text-muted-foreground text-base md:text-lg max-w-2xl mb-8">
+        <p className="text-muted-foreground text-sm sm:text-base md:text-lg max-w-2xl mb-8">
           Discover and connect with over 5 million eco-conscious individuals
           worldwide. GreenovateHub makes it easy to find like-minded people,
           sustainable events, and local initiatives. Join us in making a real
