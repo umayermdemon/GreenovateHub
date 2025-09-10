@@ -15,10 +15,10 @@ const ContactPage = () => {
       />
 
       {/* Contact Section */}
-      <div className="max-w-7xl mx-auto py-12 px-2">
+      <div className="max-w-7xl mx-auto py-8 px-2 sm:px-4 md:px-8">
         <div className="flex flex-col md:flex-row gap-8">
           {/* Contact Info Card */}
-          <div className="bg-card border border-border rounded-xl p-8 flex-1 flex flex-col justify-center shadow-sm">
+          <div className="bg-card border border-border rounded-xl p-6 sm:p-8 flex-1 flex flex-col justify-center shadow-sm mb-4 md:mb-0">
             <h2 className="text-2xl font-bold text-foreground mb-4">
               Get in touch
             </h2>
@@ -60,8 +60,8 @@ const ContactPage = () => {
             </ul>
           </div>
           {/* Contact Form */}
-          <div className="flex-1 flex lg:justify-end">
-            <form className="flex flex-col gap-4 w-full md:w-[500px]">
+          <div className="flex-1 flex items-center justify-center">
+            <form className="flex flex-col gap-4 w-full max-w-full sm:max-w-[400px] md:max-w-[500px]">
               <Input
                 placeholder="Your name"
                 className="bg-muted/40 border border-border focus:ring-primary"
