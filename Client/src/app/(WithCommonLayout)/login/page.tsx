@@ -9,7 +9,7 @@ const LoginPage = () => {
           <Spinner />
         </div>
       }>
-      <div className="py-16 bg-gray-100">
+      <div className="py-16 bg-gray-100 flex items-center justify-center">
         <LoginForm />
       </div>
     </Suspense>

@@ -9,7 +9,7 @@ const RegisterPage = () => {
           <Spinner />
         </div>
       }>
-      <div className="bg-gray-200">
+      <div className="py-16 bg-gray-100 flex items-center justify-center">
         <RegisterForm />
       </div>
     </Suspense>

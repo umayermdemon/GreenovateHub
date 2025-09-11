@@ -21,11 +21,9 @@ import GCImageUploader from "@/components/ui/core/GCImageUploader";
 import useImageUploader from "@/components/utils/useImageUploader";
 import { registrationValidation } from "./registrationValidation";
 import { registerUser } from "@/services/auth";
-import { Loader } from "lucide-react";
+import { Leaf, Loader } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "sonner";
-import registerImage from "../../../../app/assets/register.png";
-import LoginPage from "@/app/(WithCommonLayout)/login/page";
 
 const RegisterForm = () => {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -73,76 +71,97 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center">
-      <div className="w-full space-y-6 border-2 md:h-[550px]">
-        <div className="text-center bg-gray-100 p-4 text-base md:text-lg lg:text-xl font-medium uppercase">
-          Create Account
+    <div className="w-full max-w-xl bg-white rounded-xl shadow-lg p-6 sm:p-8 flex flex-col gap-4">
+      {/* Icon */}
+      <div className="flex justify-center mb-2">
+        <div className="bg-muted rounded-full p-3">
+          <Leaf className="text-primary w-8 h-8" />
         </div>
-        <div className="p-4 lg:p-6 bg-card text-card-foreground">
+      </div>
+      {/* Title */}
+      <h2 className="text-2xl font-semibold text-center text-foreground">
+        Create Account
+      </h2>
+      <p className="text-muted-foreground text-center mb-2 text-base">
+        Join GreenovateHub to start your sustainable journey
+      </p>
+      {/* Form */}
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4"
+          autoComplete="off">
           <div>
-            <div className="text-xl lg:text-2xl text-center mb-4 text-black font-semibold">
-              Join GreenovateHub
-            </div>
+            <label className="block text-sm font-medium mb-1 text-foreground">
+              Name
+            </label>
+            <GFormInput
+              name="name"
+              placeholder="Enter your name"
+              control={form.control}
+              className="w-full border border-border"
+              required
+            />
           </div>
-
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4 lg:w-[550px]">
-              <GFormInput
-                name="name"
-                placeholder="Enter your name"
-                control={form.control}
-                className="w-full border-primary"
-                required
-              />
-
-              <GFormInput
-                name="email"
-                placeholder="Enter your email"
-                control={form.control}
-                className="w-full border-primary"
-                required
-              />
-
-              <GFormInput
-                name="password"
-                placeholder="Enter your password"
-                type="password"
-                control={form.control}
-                className="w-full border-primary"
-                required
-              />
-
-              <GCImageUploader
-                setImageFiles={setImageFiles}
-                setImagePreview={setImagePreview}
-                imageFiles={imageFiles}
-              />
-
-              <Button
-                type="submit"
-                className="w-full rounded-xl mt-3 text-primary-foreground bg-primary hover:bg-primary/90 transition font-semibold shadow cursor-pointer">
-                {isSubmitting ? (
-                  <Loader className="animate-spin" />
-                ) : (
-                  "Register"
-                )}
-              </Button>
-
-              <div className="flex items-center my-3">
-                <div className="flex-grow border-t border-border"></div>
-                <span className="mx-2 text-muted-foreground text-sm">or</span>
-                <div className="flex-grow border-t border-border"></div>
-              </div>
-
-              <Button className="bg-muted text-foreground flex items-center justify-center gap-2 shadow hover:bg-muted/80 transition font-semibold w-full">
-                <FcGoogle className="text-xl" />
-                Google
-              </Button>
-            </form>
-          </Form>
-        </div>
+          <div>
+            <label className="block text-sm font-medium mb-1 text-foreground">
+              Email Address
+            </label>
+            <GFormInput
+              name="email"
+              placeholder="Enter your email"
+              control={form.control}
+              className="w-full border border-border"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1 text-foreground">
+              Password
+            </label>
+            <GFormInput
+              name="password"
+              placeholder="Enter your password"
+              type="password"
+              control={form.control}
+              className="w-full border border-border"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1 text-foreground">
+              Profile Image (optional)
+            </label>
+            <GCImageUploader
+              setImageFiles={setImageFiles}
+              setImagePreview={setImagePreview}
+              imageFiles={imageFiles}
+            />
+          </div>
+          <Button
+            type="submit"
+            className="w-full bg-primary cursor-pointer hover:bg-primary/90 text-white font-semibold py-2 rounded-md mt-2 text-base">
+            {isSubmitting ? <Loader className="animate-spin" /> : "Register"}
+          </Button>
+          <div className="flex items-center my-3">
+            <div className="flex-grow border-t border-border"></div>
+            <span className="mx-2 text-muted-foreground text-sm">or</span>
+            <div className="flex-grow border-t border-border"></div>
+          </div>
+          <Button
+            type="button"
+            className="bg-muted text-foreground flex items-center justify-center gap-2 shadow hover:bg-muted/80 transition font-semibold w-full cursor-pointer">
+            <FcGoogle className="text-xl" />
+            Continue with Google
+          </Button>
+        </form>
+      </Form>
+      {/* Sign in link */}
+      <div className="text-center mt-2 text-sm text-muted-foreground">
+        Already have an account?{" "}
+        <Link href="/login" className="text-primary hover:underline">
+          Sign in
+        </Link>
       </div>
     </div>
   );
