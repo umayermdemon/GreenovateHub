@@ -54,7 +54,7 @@ const BlogPage = ({
   };
 
   return (
-    <div className="py-1 md:py-4 max-w-7xl mx-auto h-full">
+    <div className="py-1 md:py-4 max-w-7xl mx-auto h-full px-2 sm:px-4">
       {/* tab section */}
       <div className="flex flex-col md:flex-row  gap-3 mx-2 md:mx-0">
         <h3 className="text-center md:text-left">By Category</h3>

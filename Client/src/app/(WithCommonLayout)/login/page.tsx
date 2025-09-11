@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Spinner from "@/components/utils/Spinner";
-import LoginRegister from "@/components/modules/auth/LoginRegister/LoginRegister";
+import LoginForm from "@/components/modules/auth/login/LoginForm";
 const LoginPage = () => {
   return (
     <Suspense
@@ -9,8 +9,8 @@ const LoginPage = () => {
           <Spinner />
         </div>
       }>
-      <div>
-        <LoginRegister />
+      <div className="py-16 bg-gray-100">
+        <LoginForm />
       </div>
     </Suspense>
   );

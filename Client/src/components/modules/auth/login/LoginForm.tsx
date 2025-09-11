@@ -5,7 +5,7 @@ import GFormInput from "@/components/shared/Form/GFormInput";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { loginUser } from "@/services/auth";
-import { Loader } from "lucide-react";
+import { Leaf, Loader } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -52,66 +52,79 @@ const LoginForm = () => {
     form.setValue("password", demoCredentials.member.password);
   };
   return (
-    <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center">
-      <div className="w-full space-y-6 border-2 md:h-[550px]">
-        <div className="text-center bg-gray-100 p-4 text-base md:text-lg lg:text-xl font-medium uppercase">
-          Login
+    <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-6 sm:p-8 flex flex-col gap-4">
+      {/* Icon */}
+      <div className="flex justify-center mb-2">
+        <div className="bg-muted rounded-full p-3">
+          <Leaf className="text-primary w-8 h-8" />
         </div>
-        <div className="bg-card text-card-foreground p-4 md:p-6">
-          <div className="flex flex-col items-center justify-center mb-4">
-            <p className="text-xl lg:text-2xl text-center mb-4 text-black font-semibold">
-              Join for sustainability
-            </p>
+      </div>
+      {/* Welcome */}
+      <h2 className="text-2xl font-semibold text-center text-foreground mb-1">
+        Welcome Back
+      </h2>
+      <p className="text-muted-foreground text-center mb-2 text-base">
+        Sign in to your GreenovateHub account
+      </p>
+      {/* Demo Button */}
+      <div className="flex justify-center mb-2">
+        <button
+          onClick={fillDemo}
+          type="button"
+          className="text-primary border border-primary hover:bg-primary/10 font-medium px-4 py-1 rounded-full transition cursor-pointer text-sm">
+          Use Demo Member
+        </button>
+      </div>
+      {/* Form */}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1 text-foreground">
+              Email Address
+            </label>
+            <GFormInput
+              name="email"
+              placeholder="Enter your email"
+              control={form.control}
+              className="w-full border border-border"
+              required
+            />
           </div>
-
-          {/* Demo Button */}
-          <div className="flex justify-center mb-4">
-            <button
-              onClick={fillDemo}
-              type="button"
-              className="text-primary border border-primary hover:bg-primary/10 font-medium px-4 py-1 rounded-full transition cursor-pointer">
-              Use Demo Member
-            </button>
+          <div>
+            <label className="block text-sm font-medium mb-1 text-foreground">
+              Password
+            </label>
+            <GFormInput
+              name="password"
+              placeholder="Enter your password"
+              type="password"
+              control={form.control}
+              className="w-full border border-border"
+              required
+            />
           </div>
-
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4 lg:w-[550px]">
-              <GFormInput
-                name="email"
-                placeholder="Email"
-                control={form.control}
-                className="w-full border-primary"
-                required
-              />
-              <GFormInput
-                name="password"
-                placeholder="Password"
-                type="password"
-                control={form.control}
-                className="w-full border-primary"
-                required
-              />
-
-              <div className="flex items-center justify-between text-sm text-muted-foreground">
-                <label className="flex items-center gap-2">
-                  <input type="checkbox" className="accent-primary" />
-                  Remember Me
-                </label>
-                <Link href="#" className="text-primary hover:underline">
-                  Forgot Password?
-                </Link>
-              </div>
-
-              <Button
-                type="submit"
-                className="w-full bg-primary hover:bg-primary/90 cursor-pointer text-primary-foreground font-semibold py-2 rounded-xl mt-4">
-                {isSubmitting ? <Loader className="animate-spin" /> : "Login"}
-              </Button>
-            </form>
-          </Form>
-        </div>
+          <div className="flex items-center justify-between text-sm text-muted-foreground">
+            <label className="flex items-center gap-2">
+              <input type="checkbox" className="accent-primary" />
+              Remember me
+            </label>
+            <Link href="#" className="text-primary hover:underline">
+              Forgot password?
+            </Link>
+          </div>
+          <Button
+            type="submit"
+            className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-2 rounded-md mt-2 text-base">
+            {isSubmitting ? <Loader className="animate-spin" /> : "Sign In"}
+          </Button>
+        </form>
+      </Form>
+      {/* Sign up link */}
+      <div className="text-center mt-2 text-sm text-muted-foreground">
+        Don&apos;t have an account?{" "}
+        <Link href="/register" className="text-primary hover:underline">
+          Sign up
+        </Link>
       </div>
     </div>
   );

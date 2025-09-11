@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-import RegisterForm from "@/components/modules/auth/register/RegisterForm";
 import Spinner from "@/components/utils/Spinner";
+import RegisterForm from "@/components/modules/auth/register/RegisterForm";
 const RegisterPage = () => {
   return (
     <Suspense
@@ -9,7 +9,7 @@ const RegisterPage = () => {
           <Spinner />
         </div>
       }>
-      <div>
+      <div className="bg-gray-200">
         <RegisterForm />
       </div>
     </Suspense>
