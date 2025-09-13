@@ -4,17 +4,9 @@
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import GFormInput from "@/components/shared/Form/GFormInput";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import GCImageUploader from "@/components/ui/core/GCImageUploader";
@@ -71,7 +63,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="w-full max-w-xl bg-white rounded-xl shadow-lg p-6 sm:p-8 flex flex-col gap-4">
+    <div className="w-full max-w-xl bg-white p-2 md:p-8 flex flex-col gap-4">
       {/* Icon */}
       <div className="flex justify-center mb-2">
         <div className="bg-muted rounded-full p-3">
