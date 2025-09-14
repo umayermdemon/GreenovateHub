@@ -52,14 +52,14 @@ const PendingBlog = ({ data }: PBlog) => {
     }
   };
   return (
-    <Card className="bg-amber-50">
-      <CardHeader>
-        <CardTitle>Pending Blogs</CardTitle>
-        <CardDescription>
+    <Card className="bg-gray-50">
+      <CardHeader className="text-center">
+        <CardTitle className="text-xl font-semibold">Blogs Awaiting Review</CardTitle>
+        <CardDescription className="font-medium">
           You have{" "}
           <strong
             className={`${
-              data?.length > 0 ? "text-green-500" : "text-red-500"
+              data?.length > 0 ? "text-primary" : "text-destructive"
             }`}>
             {data?.length}
           </strong>{" "}
@@ -67,8 +67,9 @@ const PendingBlog = ({ data }: PBlog) => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="space-y-5">
-          {data?.map((blog: TBlog) => (
+        <div className="space-y-5 h-48 overflow-auto border-2 p-2
+         rounded-md flex items-center justify-center">
+          {data?.length ? data?.map((blog: TBlog) => (
             <div key={blog.id} className="flex items-center justify-between ">
               <div className="flex items-center gap-3">
                 <Link href={`/member/dashboard/my-blogs/details/${blog.id}`}>
@@ -113,7 +114,9 @@ const PendingBlog = ({ data }: PBlog) => {
                 </Button>
               </div>
             </div>
-          ))}
+          )):<div><h1 className="font-medium text-destructive">
+            You have no
+          pending Blogs</h1></div>}
         </div>
       </CardContent>
     </Card>
