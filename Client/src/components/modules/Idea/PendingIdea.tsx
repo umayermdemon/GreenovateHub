@@ -51,14 +51,14 @@ const PendingIdea = ({ data }: PIdea) => {
     }
   };
   return (
-    <Card className="bg-green-50">
-      <CardHeader>
-        <CardTitle>Pending Ideas</CardTitle>
-        <CardDescription>
+    <Card className="bg-gray-50">
+      <CardHeader className="text-center">
+        <CardTitle className="text-xl font-semibold">Ideas Awaiting Review</CardTitle>
+        <CardDescription className="font-medium">
           You have{" "}
           <strong
             className={`${
-              data?.length > 0 ? "text-green-500" : "text-red-500"
+              data?.length > 0 ? "text-primary" : "text-destructive"
             }`}>
             {data?.length}
           </strong>{" "}
@@ -66,8 +66,8 @@ const PendingIdea = ({ data }: PIdea) => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="space-y-5 ">
-          {data?.map((idea: TIdea) => (
+        <div className="space-y-5 h-48 overflow-auto border-2 p-2 rounded-md flex justify-center items-center">
+          {data?.length ? data?.map((idea: TIdea) => (
             <div key={idea.id} className="flex items-center justify-between ">
               <div className="flex items-center gap-3">
                 <Avatar>
@@ -110,7 +110,9 @@ const PendingIdea = ({ data }: PIdea) => {
                 </Button>
               </div>
             </div>
-          ))}
+          )):<div><h1 className="font-medium text-destructive">
+            You have no
+          pending Ideas</h1></div>}
         </div>
       </CardContent>
     </Card>
