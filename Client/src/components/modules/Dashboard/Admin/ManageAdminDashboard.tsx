@@ -1,6 +1,6 @@
 "use client";
 
-import { FaBlog, FaComment, FaEye, FaLightbulb } from "react-icons/fa";
+import { FaBlog, FaComment, FaLightbulb } from "react-icons/fa";
 import StatCard from "../Member/StatCard";
 import PendingIdea from "../../Idea/PendingIdea";
 import PendingBlog from "../../blog/PendingBlog";
@@ -20,6 +20,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { Users } from "lucide-react";
 
 const getBlogsPerMonth = (blogs: TBlog[]) => {
   const months: { month: string; date: Date }[] = [];
@@ -105,7 +106,7 @@ const ManageAdminDashboard = ({
         Welcome, <span className="text-amber-500">{user?.name}</span>
       </h1>
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
+      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4 mb-6">
         <StatCard
           title="Total Approved Blogs"
           value={blogsApproved?.length || 0}
@@ -116,8 +117,8 @@ const ManageAdminDashboard = ({
           value={ideasApproved?.length || 0}
           icon={<FaLightbulb />}
         />
+        <StatCard title="Active Members" value={560} icon={<Users />} />
         <StatCard title="Total Comments" value={34} icon={<FaComment />} />
-        <StatCard title="Views" value={560} icon={<FaEye />} />
       </div>
       {/* Charts Section */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-6">

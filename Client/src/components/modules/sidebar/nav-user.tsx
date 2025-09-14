@@ -17,6 +17,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { logoutUser } from "@/services/auth";
 
 export function NavUser({
   user,
@@ -28,6 +29,15 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <SidebarMenu>
@@ -66,7 +76,9 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer hover:bg-red-600 hover:text-white">
+            <DropdownMenuItem
+              onClick={handleLogout}
+              className="cursor-pointer hover:bg-red-600 hover:text-white">
               <LogOut />
               Log out
             </DropdownMenuItem>
