@@ -172,22 +172,22 @@ const ManageAdminDashboard = ({
         </ContributionCard>
         <ContributionCard title="System Health">
           <div className="space-y-2 text-base text-gray-600"></div>
-            <div className="flex justify-between">
-              <span>Uptime</span>
-              <span>99.9%</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Response Time</span>
-              <span>200ms</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Database</span>
-              <span>Operational</span>
-            </div>
-            <div className="flex justify-between">
-              <span>API</span>
-              <span>Operational</span>
-            </div>
+          <div className="flex justify-between">
+            <span>Uptime</span>
+            <span>99.9%</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Response Time</span>
+            <span>200ms</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Database</span>
+            <span>Operational</span>
+          </div>
+          <div className="flex justify-between">
+            <span>API</span>
+            <span>Operational</span>
+          </div>
         </ContributionCard>
       </div>
     </div>

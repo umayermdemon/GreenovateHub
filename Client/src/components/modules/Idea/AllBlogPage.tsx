@@ -18,20 +18,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { deleteMyBlog, getAllBlogs } from "@/services/blog";
-import { TBlog } from "@/types";
+import { TBlog, TMeta } from "@/types";
 import { formatDistanceToNow } from "date-fns";
 import { Edit, Eye, Search, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { BiLeftArrow, BiRightArrow } from "react-icons/bi";
 import Swal from "sweetalert2";
-
-interface TMeta {
-  page: number;
-  limit: number;
-  total: number;
-  totalPage: number;
-}
 
 const AllBlogPage = () => {
   const [limit, setLimit] = useState(10);
@@ -78,11 +71,11 @@ const AllBlogPage = () => {
     });
   };
   return (
-    <div className=" lg:mb-10">
+    <div className="lg:mb-10">
       <div className="lg:flex gap-5 mb-5 space-y-2 lg:space-y-0">
         <div className="flex gap-3 flex-1">
           <Select onValueChange={(val) => setLimit(Number(val))}>
-            <SelectTrigger className="border-green-500 text-green-500 flex-1">
+            <SelectTrigger className="border-primary text-primary flex-1">
               <SelectValue placeholder="Set limit" />
             </SelectTrigger>
             <SelectContent>
@@ -94,13 +87,12 @@ const AllBlogPage = () => {
             </SelectContent>
           </Select>
           <Select onValueChange={(val) => setStatus(val === "all" ? "" : val)}>
-            <SelectTrigger className="border-green-500 text-green-500 flex-1">
+            <SelectTrigger className="border-primary text-primary flex-1">
               <SelectValue placeholder="Set Status" />
             </SelectTrigger>
             <SelectContent>
               {["all", "underReview", "approved", "rejected"]?.map((val) => (
                 <SelectItem key={val} value={val}>
-                  {" "}
                   {val.charAt(0).toUpperCase() + val.slice(1)}
                 </SelectItem>
               ))}
@@ -111,36 +103,38 @@ const AllBlogPage = () => {
         <div className="flex flex-1">
           <Input
             placeholder="Search blog..."
-            className="border-green-500 rounded-r-none rounded-l-full w-full"
+            className="border-primary rounded-r-none rounded-l-full w-full"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Button className="rounded-r-full bg-green-500" size="icon">
+          <Button
+            className="rounded-r-full bg-primary text-primary-foreground"
+            size="icon">
             <Search size={18} />
           </Button>
         </div>
       </div>
 
       <Card>
-        <CardContent className="space-y-5 divide-y divide-green-400">
+        <CardContent className="space-y-5 divide-y divide-primary/30">
           {data?.map((blog) => (
             <div key={blog.id} className="lg:flex justify-between pb-5">
               <div className="flex items-center gap-3 lg:w-[40%]">
-                <Avatar className="border border-green-500">
+                <Avatar className="border border-primary">
                   <AvatarImage src={blog.images[0]} />
                   <AvatarFallback />
                 </Avatar>
                 <div>
-                  <p className="font-medium">
+                  <p className="font-medium text-card-foreground">
                     {blog.title.split(" ").slice(0, 6).join(" ")}
                   </p>
                   <p className="text-sm text-muted-foreground">
                     by{" "}
-                    <span className="italic text-amber-800">
+                    <span className="italic text-primary">
                       {blog.author.name}
                     </span>{" "}
                     |{" "}
-                    <span className="italic text-green-800">
+                    <span className="italic text-secondary">
                       {formatDistanceToNow(new Date(blog.createdAt), {
                         addSuffix: true,
                       })}
@@ -157,28 +151,28 @@ const AllBlogPage = () => {
                      flex items-center justify-center gap-2
                      ${
                        blog.status === "approved"
-                         ? "bg-green-100 text-green-500"
+                         ? "bg-primary/10 text-primary"
                          : ""
                      }
                      ${
                        blog.status === "rejected"
-                         ? "bg-red-100 text-red-500"
+                         ? "bg-destructive/10 text-destructive"
                          : ""
                      }
                      ${
                        blog.status === "underReview"
-                         ? "bg-yellow-300 text-amber-600"
+                         ? "bg-warning/10 text-warning"
                          : ""
                      }`}>
                     <span
-                      className={` w-[7px] h-[7px] rounded-full relative left-1 truncate
-                        ${blog.status === "approved" ? "bg-green-500" : ""}
-                        ${blog.status === "rejected" ? "bg-red-500" : ""}
-                        ${blog.status === "underReview" ? "bg-amber-600" : ""}`}
+                      className={`w-[7px] h-[7px] rounded-full relative left-1 truncate
+                        ${blog.status === "approved" ? "bg-primary" : ""}
+                        ${blog.status === "rejected" ? "bg-destructive" : ""}
+                        ${blog.status === "underReview" ? "bg-warning" : ""}`}
                     />
                     {blog.status.charAt(0).toUpperCase() + blog.status.slice(1)}
                   </p>
-                  <p className="bg-amber-500 text-white px-2 py-1 rounded-full w-[120px] text-center truncate">
+                  <p className="bg-secondary/10 text-secondary px-2 py-1 rounded-full w-[120px] text-center truncate">
                     {blog.category}
                   </p>
                 </div>
@@ -187,19 +181,19 @@ const AllBlogPage = () => {
                     <Button
                       size="sm"
                       variant="outline"
-                      className="bg-green-500 text-white h-8 w-8 p-0">
+                      className="bg-primary text-primary-foreground h-8 w-8 p-0">
                       <Eye className="h-4 w-4" />
                     </Button>
                   </Link>
                   <Button
                     size="sm"
-                    className="bg-green-500 hover:bg-amber-500 h-8 w-8 p-0">
+                    className="bg-primary hover:bg-warning text-primary-foreground hover:text-warning-foreground h-8 w-8 p-0">
                     <Edit className="h-4 w-4" />
                   </Button>
                   <Button
                     onClick={() => deleteBlog(blog.id)}
                     size="sm"
-                    className="bg-red-500 text-white h-8 w-8 p-0">
+                    className="bg-destructive text-destructive-foreground h-8 w-8 p-0">
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
@@ -216,7 +210,7 @@ const AllBlogPage = () => {
               <Button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((prev) => prev - 1)}
-                className="text-amber-500 border border-amber-500 bg-white">
+                className="text-primary border border-primary bg-card">
                 <BiLeftArrow /> Previous
               </Button>
             </PaginationItem>
@@ -229,9 +223,9 @@ const AllBlogPage = () => {
                       <PaginationLink
                         onClick={() => setCurrentPage(index + 1)}
                         href="#"
-                        className={`border text-green-500 border-green-500 hover:bg-amber-500 hover:border-amber-500 hover:text-white ${
+                        className={`border text-primary border-primary hover:bg-warning hover:border-warning hover:text-warning-foreground ${
                           index === currentPage - 1
-                            ? "bg-green-500 text-white"
+                            ? "bg-primary text-primary-foreground"
                             : ""
                         }`}>
                         {index + 1}
@@ -246,7 +240,7 @@ const AllBlogPage = () => {
               <Button
                 disabled={currentPage === meta?.totalPage}
                 onClick={() => setCurrentPage((prev) => prev + 1)}
-                className="bg-amber-500 text-white">
+                className="bg-warning text-warning-foreground">
                 Next <BiRightArrow />
               </Button>
             </PaginationItem>
