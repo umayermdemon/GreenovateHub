@@ -410,7 +410,11 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
             </div>
           </div>
           <div className="hidden md:flex flex-row-reverse items-center gap-3 md:gap-6 mt-2 md:mt-0">
-            <Drafts />
+            <div onClick={()=>{
+              alert("Feature coming soon!");
+            }}>
+              <Drafts />
+            </div>
           </div>
         </div>
       </div>

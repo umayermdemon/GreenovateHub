@@ -108,13 +108,15 @@ const LoginForm = () => {
               <input type="checkbox" className="accent-primary" />
               Remember me
             </label>
-            <Link href="#" className="text-primary hover:underline">
+            <Link href="#" onClick={()=>{
+              alert("Feature coming soon!")
+            }} className="text-primary hover:underline">
               Forgot password?
             </Link>
           </div>
           <Button
             type="submit"
-            className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-2 rounded-md mt-2 text-base">
+            className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-2 rounded-md mt-2 text-base cursor-pointer">
             {isSubmitting ? <Loader className="animate-spin" /> : "Sign In"}
           </Button>
         </form>
