@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import IdeaPage from "@/components/modules/Idea/Open/IdeaPage";
 import PageTopStyle from "@/components/shared/PageTopStyle";
 import { getAllIdeas } from "@/services/idea";

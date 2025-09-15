@@ -22,11 +22,9 @@ export type TIdea = {
   total_votes: number;
 };
 export interface IdeasPageProps {
-  searchParams: {
+  searchParams: Promise<{
     category?: string;
     page?: string;
     search?: string;
-    limit?: string;
-    status?: string;
-  };
+  }>;
 }
