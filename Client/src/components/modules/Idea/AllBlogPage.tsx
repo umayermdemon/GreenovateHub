@@ -1,15 +1,10 @@
 "use client";
 
+import PaginationComponent from "@/components/shared/Pagination/PaginationComponent";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-} from "@/components/ui/pagination";
 import {
   Select,
   SelectContent,
@@ -22,31 +17,35 @@ import { TBlog, TMeta } from "@/types";
 import { formatDistanceToNow } from "date-fns";
 import { Edit, Eye, Search, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { BiLeftArrow, BiRightArrow } from "react-icons/bi";
 import Swal from "sweetalert2";
 
 const AllBlogPage = () => {
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(7);
   const [data, setData] = useState<TBlog[]>([]);
   const [meta, setMeta] = useState<TMeta>({} as TMeta);
   const [status, setStatus] = useState("");
+  const [category, setCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const fetchBlogs = useCallback(async () => {
     const { data, meta } = await getAllBlogs({
       page: currentPage.toString(),
       limit: limit.toString(),
       searchTerm,
       status,
+      category,
     });
     setData(data);
     setMeta(meta);
-  }, [currentPage, limit, searchTerm, status]);
+  }, [currentPage, limit, searchTerm, status, category]);
   useEffect(() => {
     fetchBlogs();
   }, [fetchBlogs]);
+  console.log(category);
   const deleteBlog = async (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -70,6 +69,13 @@ const AllBlogPage = () => {
       }
     });
   };
+
+  const handlePageChange = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", page.toString());
+    router.push(`/admin/dashboard/all-blogs?${params.toString()}`);
+    setCurrentPage(page);
+  };
   return (
     <div className="lg:mb-10">
       <div className="lg:flex gap-5 mb-5 space-y-2 lg:space-y-0">
@@ -79,8 +85,11 @@ const AllBlogPage = () => {
               <SelectValue placeholder="Set limit" />
             </SelectTrigger>
             <SelectContent>
-              {[2, 10, 20, 50].map((val) => (
-                <SelectItem key={val} value={val.toString()}>
+              {[2, 5, 10, 15].map((val) => (
+                <SelectItem
+                  key={val}
+                  value={val.toString()}
+                  className="hover:cursor-pointer hover:bg-primary hover:text-primary-foreground">
                   {val}
                 </SelectItem>
               ))}
@@ -92,7 +101,26 @@ const AllBlogPage = () => {
             </SelectTrigger>
             <SelectContent>
               {["all", "underReview", "approved", "rejected"]?.map((val) => (
-                <SelectItem key={val} value={val}>
+                <SelectItem
+                  key={val}
+                  value={val}
+                  className="hover:cursor-pointer">
+                  {val.charAt(0).toUpperCase() + val.slice(1)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select
+            onValueChange={(val) => setCategory(val === "all" ? "" : val)}>
+            <SelectTrigger className="border-primary text-primary flex-1">
+              <SelectValue placeholder="Set Category" />
+            </SelectTrigger>
+            <SelectContent>
+              {["all", "transportation", "energy", "waste"]?.map((val) => (
+                <SelectItem
+                  key={val}
+                  value={val}
+                  className="hover:cursor-pointer">
                   {val.charAt(0).toUpperCase() + val.slice(1)}
                 </SelectItem>
               ))}
@@ -147,7 +175,7 @@ const AllBlogPage = () => {
                 <div className="flex gap-5 justify-between lg:mt-0 mt-2.5">
                   <p
                     className={`
-                     px-2 py-1 rounded-full w-[130px] text-center truncate 
+                     px-2 py-1 w-[130px] text-center truncate 
                      flex items-center justify-center gap-2
                      ${
                        blog.status === "approved"
@@ -172,8 +200,9 @@ const AllBlogPage = () => {
                     />
                     {blog.status.charAt(0).toUpperCase() + blog.status.slice(1)}
                   </p>
-                  <p className="bg-secondary/10 text-secondary px-2 py-1 rounded-full w-[120px] text-center truncate">
-                    {blog.category}
+                  <p className="bg-secondary/10 text-secondary px-2 py-1 w-[120px] text-center text-sm truncate font-semibold">
+                    {blog.category.charAt(0).toUpperCase() +
+                      blog.category.slice(1)}
                   </p>
                 </div>
                 <div className="flex lg:gap-8 justify-evenly lg:mt-0 mt-2">
@@ -181,19 +210,19 @@ const AllBlogPage = () => {
                     <Button
                       size="sm"
                       variant="outline"
-                      className="bg-primary text-primary-foreground h-8 w-8 p-0">
+                      className="bg-primary text-primary-foreground h-8 w-8 p-0 cursor-pointer hover:bg-foreground hover:text-primary-foreground">
                       <Eye className="h-4 w-4" />
                     </Button>
                   </Link>
                   <Button
                     size="sm"
-                    className="bg-primary hover:bg-warning text-primary-foreground hover:text-warning-foreground h-8 w-8 p-0">
+                    className="bg-primary text-primary-foreground hover:text-warning-foreground h-8 w-8 p-0 cursor-pointer">
                     <Edit className="h-4 w-4" />
                   </Button>
                   <Button
                     onClick={() => deleteBlog(blog.id)}
                     size="sm"
-                    className="bg-destructive text-destructive-foreground h-8 w-8 p-0">
+                    className="bg-destructive text-primary-foreground hover:bg-red-500 cursor-pointer h-8 w-8 p-0">
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
@@ -203,50 +232,12 @@ const AllBlogPage = () => {
         </CardContent>
       </Card>
 
-      <div className="mt-4">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <Button
-                disabled={currentPage === 1}
-                onClick={() => setCurrentPage((prev) => prev - 1)}
-                className="text-primary border border-primary bg-card">
-                <BiLeftArrow /> Previous
-              </Button>
-            </PaginationItem>
-
-            <PaginationItem>
-              <div className="flex gap-2">
-                {[...Array(Math.max(1, meta?.totalPage || 1))].map(
-                  (_, index) => (
-                    <PaginationItem key={index}>
-                      <PaginationLink
-                        onClick={() => setCurrentPage(index + 1)}
-                        href="#"
-                        className={`border text-primary border-primary hover:bg-warning hover:border-warning hover:text-warning-foreground ${
-                          index === currentPage - 1
-                            ? "bg-primary text-primary-foreground"
-                            : ""
-                        }`}>
-                        {index + 1}
-                      </PaginationLink>
-                    </PaginationItem>
-                  )
-                )}
-              </div>
-            </PaginationItem>
-
-            <PaginationItem>
-              <Button
-                disabled={currentPage === meta?.totalPage}
-                onClick={() => setCurrentPage((prev) => prev + 1)}
-                className="bg-warning text-warning-foreground">
-                Next <BiRightArrow />
-              </Button>
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </div>
+      {/* pagination section */}
+      <PaginationComponent
+        currentPage={currentPage}
+        handlePageChange={handlePageChange}
+        meta={meta}
+      />
     </div>
   );
 };

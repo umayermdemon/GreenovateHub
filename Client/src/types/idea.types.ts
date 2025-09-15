@@ -21,10 +21,12 @@ export type TIdea = {
   down_votes: number;
   total_votes: number;
 };
-
-export type TMeta = {
-  page: number;
-  limit: number;
-  total: number;
-  totalPage: number;
-};
+export interface IdeasPageProps {
+  searchParams: {
+    category?: string;
+    page?: string;
+    search?: string;
+    limit?: string;
+    status?: string;
+  };
+}

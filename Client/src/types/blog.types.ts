@@ -48,6 +48,6 @@ export type TBlogProps = {
   initialBlogs: TBlog[];
   initialMeta: TMeta;
   initialCategory: string;
-  initialSearch: string;
+  initialSearch?: string;
   initialPage: number;
 };

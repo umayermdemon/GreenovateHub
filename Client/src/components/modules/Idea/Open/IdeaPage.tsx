@@ -13,7 +13,7 @@ interface IIdeaPageProps {
   initialIdeas: TIdea[];
   initialMeta: TMeta;
   initialCategory: string;
-  initialSearch: string;
+  initialSearch?: string;
   initialPage: number;
 }
 const IdeaPage = ({
