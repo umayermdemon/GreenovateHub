@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Input } from "@/components/ui/input";
@@ -24,7 +25,7 @@ import Link from "next/link";
 import { useUser } from "@/context/UserContext";
 import { usePathname, useRouter } from "next/navigation";
 import { logoutUser } from "@/services/auth";
-import { TUserProfile } from "@/types";
+import { IUser, TUserProfile } from "@/types";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import UpdateProfile from "../UpdateProfile";
@@ -53,6 +54,52 @@ const menuItems = [
   { label: "About Us", path: "/about" },
   { label: "Contact", path: "/contact" },
 ];
+
+const MenuItemsFunction = ({
+  user,
+  handleLogout,
+}: {
+  user: IUser;
+  handleLogout: any;
+}) => {
+  const items = [
+    { label: "All Ideas", href: "/ideas", icon: Palette },
+    {
+      label: "Dashboard",
+      href: `/${user?.role}/dashboard`,
+      icon: LayoutDashboard,
+    },
+    { label: "About", href: "/about", icon: Info },
+    { label: "Blogs", href: "/blogs", icon: PencilLine },
+    { label: "Logout", onClick: handleLogout, icon: LogOut, destructive: true },
+  ];
+  return (
+    <ul className="mt-4 divide-y divide-gray-200">
+      {items.map(({ label, href, icon: Icon, onClick, destructive }, i) => (
+        <li
+          key={i}
+          onClick={onClick}
+          className={`py-1 px-2 flex items-center gap-2 cursor-pointer transition-colors ${
+            destructive
+              ? "text-destructive/80 hover:text-destructive"
+              : "text-secondary hover:text-primary"
+          }`}>
+          {href ? (
+            <Link href={href} className="flex items-center gap-2 w-full">
+              <Icon size={18} />
+              {label}
+            </Link>
+          ) : (
+            <>
+              <Icon size={18} />
+              {label}
+            </>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+};
 
 const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
   const { user } = useUser();
@@ -281,35 +328,7 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
                     </p>
                     {myProfile && <UpdateProfile {...myProfile} />}
                   </div>
-                  <ul className="mt-4 divide-y divide-gray-200">
-                    <li className="hover:text-primary text-secondary/60 py-1 px-2">
-                      <Link href="/ideas" className="flex gap-2 items-center">
-                        <Palette size={18} /> All Ideas
-                      </Link>
-                    </li>
-                    <li className="hover:text-primary text-secondary/60 py-1 px-2">
-                      <Link
-                        href={`/${user?.role}/dashboard`}
-                        className="flex gap-2 items-center">
-                        <LayoutDashboard size={18} /> Dashboard
-                      </Link>
-                    </li>
-                    <li className="hover:text-primary text-secondary/60 py-1 px-2">
-                      <Link href="/about" className="flex gap-2 items-center">
-                        <Info size={18} /> About
-                      </Link>
-                    </li>
-                    <li className="hover:text-primary text-secondary/60 py-1 px-2">
-                      <Link href="/blogs" className="flex gap-2 items-center">
-                        <PencilLine size={18} /> Blogs
-                      </Link>
-                    </li>
-                    <li
-                      onClick={handleLogout}
-                      className="hover:text-destructive text-destructive/80 py-1 px-2 flex gap-2 cursor-pointer items-center">
-                      <LogOut size={18} /> Logout
-                    </li>
-                  </ul>
+                  <MenuItemsFunction user={user} handleLogout={handleLogout} />
                 </PopoverContent>
               </Popover>
             ) : (
@@ -410,9 +429,10 @@ const Navbar = ({ myProfile }: { myProfile: TUserProfile | null }) => {
             </div>
           </div>
           <div className="hidden md:flex flex-row-reverse items-center gap-3 md:gap-6 mt-2 md:mt-0">
-            <div onClick={()=>{
-              alert("Feature coming soon!");
-            }}>
+            <div
+              onClick={() => {
+                alert("Feature coming soon!");
+              }}>
               <Drafts />
             </div>
           </div>
