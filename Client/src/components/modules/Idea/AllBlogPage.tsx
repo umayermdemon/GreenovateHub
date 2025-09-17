@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import { formatDistanceToNow } from "date-fns";
@@ -21,8 +20,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { deleteMyBlog, getAllBlogs } from "@/services/blog";
-import BlogListSkeleton from "@/skeletons/BlogListSkeleton";
 import { TBlog, TMeta } from "@/types";
+import ListSkeleton from "@/skeletons/ListSkeleton";
 
 const LIMIT_OPTIONS = [2, 5, 10, 15];
 const STATUS_OPTIONS = ["all", "underReview", "approved", "rejected"];
@@ -37,10 +36,7 @@ const AllBlogPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
-
   const searchParams = useSearchParams();
-  const router = useRouter();
-
   // Fetch blogs
   const fetchBlogs = useCallback(async () => {
     setLoading(true);
@@ -85,13 +81,10 @@ const AllBlogPage = () => {
     });
   };
 
-  // Pagination handler
-  const handlePageChange = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", page.toString());
-    router.push(`/admin/dashboard/all-blogs?${params.toString()}`);
-    setCurrentPage(page);
-  };
+  useEffect(() => {
+    const urlPage = parseInt(searchParams.get("page") || "1", 10);
+    setCurrentPage(urlPage);
+  }, [searchParams]);
 
   // Blog status badge
   const renderStatusBadge = (status: string) => {
@@ -194,7 +187,7 @@ const AllBlogPage = () => {
       <Card>
         <CardContent className="space-y-5 divide-y divide-primary/30">
           {loading ? (
-            <BlogListSkeleton />
+            <ListSkeleton length={limit} />
           ) : blogs.length ? (
             blogs.map((blog) => (
               <div
@@ -266,8 +259,9 @@ const AllBlogPage = () => {
       {/* Pagination */}
       <PaginationComponent
         currentPage={currentPage}
-        handlePageChange={handlePageChange}
         meta={meta}
+        setCurrentPage={setCurrentPage}
+        pageUrl="/admin/dashboard/all-blogs"
       />
     </div>
   );

@@ -1,9 +1,9 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function BlogListSkeleton() {
+const ListSkeleton = ({ length }: { length: number }) => {
   return (
     <div>
-      {Array.from({ length: 7 }).map((_, i) => (
+      {Array.from({ length: length || 7 }).map((_, i) => (
         <div key={i} className="lg:flex justify-between pb-5">
           {/* Left: Avatar + Info */}
           <div className="flex items-center gap-3 lg:w-[40%]">
@@ -30,4 +30,6 @@ export default function BlogListSkeleton() {
       ))}
     </div>
   );
-}
+};
+
+export default ListSkeleton;

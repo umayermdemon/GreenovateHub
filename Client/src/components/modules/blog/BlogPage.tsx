@@ -19,6 +19,7 @@ const BlogPage = ({
   const { user } = useUser();
   const searchParams = useSearchParams();
   const router = useRouter();
+
   const [blogs, setBlogs] = useState<TBlog[]>(initialBlogs);
   const [meta, setMeta] = useState<TMeta>(initialMeta);
   const [selectedTab, setSelectedTab] = useState<string>(
@@ -46,12 +47,6 @@ const BlogPage = ({
     router.push(`/blogs?${params.toString()}`);
   };
 
-  const handlePageChange = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", page.toString());
-    router.push(`/blogs?${params.toString()}`);
-  };
-
   return (
     <div className="py-1 md:py-4 max-w-7xl mx-auto h-full px-2 sm:px-4">
       {/* tab section */}
@@ -68,24 +63,28 @@ const BlogPage = ({
                   key={tab}
                   value={tab}
                   className={`
-        relative w-52 px-2 pb-3 transition-colors duration-200 group bg-background cursor-pointer
-        ${selectedTab === tab ? "font-semibold" : "text-muted-foreground"}
-      `}
+                    relative w-52 px-2 pb-3 transition-colors duration-200 group bg-background cursor-pointer
+                    ${
+                      selectedTab === tab
+                        ? "font-semibold"
+                        : "text-muted-foreground"
+                    }
+                  `}
                   style={{ background: "transparent" }}>
                   {tab.charAt(0).toUpperCase() + tab.slice(1)}
                   <span
                     className={`
-          absolute left-0 -bottom-1 h-[2px] w-full
-          bg-secondary
-          transition-transform duration-300
-          origin-left
-          ${
-            selectedTab === tab
-              ? "scale-x-100"
-              : "scale-x-0 group-hover:scale-x-100"
-          }
-          block
-        `}
+                      absolute left-0 -bottom-1 h-[2px] w-full
+                      bg-secondary
+                      transition-transform duration-300
+                      origin-left
+                      ${
+                        selectedTab === tab
+                          ? "scale-x-100"
+                          : "scale-x-0 group-hover:scale-x-100"
+                      }
+                      block
+                    `}
                     style={{ transformOrigin: "left" }}
                   />
                 </TabsTrigger>
@@ -109,11 +108,13 @@ const BlogPage = ({
           </div>
         )}
       </div>
+
       {/* pagination section */}
       <PaginationComponent
         currentPage={currentPage}
-        handlePageChange={handlePageChange}
         meta={meta}
+        setCurrentPage={setCurrentPage}
+        pageUrl="/blogs"
       />
     </div>
   );

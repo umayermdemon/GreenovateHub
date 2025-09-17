@@ -51,12 +51,6 @@ const IdeaPage = ({
     router.push(`/ideas?${params.toString()}`);
   };
 
-  const handlePageChange = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", page.toString());
-    router.push(`/ideas?${params.toString()}`);
-  };
-
   return (
     <div className="py-2 md:py-6 max-w-7xl mx-auto px-2 sm:px-4">
       <div className="lg:flex lg:flex-row-reverse gap-3">
@@ -91,8 +85,9 @@ const IdeaPage = ({
       {/* pagination section */}
       <PaginationComponent
         currentPage={currentPage}
-        handlePageChange={handlePageChange}
         meta={meta}
+        setCurrentPage={setCurrentPage}
+        pageUrl="/ideas"
       />
     </div>
   );

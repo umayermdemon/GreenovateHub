@@ -1,18 +1,37 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 import { Button } from "@/components/ui/button";
 import { TMeta } from "@/types";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 type TPaginationProps = {
   currentPage: number;
-  handlePageChange: (page: number) => void;
   meta: TMeta;
+  setCurrentPage: any;
+  pageUrl: string;
 };
 
 const PaginationComponent = ({
   currentPage,
-  handlePageChange,
   meta,
+  setCurrentPage,
+  pageUrl,
 }: TPaginationProps) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const handlePageChange = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", page.toString());
+    router.push(`${pageUrl}?${params.toString()}`);
+  };
+
+  useEffect(() => {
+    const urlPage = parseInt(searchParams.get("page") || "1", 10);
+    setCurrentPage(urlPage);
+  }, [searchParams, setCurrentPage]);
+
   return (
     <div className="mt-6 flex flex-wrap justify-center items-center gap-2">
       <Button

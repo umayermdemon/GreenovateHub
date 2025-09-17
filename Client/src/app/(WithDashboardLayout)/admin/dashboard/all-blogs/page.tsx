@@ -1,5 +1,5 @@
 import AllBlogPage from "@/components/modules/Idea/AllBlogPage";
-import BlogListSkeleton from "@/skeletons/BlogListSkeleton";
+import ListSkeleton from "@/skeletons/ListSkeleton";
 import React, { Suspense } from "react";
 
 const AllBlogs = () => {
@@ -14,7 +14,7 @@ const AllBlogs = () => {
           to find what you need.
         </p>
       </div>{" "}
-      <Suspense fallback={<BlogListSkeleton />}>
+      <Suspense fallback={<ListSkeleton length={7} />}>
         <AllBlogPage />
       </Suspense>
     </div>

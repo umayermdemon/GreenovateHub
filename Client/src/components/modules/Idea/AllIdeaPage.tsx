@@ -38,6 +38,7 @@ const AllIdeaPage = () => {
   const [data, setData] = useState<TIdea[]>([]);
   const [meta, setMeta] = useState<TMeta>({} as TMeta);
   const [status, setStatus] = useState("");
+  const [category, setCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -47,10 +48,11 @@ const AllIdeaPage = () => {
       limit: limit.toString(),
       searchTerm,
       status,
+      category,
     });
     setData(data);
     setMeta(meta);
-  }, [currentPage, limit, searchTerm, status]);
+  }, [currentPage, limit, searchTerm, status, category]);
   useEffect(() => {
     fetchIdeas();
   }, [fetchIdeas]);
@@ -83,11 +85,11 @@ const AllIdeaPage = () => {
       <div className="lg:flex gap-5 mb-5 space-y-2 lg:space-y-0">
         <div className="flex gap-3 flex-1">
           <Select onValueChange={(val) => setLimit(Number(val))}>
-            <SelectTrigger className="border-green-500 text-green-500 flex-1">
+            <SelectTrigger className="border-primary text-primary flex-1">
               <SelectValue placeholder="Set limit" />
             </SelectTrigger>
             <SelectContent>
-              {[2, 10, 20, 50]?.map((val) => (
+              {[2, 5, 10, 15]?.map((val) => (
                 <SelectItem key={val} value={val.toString()}>
                   {val}
                 </SelectItem>
@@ -95,11 +97,25 @@ const AllIdeaPage = () => {
             </SelectContent>
           </Select>
           <Select onValueChange={(val) => setStatus(val === "all" ? "" : val)}>
-            <SelectTrigger className="border-green-500 text-green-500 flex-1">
+            <SelectTrigger className="border-primary text-primary flex-1">
               <SelectValue placeholder="Set Status" />
             </SelectTrigger>
             <SelectContent>
               {["all", "underReview", "approved", "rejected"]?.map((val) => (
+                <SelectItem key={val} value={val}>
+                  {" "}
+                  {val.charAt(0).toUpperCase() + val.slice(1)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select
+            onValueChange={(val) => setCategory(val === "all" ? "" : val)}>
+            <SelectTrigger className="border-primary text-primary flex-1">
+              <SelectValue placeholder="Set Category" />
+            </SelectTrigger>
+            <SelectContent>
+              {["all", "transportation", "energy", "waste"]?.map((val) => (
                 <SelectItem key={val} value={val}>
                   {" "}
                   {val.charAt(0).toUpperCase() + val.slice(1)}
@@ -112,22 +128,22 @@ const AllIdeaPage = () => {
         <div className="flex flex-1">
           <Input
             placeholder="Search Idea..."
-            className="border-green-500 rounded-r-none rounded-l-full w-full"
+            className="border-primary rounded-r-none rounded-l-full w-full"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Button className="rounded-r-full bg-green-500" size="icon">
+          <Button className="rounded-r-full bg-primary" size="icon">
             <Search size={18} />
           </Button>
         </div>
       </div>
 
       <Card>
-        <CardContent className="space-y-5 divide-y divide-amber-500">
+        <CardContent className="space-y-5 divide-y divide-primary/30">
           {data?.map((idea) => (
             <div key={idea.id} className="lg:flex justify-between pb-5">
               <div className="flex items-center gap-3 lg:w-[40%]">
-                <Avatar className="border border-green-500">
+                <Avatar className="border border-primary">
                   <AvatarImage src={idea.images[0]} />
                   <AvatarFallback />
                 </Avatar>
@@ -141,7 +157,7 @@ const AllIdeaPage = () => {
                       {idea.author.name}
                     </span>{" "}
                     |{" "}
-                    <span className="italic text-green-800">
+                    <span className="italic text-primary">
                       {formatDistanceToNow(new Date(idea.createdAt), {
                         addSuffix: true,
                       })}
@@ -158,7 +174,7 @@ const AllIdeaPage = () => {
                      flex items-center justify-center gap-2
                      ${
                        idea.status === "approved"
-                         ? "bg-green-100 text-green-500"
+                         ? "bg-green-100 text-primary"
                          : ""
                      }
                      ${
@@ -173,7 +189,7 @@ const AllIdeaPage = () => {
                      }`}>
                     <span
                       className={` w-[7px] h-[7px] rounded-full relative left-1 truncate
-                        ${idea.status === "approved" ? "bg-green-500" : ""}
+                        ${idea.status === "approved" ? "bg-primary" : ""}
                         ${idea.status === "rejected" ? "bg-red-500" : ""}
                         ${idea.status === "underReview" ? "bg-amber-600" : ""}`}
                     />
@@ -189,13 +205,13 @@ const AllIdeaPage = () => {
                     <Button
                       size="sm"
                       variant="outline"
-                      className="bg-green-500 text-white h-8 w-8 p-0">
+                      className="bg-primary text-white h-8 w-8 p-0">
                       <Eye className="h-4 w-4" />
                     </Button>
                   </Link>
                   <Button
                     size="sm"
-                    className="bg-green-500 hover:bg-amber-500 h-8 w-8 p-0">
+                    className="bg-primary hover:bg-amber-500 h-8 w-8 p-0">
                     <Edit className="h-4 w-4" />
                   </Button>
                   <Button
@@ -231,9 +247,9 @@ const AllIdeaPage = () => {
                       <PaginationLink
                         onClick={() => setCurrentPage(index + 1)}
                         href="#"
-                        className={`border text-green-500 border-green-500 hover:bg-amber-500 hover:border-amber-500 hover:text-white ${
+                        className={`border text-primary border-primary hover:bg-amber-500 hover:border-amber-500 hover:text-white ${
                           index === currentPage - 1
-                            ? "bg-green-500 text-white"
+                            ? "bg-primary text-white"
                             : ""
                         }`}>
                         {index + 1}

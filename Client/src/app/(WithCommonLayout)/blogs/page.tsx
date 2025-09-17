@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import BlogPage from "@/components/modules/blog/Open/BlogPage";
+import BlogPage from "@/components/modules/blog/BlogPage";
 import PageTopStyle from "@/components/shared/PageTopStyle";
 import { getAllBlogs } from "@/services/blog";
 
@@ -16,7 +16,6 @@ const Blogs = async ({ searchParams }: any) => {
     status: "approved",
     limit: "6",
   });
-
   return (
     <>
       <PageTopStyle

@@ -14,7 +14,7 @@ const Ideas = async ({ searchParams }: IdeasPageProps) => {
     searchTerm: searchTerm,
     page: currentPage,
     status: "approved",
-    limit: "1",
+    limit: "6",
   });
   return (
     <>
